@@ -1,0 +1,14 @@
+D:\PRN212_demo\232\Project_PRN232\MyProject.Domain\bin\Debug\net8.0\MyProject.Domain.deps.json
+D:\PRN212_demo\232\Project_PRN232\MyProject.Domain\bin\Debug\net8.0\MyProject.Domain.dll
+D:\PRN212_demo\232\Project_PRN232\MyProject.Domain\bin\Debug\net8.0\MyProject.Domain.pdb
+D:\PRN212_demo\232\Project_PRN232\MyProject.Domain\obj\Debug\net8.0\MyProject.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\PRN212_demo\232\Project_PRN232\MyProject.Domain\obj\Debug\net8.0\MyProject.Domain.AssemblyInfoInputs.cache
+D:\PRN212_demo\232\Project_PRN232\MyProject.Domain\obj\Debug\net8.0\MyProject.Domain.AssemblyInfo.cs
+D:\PRN212_demo\232\Project_PRN232\MyProject.Domain\obj\Debug\net8.0\MyProject.Domain.csproj.CoreCompileInputs.cache
+D:\PRN212_demo\232\Project_PRN232\MyProject.Domain\obj\Debug\net8.0\MyProject.Domain.dll
+D:\PRN212_demo\232\Project_PRN232\MyProject.Domain\obj\Debug\net8.0\refint\MyProject.Domain.dll
+D:\PRN212_demo\232\Project_PRN232\MyProject.Domain\obj\Debug\net8.0\MyProject.Domain.pdb
+D:\PRN212_demo\232\Project_PRN232\MyProject.Domain\obj\Debug\net8.0\ref\MyProject.Domain.dll
+D:\PRN212_demo\232\Project_PRN232\MyProject.Domain\bin\Debug\net8.0\MyProject.Domain.runtimeconfig.json
+D:\PRN212_demo\232\Project_PRN232\MyProject.Domain\obj\Debug\net8.0\MyProject.Domain.csproj.AssemblyReference.cache
+D:\PRN212_demo\232\Project_PRN232\MyProject.Domain\obj\Debug\net8.0\MyProject.Domain.genruntimeconfig.cache
