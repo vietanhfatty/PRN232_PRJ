@@ -1,0 +1,82 @@
+@model MyProject.Application.DTOs.CreateAppointmentRequest
+
+@{
+    ViewData["Title"] = "Book Appointment";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-header bg-white py-3">
+                    <h5 class="m-0 fw-bold text-primary"><i class="fa-solid fa-calendar-plus me-2"></i>Book New Appointment</h5>
+                </div>
+                <div class="card-body p-4">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            <div asp-validation-summary="All" class="text-danger small"></div>
+                        </div>
+                    }
+
+                    <form asp-action="Create" method="post">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="PatientId" class="form-label fw-bold small text-muted">Select Patient</label>
+                                <select asp-for="PatientId" class="form-select rounded-3" required>
+                                    <option value="">-- Select Patient --</option>
+                                    @if (ViewBag.Patients != null)
+                                    {
+                                        @foreach (var pat in ViewBag.Patients)
+                                        {
+                                            <option value="@pat.PatientId">@pat.FirstName @pat.LastName (@pat.Phone)</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="DoctorId" class="form-label fw-bold small text-muted">Select Doctor</label>
+                                <select asp-for="DoctorId" class="form-select rounded-3" required>
+                                    <option value="">-- Select Doctor --</option>
+                                    @if (ViewBag.Doctors != null)
+                                    {
+                                        @foreach (var doc in ViewBag.Doctors)
+                                        {
+                                            <option value="@doc.StaffId">@doc.FirstName @doc.LastName (@(string.IsNullOrEmpty(doc.Specialization) ? "General" : doc.Specialization))</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="AppointmentDate" class="form-label fw-bold small text-muted">Appointment Date & Time</label>
+                                <input asp-for="AppointmentDate" type="datetime-local" class="form-control rounded-3" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Type" class="form-label fw-bold small text-muted">Appointment Type</label>
+                                <select asp-for="Type" class="form-select rounded-3">
+                                    <option value="First Visit">First Visit</option>
+                                    <option value="Follow-up">Follow-up</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Reason" class="form-label fw-bold small text-muted">Reason for Visit</label>
+                            <textarea asp-for="Reason" rows="3" class="form-control rounded-3" placeholder="Enter reason for booking..."></textarea>
+                        </div>
+
+                        <input type="hidden" name="Status" value="Scheduled" />
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Cancel</a>
+                            <button type="submit" class="btn btn-primary rounded-pill px-4">Book Appointment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

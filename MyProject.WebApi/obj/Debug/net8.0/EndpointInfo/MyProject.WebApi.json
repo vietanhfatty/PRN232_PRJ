@@ -1,0 +1,4458 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "MyProject.WebApi",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Account/login": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Account/logout": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Appointments": {
+      "get": {
+        "tags": [
+          "Appointments"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Appointments"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppointmentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Appointments/{id}": {
+      "get": {
+        "tags": [
+          "Appointments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Appointments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointmentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Appointments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Appointments/{id}/checkin": {
+      "post": {
+        "tags": [
+          "Appointments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DoctorSchedules": {
+      "get": {
+        "tags": [
+          "DoctorSchedules"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "DoctorSchedules"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDoctorScheduleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DoctorSchedules/{id}": {
+      "get": {
+        "tags": [
+          "DoctorSchedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "DoctorSchedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDoctorScheduleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "DoctorSchedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/LabTests": {
+      "get": {
+        "tags": [
+          "LabTests"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "LabTests"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabTestRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/LabTests/{id}": {
+      "get": {
+        "tags": [
+          "LabTests"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "LabTests"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabTestRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "LabTests"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Medicines": {
+      "get": {
+        "tags": [
+          "Medicines"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Medicines"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicineRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Medicines/{id}": {
+      "get": {
+        "tags": [
+          "Medicines"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Medicines"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMedicineRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Medicines"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Patients": {
+      "get": {
+        "tags": [
+          "Patients"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Patients"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePatientRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Patients/{id}": {
+      "get": {
+        "tags": [
+          "Patients"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Patients"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Patients"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Roles": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Roles"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Roles/{id}": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Staffs": {
+      "get": {
+        "tags": [
+          "Staffs"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Staffs"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStaffRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Staffs/{id}": {
+      "get": {
+        "tags": [
+          "Staffs"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Staffs"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=full;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.metadata=none;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.streaming=true;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;odata.streaming=false;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=false": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/json;IEEE754Compatible=true": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Staffs"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/WeatherForecast": {
+      "get": {
+        "tags": [
+          "WeatherForecast"
+        ],
+        "operationId": "GetWeatherForecast",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json;odata.metadata=minimal;odata.streaming=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=minimal": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=full": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=none": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.streaming=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.streaming=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=full;IEEE754Compatible=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=full;IEEE754Compatible=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=none;IEEE754Compatible=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.metadata=none;IEEE754Compatible=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.streaming=true;IEEE754Compatible=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.streaming=true;IEEE754Compatible=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.streaming=false;IEEE754Compatible=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;odata.streaming=false;IEEE754Compatible=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;IEEE754Compatible=false": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json;IEEE754Compatible=true": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateAppointmentRequest": {
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "doctorId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "appointmentDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateDoctorScheduleRequest": {
+        "type": "object",
+        "properties": {
+          "doctorId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "workDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "shiftName": {
+            "type": "string",
+            "nullable": true
+          },
+          "maxPatients": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateLabTestRequest": {
+        "type": "object",
+        "properties": {
+          "testName": {
+            "type": "string",
+            "nullable": true
+          },
+          "cost": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateMedicineRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "stockQuantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePatientRequest": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true
+          },
+          "dob": {
+            "type": "string",
+            "format": "date"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "insuranceNo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateRoleRequest": {
+        "type": "object",
+        "properties": {
+          "roleName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateStaffRequest": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "specialization": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "roleId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateAppointmentRequest": {
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "doctorId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "appointmentDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "queueNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateDoctorScheduleRequest": {
+        "type": "object",
+        "properties": {
+          "doctorId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "workDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "shiftName": {
+            "type": "string",
+            "nullable": true
+          },
+          "maxPatients": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateLabTestRequest": {
+        "type": "object",
+        "properties": {
+          "testName": {
+            "type": "string",
+            "nullable": true
+          },
+          "cost": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateMedicineRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "stockQuantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePatientRequest": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true
+          },
+          "dob": {
+            "type": "string",
+            "format": "date"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "insuranceNo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateRoleRequest": {
+        "type": "object",
+        "properties": {
+          "roleName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateStaffRequest": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "specialization": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "roleId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeatherForecast": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "temperatureC": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "temperatureF": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

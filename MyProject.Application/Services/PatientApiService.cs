@@ -1,0 +1,130 @@
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text.Json;
+using System.Threading.Tasks;
+using MyProject.Application.DTOs;
+
+namespace MyProject.Application.Services;
+
+// Mutable raw class for deserializing Patient entity JSON (handles OData + plain)
+public class PatientDtoRaw
+{
+    public int PatientId { get; set; }
+    public string FirstName { get; set; } = "";
+    public string LastName { get; set; } = "";
+    public string Gender { get; set; } = "";
+    public string Dob { get; set; } = ""; // DateOnly serialized as string
+    public string Phone { get; set; } = "";
+    public string? Address { get; set; }
+    public string? InsuranceNo { get; set; }
+}
+
+public class PatientApiService
+{
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly string _clientName = "WebApiClient";
+
+    private static readonly JsonSerializerOptions _jsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true
+    };
+
+    public PatientApiService(IHttpClientFactory httpClientFactory)
+    {
+        _httpClientFactory = httpClientFactory;
+    }
+
+    private HttpClient GetClient() => _httpClientFactory.CreateClient(_clientName);
+
+    private PatientDto MapRaw(PatientDtoRaw raw)
+    {
+        DateOnly.TryParse(raw.Dob, out var dob);
+        return new PatientDto(raw.PatientId, raw.FirstName, raw.LastName, raw.Gender, dob, raw.Phone, raw.Address, raw.InsuranceNo);
+    }
+
+    public async Task<List<PatientDto>> GetAllAsync()
+    {
+        var client = GetClient();
+        var response = await client.GetAsync("patients");
+        response.EnsureSuccessStatusCode();
+
+        var json = await response.Content.ReadAsStringAsync();
+
+        // Try OData format first { "value": [...] }
+        if (json.TrimStart().StartsWith("{") && json.Contains("\"value\""))
+        {
+            var odataResult = JsonSerializer.Deserialize<ODataResponse<PatientDtoRaw>>(json, _jsonOptions);
+            var rawList = odataResult?.Value ?? new List<PatientDtoRaw>();
+            var result = new List<PatientDto>();
+            foreach (var raw in rawList) result.Add(MapRaw(raw));
+            return result;
+        }
+
+        // Plain array format
+        var plainList = JsonSerializer.Deserialize<List<PatientDtoRaw>>(json, _jsonOptions) ?? new List<PatientDtoRaw>();
+        var list = new List<PatientDto>();
+        foreach (var raw in plainList) list.Add(MapRaw(raw));
+        return list;
+    }
+
+    public async Task<PatientDto?> GetByIdAsync(int id)
+    {
+        var client = GetClient();
+        var response = await client.GetAsync($"patients/{id}");
+        if (!response.IsSuccessStatusCode)
+            return null;
+
+        var json = await response.Content.ReadAsStringAsync();
+        var raw = JsonSerializer.Deserialize<PatientDtoRaw>(json, _jsonOptions);
+        if (raw == null) return null;
+        return MapRaw(raw);
+    }
+
+    public async Task CreateAsync(CreatePatientRequest request)
+    {
+        var client = GetClient();
+        var response = await client.PostAsJsonAsync("patients", request);
+        if (!response.IsSuccessStatusCode)
+        {
+            var body = await response.Content.ReadAsStringAsync();
+            // Try extract Message from { "Message": "..." }
+            try
+            {
+                using var doc = JsonDocument.Parse(body);
+                if (doc.RootElement.TryGetProperty("Message", out var msg))
+                    throw new ArgumentException(msg.GetString());
+            }
+            catch (ArgumentException) { throw; }
+            catch { }
+            response.EnsureSuccessStatusCode();
+        }
+    }
+
+    public async Task UpdateAsync(int id, UpdatePatientRequest request)
+    {
+        var client = GetClient();
+        var response = await client.PutAsJsonAsync($"patients/{id}", request);
+        if (!response.IsSuccessStatusCode)
+        {
+            var body = await response.Content.ReadAsStringAsync();
+            try
+            {
+                using var doc = JsonDocument.Parse(body);
+                if (doc.RootElement.TryGetProperty("Message", out var msg))
+                    throw new ArgumentException(msg.GetString());
+            }
+            catch (ArgumentException) { throw; }
+            catch { }
+            response.EnsureSuccessStatusCode();
+        }
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        var client = GetClient();
+        var response = await client.DeleteAsync($"patients/{id}");
+        response.EnsureSuccessStatusCode();
+    }
+}

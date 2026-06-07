@@ -1,0 +1,40 @@
+@model MyProject.Application.DTOs.PatientDto
+
+@{
+    ViewData["Title"] = "Delete Patient Record";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 text-center">
+                    <div class="text-danger mb-4">
+                        <i class="fa-solid fa-circle-exclamation fa-4x"></i>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-2">Delete Patient Record?</h4>
+                    <p class="text-muted small">Are you sure you want to permanently delete patient <strong>@Model.FirstName @Model.LastName</strong>? This action cannot be undone.</p>
+                    
+                    <div class="alert alert-secondary text-start rounded-3 my-4">
+                        <div class="small text-muted fw-bold">Patient Name:</div>
+                        <div class="text-dark fw-bold mb-2">@Model.FirstName @Model.LastName</div>
+                        
+                        <div class="small text-muted fw-bold">Phone Number:</div>
+                        <div class="text-dark mb-2">@Model.Phone</div>
+                        
+                        <div class="small text-muted fw-bold">Insurance No:</div>
+                        <div class="text-dark">@(string.IsNullOrEmpty(Model.InsuranceNo) ? "-" : Model.InsuranceNo)</div>
+                    </div>
+
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" name="id" value="@Model.PatientId" />
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Cancel</a>
+                            <button type="submit" class="btn btn-danger rounded-pill px-4">Delete Permanently</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
