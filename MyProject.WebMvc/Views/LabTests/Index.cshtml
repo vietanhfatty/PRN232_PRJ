@@ -1,0 +1,189 @@
+@model IEnumerable<MyProject.Application.DTOs.LabTestDto>
+
+@{
+    ViewData["Title"] = "Lab Tests Catalogue";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">Lab Tests Services</h1>
+            <p class="text-muted small mb-0">Record and configure lab diagnostics and standard pricing</p>
+        </div>
+        <button type="button" class="btn btn-primary shadow-sm rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#createLabTestModal">
+            <i class="fa-solid fa-plus-circle me-1"></i> Add Lab Test
+        </button>
+    </div>
+
+    <!-- Search box -->
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text bg-white border-end-0">
+                    <i class="fa-solid fa-search text-muted"></i>
+                </span>
+                <input type="text" id="labTestSearchInput" class="form-control border-start-0 rounded-end-3" placeholder="Search lab tests by name..." />
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="card-header bg-white py-3">
+            <h6 class="m-0 fw-bold text-primary">Lab Tests Catalogue (@Model.Count() services)</h6>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" id="labTestTable">
+                    <thead class="table-light text-uppercase font-monospace fs-7">
+                        <tr>
+                            <th class="ps-4">ID</th>
+                            <th>Test Name</th>
+                            <th>Cost</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="labtest-row">
+                                <td class="ps-4 fw-bold text-secondary">#@item.TestId</td>
+                                <td class="fw-bold text-dark labtest-name">@item.TestName</td>
+                                <td class="fw-bold text-success">@item.Cost.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</td>
+                                <td class="text-end pe-4">
+                                    <button type="button" class="btn btn-sm btn-outline-warning rounded-pill px-3 me-1"
+                                            onclick="openEditLabTestModal(@item.TestId, '@item.TestName.Replace("'", "\\'")', @item.Cost)">
+                                        <i class="fa-solid fa-edit me-1"></i>Edit
+                                    </button>
+                                    <a asp-action="Details" asp-route-id="@item.TestId" class="btn btn-sm btn-outline-info rounded-pill px-3 me-1">
+                                        <i class="fa-solid fa-info-circle me-1"></i>View
+                                    </a>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <button type="button" class="btn btn-sm btn-outline-danger rounded-pill px-3"
+                                                onclick="openDeleteLabTestModal(@item.TestId, '@item.TestName.Replace("'", "\\'")')">
+                                            <i class="fa-solid fa-trash me-1"></i>Delete
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Lab Test Modal -->
+<div class="modal fade" id="createLabTestModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header bg-primary text-white rounded-top-4">
+                <h5 class="modal-title"><i class="fa-solid fa-microscope me-2"></i>Add Lab Test Service</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small text-muted">Test / Service Name</label>
+                        <input type="text" name="TestName" class="form-control rounded-3" placeholder="e.g. Complete Blood Count (CBC)" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small text-muted">Standard Cost (VND)</label>
+                        <input type="number" name="Cost" step="0.01" min="0" class="form-control rounded-3" placeholder="e.g. 150000" required />
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">
+                        <i class="fa-solid fa-plus me-1"></i> Add Lab Test
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Lab Test Modal -->
+<div class="modal fade" id="editLabTestModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header bg-warning text-dark rounded-top-4">
+                <h5 class="modal-title"><i class="fa-solid fa-edit me-2"></i>Edit Lab Test</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="editLabTestForm" method="post">
+                @Html.AntiForgeryToken()
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small text-muted">Test / Service Name</label>
+                        <input type="text" name="TestName" id="editLabTestName" class="form-control rounded-3" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small text-muted">Standard Cost (VND)</label>
+                        <input type="number" name="Cost" id="editLabTestCost" step="0.01" min="0" class="form-control rounded-3" required />
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning rounded-pill px-4">
+                        <i class="fa-solid fa-save me-1"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div class="modal fade" id="deleteLabTestModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header bg-danger text-white rounded-top-4">
+                <h5 class="modal-title"><i class="fa-solid fa-trash-alt me-2"></i>Delete Lab Test</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 text-center">
+                <i class="fa-solid fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                <p class="mb-1">Are you sure you want to delete:</p>
+                <p class="fw-bold fs-6" id="deleteLabTestName"></p>
+                <p class="text-muted small">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer border-0 pt-0 justify-content-center">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteLabTestForm" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger rounded-pill px-4">
+                        <i class="fa-solid fa-trash-alt me-1"></i> Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('labTestSearchInput').addEventListener('keyup', function() {
+            var val = this.value.toLowerCase().trim();
+            document.querySelectorAll('.labtest-row').forEach(function(row) {
+                var name = row.querySelector('.labtest-name').textContent.toLowerCase();
+                row.style.display = name.includes(val) ? '' : 'none';
+            });
+        });
+
+        function openEditLabTestModal(id, testName, cost) {
+            document.getElementById('editLabTestName').value = testName;
+            document.getElementById('editLabTestCost').value = cost;
+            document.getElementById('editLabTestForm').action = '/LabTests/Edit/' + id;
+            new bootstrap.Modal(document.getElementById('editLabTestModal')).show();
+        }
+
+        function openDeleteLabTestModal(id, testName) {
+            document.getElementById('deleteLabTestName').textContent = testName;
+            document.getElementById('deleteLabTestForm').action = '/LabTests/Delete/' + id;
+            new bootstrap.Modal(document.getElementById('deleteLabTestModal')).show();
+        }
+    </script>
+}

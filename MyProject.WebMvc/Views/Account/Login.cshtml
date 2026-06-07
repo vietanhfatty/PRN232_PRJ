@@ -1,0 +1,231 @@
+@model MyProject.Application.DTOs.LoginRequest
+
+@{
+    ViewData["Title"] = "System Login";
+    Layout = null; // Clean layout for login screen
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hospital Management System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Decorative background blobs */
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: 1;
+            opacity: 0.15;
+        }
+        .blob-1 {
+            background-color: #3b82f6;
+            top: -100px;
+            left: -100px;
+            animation: pulse 10s infinite alternate;
+        }
+        .blob-2 {
+            background-color: #a855f7;
+            bottom: -100px;
+            right: -100px;
+            animation: pulse 12s infinite alternate-reverse;
+        }
+
+        @@keyframes pulse {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.1) translate(50px, 50px); }
+        }
+
+        .login-container {
+            z-index: 10;
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-card:hover {
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .logo-area {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 28px;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+            margin-bottom: 16px;
+        }
+
+        .system-title {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .system-subtitle {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .form-label {
+            color: #cbd5e1;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .input-group {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group:focus-within {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .input-group-text {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            padding-left: 16px;
+        }
+
+        .form-control {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            padding: 12px 16px 12px 0;
+            font-size: 15px;
+        }
+
+        .form-control:focus {
+            background: transparent;
+            box-shadow: none;
+            color: #ffffff;
+        }
+
+        .form-control::placeholder {
+            color: #64748b;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            border: none;
+            border-radius: 12px;
+            color: #ffffff;
+            padding: 14px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-hospital-user"></i>
+                </div>
+                <div class="system-title">CareLink Pro</div>
+                <div class="system-subtitle">Hospital Management Portal</div>
+            </div>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger mb-4" role="alert">
+                    <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
+                </div>
+            }
+
+            <form asp-action="Login" asp-route-returnUrl="@ViewBag.ReturnUrl" method="post">
+                <div class="mb-4">
+                    <label asp-for="Username" class="form-label">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                        <input asp-for="Username" class="form-control" placeholder="Enter username" required autocomplete="off" />
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Enter password" required />
+                    </div>
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-login">
+                        Sign In <i class="fa-solid fa-arrow-right-to-bracket ms-2"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+@model MyProject.Application.DTOs.MedicineDto
+
+@{
+    ViewData["Title"] = "Delete Medicine";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 text-center">
+                    <div class="text-danger mb-4">
+                        <i class="fa-solid fa-circle-exclamation fa-4x"></i>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-2">Delete Medicine?</h4>
+                    <p class="text-muted small">Are you sure you want to permanently delete medicine <strong>@Model.Name</strong>? This action cannot be undone.</p>
+                    
+                    <div class="alert alert-secondary text-start rounded-3 my-4">
+                        <div class="small text-muted fw-bold">Medicine Name:</div>
+                        <div class="text-dark fw-bold mb-2">@Model.Name</div>
+                        
+                        <div class="small text-muted fw-bold">Unit:</div>
+                        <div class="text-dark mb-2">@Model.Unit</div>
+                        
+                        <div class="small text-muted fw-bold">Unit Price:</div>
+                        <div class="text-dark fw-bold text-success mb-2">
+                            @Model.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))
+                        </div>
+
+                        <div class="small text-muted fw-bold">Stock Quantity:</div>
+                        <div class="text-dark">@Model.StockQuantity</div>
+                    </div>
+
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" name="id" value="@Model.MedicineId" />
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Cancel</a>
+                            <button type="submit" class="btn btn-danger rounded-pill px-4">Delete Permanently</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

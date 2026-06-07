@@ -1,0 +1,76 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using MyProject.Domain.Entities;
+using MyProject.Domain.IRepositories;
+
+namespace MyProject.Infrastructure.Repositories;
+
+public class AppointmentRepository : IAppointmentRepository
+{
+    private readonly HospitalManagementDbContext _context;
+
+    public AppointmentRepository(HospitalManagementDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<IEnumerable<Appointment>> GetAllAsync()
+    {
+        return await _context.Appointments
+            .Include(a => a.Patient)
+            .Include(a => a.Doctor)
+            .ToListAsync();
+    }
+
+    public async Task<Appointment?> GetByIdAsync(int id)
+    {
+        return await _context.Appointments
+            .Include(a => a.Patient)
+            .Include(a => a.Doctor)
+            .FirstOrDefaultAsync(a => a.AppointmentId == id);
+    }
+
+    public async Task AddAsync(Appointment appointment)
+    {
+        _context.Appointments.Add(appointment);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateAsync(Appointment appointment)
+    {
+        _context.Entry(appointment).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        var appointment = await _context.Appointments.FindAsync(id);
+        if (appointment != null)
+        {
+            _context.Appointments.Remove(appointment);
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    public async Task<int> GetMaxQueueNumberAsync(int doctorId, DateTime date)
+    {
+        // Get appointments for the doctor on the same date (ignoring time)
+        var appointments = await _context.Appointments
+            .Where(a => a.DoctorId == doctorId && a.QueueNumber.HasValue)
+            .ToListAsync();
+
+        var dailyAppointments = appointments
+            .Where(a => a.AppointmentDate.Date == date.Date)
+            .ToList();
+
+        if (!dailyAppointments.Any())
+        {
+            return 0;
+        }
+
+        return dailyAppointments.Max(a => a.QueueNumber ?? 0);
+    }
+}

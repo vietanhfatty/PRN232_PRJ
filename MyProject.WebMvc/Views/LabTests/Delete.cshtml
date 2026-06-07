@@ -1,0 +1,39 @@
+@model MyProject.Application.DTOs.LabTestDto
+
+@{
+    ViewData["Title"] = "Delete Lab Test Service";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 text-center">
+                    <div class="text-danger mb-4">
+                        <i class="fa-solid fa-circle-exclamation fa-4x"></i>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-2">Delete Lab Test Service?</h4>
+                    <p class="text-muted small">Are you sure you want to permanently delete service <strong>@Model.TestName</strong>? This action cannot be undone.</p>
+                    
+                    <div class="alert alert-secondary text-start rounded-3 my-4">
+                        <div class="small text-muted fw-bold">Test Name:</div>
+                        <div class="text-dark fw-bold mb-2">@Model.TestName</div>
+                        
+                        <div class="small text-muted fw-bold">Standard Cost:</div>
+                        <div class="text-dark fw-bold text-success">
+                            @Model.Cost.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))
+                        </div>
+                    </div>
+
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" name="id" value="@Model.TestId" />
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Cancel</a>
+                            <button type="submit" class="btn btn-danger rounded-pill px-4">Delete Permanently</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,46 +1,164 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MyProject.WebMvc</title>
+    <title>@ViewData["Title"] - ASM 1 Hospital</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MyProject.WebMvc.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MyProject.WebMvc</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+    <div class="app-wrapper">
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            var fullName = User.FindFirst("FullName")?.Value ?? User.Identity?.Name ?? "User";
+            var initials = "ST";
+            if (!string.IsNullOrEmpty(fullName))
+            {
+                var parts = fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length > 1) {
+                    initials = (parts[0][0].ToString() + parts[parts.Length - 1][0].ToString()).ToUpper();
+                } else if (parts.Length == 1) {
+                    initials = parts[0][0].ToString().ToUpper();
+                }
+            }
+            var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "Staff";
+
+            <aside class="sidebar-nav">
+                <a class="brand-logo" asp-controller="Home" asp-action="Index">
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-square-plus"></i>
+                    </div>
+                    <div>
+                        <span class="brand-name">ASM 1 Hospital</span>
+                        <span class="brand-subname">Central Management</span>
+                    </div>
+                </a>
+
+                <ul class="nav-menu">
+                    <li class="nav-menu-item">
+                        <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index">
+                            <i class="fa-solid fa-chart-line"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-menu-item">
+                        <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Patients" ? "active" : "")" asp-controller="Patients" asp-action="Index">
+                            <i class="fa-solid fa-user-injured"></i> Patients
+                        </a>
+                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-menu-item">
+                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Staffs" ? "active" : "")" asp-controller="Staffs" asp-action="Index">
+                                <i class="fa-solid fa-user-md"></i> Staff
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    }
+                    <li class="nav-menu-item">
+                        <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "DoctorSchedules" ? "active" : "")" asp-controller="DoctorSchedules" asp-action="Index">
+                            <i class="fa-solid fa-calendar-alt"></i> Schedule
+                        </a>
+                    </li>
+                    <li class="nav-menu-item">
+                        <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Medicines" ? "active" : "")" asp-controller="Medicines" asp-action="Index">
+                            <i class="fa-solid fa-pills"></i> Inventory
+                        </a>
+                    </li>
+                    <li class="nav-menu-item">
+                        <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "LabTests" ? "active" : "")" asp-controller="LabTests" asp-action="Index">
+                            <i class="fa-solid fa-flask"></i> Lab Tests
+                        </a>
+                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-menu-item">
+                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Roles" ? "active" : "")" asp-controller="Roles" asp-action="Index">
+                                <i class="fa-solid fa-shield-alt"></i> Administration
+                            </a>
                         </li>
-                    </ul>
+                    }
+                </ul>
+
+                <div class="sidebar-footer">
+                    <a class="nav-menu-link" href="#" onclick="alert('Support Hotline: +1 (800) 555-0199')">
+                        <i class="fa-solid fa-headset"></i> Support
+                    </a>
+                    <a class="nav-menu-link text-danger" asp-controller="Account" asp-action="Logout">
+                        <i class="fa-solid fa-sign-out-alt"></i> Log Out
+                    </a>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+            </aside>
+        }
+
+        <div class="main-panel" style="@(User.Identity?.IsAuthenticated == true ? "" : "margin-left: 0;")">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                var fullName = User.FindFirst("FullName")?.Value ?? User.Identity?.Name ?? "User";
+                var initials = "ST";
+                if (!string.IsNullOrEmpty(fullName))
+                {
+                    var parts = fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    if (parts.Length > 1) {
+                        initials = (parts[0][0].ToString() + parts[parts.Length - 1][0].ToString()).ToUpper();
+                    } else if (parts.Length == 1) {
+                        initials = parts[0][0].ToString().ToUpper();
+                    }
+                }
+                var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "Staff";
+
+                <header class="top-header">
+                    <div class="search-wrapper">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" class="search-input" placeholder="Search patients, doctors, or records..." />
+                    </div>
+
+                    <div class="header-right">
+                        <button class="header-icon-btn">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="badge-dot"></span>
+                        </button>
+                        <button class="header-icon-btn">
+                            <i class="fa-regular fa-circle-question"></i>
+                        </button>
+                        <button class="header-icon-btn">
+                            <i class="fa-solid fa-gear"></i>
+                        </button>
+
+                        <div class="profile-block">
+                            <div class="profile-avatar">
+                                @initials
+                            </div>
+                            <div class="profile-info">
+                                <span class="profile-name">@fullName</span>
+                                <span class="profile-role">@role</span>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            }
+
+            <main class="page-content">
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show rounded-3 shadow-sm mb-4" role="alert">
+                        <i class="fa-solid fa-circle-check me-2"></i>@TempData["SuccessMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm mb-4" role="alert">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i>@TempData["ErrorMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - MyProject.WebMvc - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

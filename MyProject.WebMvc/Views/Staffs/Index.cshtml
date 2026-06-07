@@ -1,0 +1,398 @@
+@model IEnumerable<MyProject.Application.DTOs.StaffDto>
+@using MyProject.Application.DTOs
+
+@{
+    ViewData["Title"] = "Staff Management";
+    var roles = ViewBag.Roles as IEnumerable<RoleDto> ?? Enumerable.Empty<RoleDto>();
+}
+
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-slate-800 fw-bold">Staff Management</h1>
+            <p class="text-muted small mb-0">Manage hospital personnel records, roles, and operational status.</p>
+        </div>
+        <button type="button" class="btn-primary-custom" data-bs-toggle="modal" data-bs-target="#createStaffModal">
+            <i class="fa-solid fa-user-plus"></i> Add Staff Member
+        </button>
+    </div>
+
+    <!-- Stats summary -->
+    <div class="row mb-4 align-items-center">
+        <div class="col-lg-8">
+            <div class="d-flex gap-3">
+                <div class="modern-card hover-elevate mb-0" style="padding: 16px 24px; flex: 1; display: flex; align-items: center; gap: 16px;">
+                    <div class="stat-card-icon-wrapper icon-blue" style="width: 40px; height: 40px; font-size: 16px;">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="text-muted small fw-bold text-uppercase" style="font-size: 10px;">Total Staff</span>
+                        <span class="fw-bold text-slate-800" style="font-size: 20px;">@Model.Count()</span>
+                    </div>
+                </div>
+                <div class="modern-card hover-elevate mb-0" style="padding: 16px 24px; flex: 1; display: flex; align-items: center; gap: 16px;">
+                    <div class="stat-card-icon-wrapper icon-green" style="width: 40px; height: 40px; font-size: 16px;">
+                        <i class="fa-solid fa-user-check"></i>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="text-muted small fw-bold text-uppercase" style="font-size: 10px;">On Duty</span>
+                        <span class="fw-bold text-slate-800" style="font-size: 20px;">@Model.Count(s => s.Status == "Active")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 text-end">
+            <div class="modern-card mb-0" style="padding: 16px 20px;">
+                <span class="text-muted small fw-bold text-uppercase d-block text-start mb-2" style="font-size: 10px; letter-spacing: 0.5px;">Filter by Role</span>
+                <div class="d-flex gap-1 justify-content-start">
+                    <button class="btn-pill-filter active" onclick="filterRole('All')">All Roles</button>
+                    <button class="btn-pill-filter" onclick="filterRole('Doctor')">Doctors</button>
+                    <button class="btn-pill-filter" onclick="filterRole('Nurse')">Nurses</button>
+                    <button class="btn-pill-filter" onclick="filterRole('Admin')">Admin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search -->
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="staffSearchInput" class="search-input" placeholder="Search for staff, IDs, or departments..." />
+            </div>
+        </div>
+    </div>
+
+    <!-- Staff Table -->
+    <div class="modern-card modern-table-card">
+        <div class="table-responsive">
+            <table class="modern-table" id="staffTable">
+                <thead>
+                    <tr>
+                        <th>Staff Member</th>
+                        <th>Role</th>
+                        <th>Department</th>
+                        <th>Contact</th>
+                        <th>Status</th>
+                        <th class="text-end" style="width: 120px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var initials = "ST";
+                        if (!string.IsNullOrEmpty(item.FirstName))
+                        {
+                            initials = (item.FirstName[0].ToString() + (item.LastName.Length > 0 ? item.LastName[0].ToString() : "")).ToUpper();
+                        }
+
+                        var roleBadgeClass = "bg-secondary text-light";
+                        var normalizedRole = item.RoleName?.ToUpper() ?? "STAFF";
+                        if (normalizedRole.Contains("DOCTOR")) { roleBadgeClass = "bg-primary-subtle text-primary border border-primary-subtle"; }
+                        else if (normalizedRole.Contains("NURSE")) { roleBadgeClass = "bg-purple-subtle text-purple border border-purple-subtle"; }
+                        else if (normalizedRole.Contains("ADMIN")) { roleBadgeClass = "bg-success-subtle text-success border border-success-subtle"; }
+                        else if (normalizedRole.Contains("RECEPTIONIST")) { roleBadgeClass = "bg-light text-dark border"; }
+
+                        var avatarClasses = new[] { "avatar-blue", "avatar-indigo", "avatar-purple", "avatar-pink", "avatar-emerald", "avatar-rose" };
+                        var avatarClass = avatarClasses[Math.Abs(item.StaffId) % avatarClasses.Length];
+
+                        var safeFirst = item.FirstName.Replace("'", "\\'");
+                        var safeLast = item.LastName.Replace("'", "\\'");
+                        var safeSpec = (item.Specialization ?? "").Replace("'", "\\'");
+                        var safePhone = (item.Phone ?? "").Replace("'", "\\'");
+                        var safeEmail = (item.Email ?? "").Replace("'", "\\'");
+                        var safeUsername = (item.Username ?? "").Replace("'", "\\'");
+
+                        <tr class="staff-row" data-role="@(item.RoleName ?? "Staff")">
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="avatar-circle @avatarClass">@initials</div>
+                                    <div class="d-flex flex-column">
+                                        <span class="fw-bold text-slate-800 staff-name">@item.FirstName @item.LastName</span>
+                                        <span class="text-muted" style="font-size: 11px;">ID: #@item.StaffId-STF</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge @roleBadgeClass px-3 py-1 rounded-pill" style="font-size: 11px; font-weight: 700;">@normalizedRole</span>
+                            </td>
+                            <td class="staff-dept">@(string.IsNullOrEmpty(item.Specialization) ? "Administration" : item.Specialization)</td>
+                            <td class="staff-phone">@item.Phone</td>
+                            <td>
+                                @if (item.Status == "Active")
+                                {
+                                    <span class="modern-badge badge-active"><i class="fa-solid fa-circle" style="font-size: 6px;"></i> Active</span>
+                                }
+                                else
+                                {
+                                    <span class="modern-badge badge-scheduled"><i class="fa-solid fa-circle" style="font-size: 6px;"></i> @item.Status</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                    <button type="button" class="table-action-icon" title="Edit Staff"
+                                            onclick="openEditStaffModal(@item.StaffId, '@safeFirst', '@safeLast', '@safeSpec', '@safePhone', '@safeEmail', '@(item.Status ?? "Active")', '@safeUsername', @(item.RoleId.HasValue ? item.RoleId.Value.ToString() : "0"))">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <button type="button" class="table-action-icon danger-hover" title="Delete Staff"
+                                                onclick="openDeleteStaffModal(@item.StaffId, '@safeFirst @safeLast')">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination-wrapper">
+            <span class="pagination-info" id="showingCount">Showing 1 to @Model.Count() of @Model.Count() entries</span>
+            <div class="pagination-controls">
+                <a class="pagination-btn"><i class="fa-solid fa-angle-left"></i></a>
+                <a class="pagination-btn active">1</a>
+                <a class="pagination-btn"><i class="fa-solid fa-angle-right"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Staff Modal -->
+<div class="modal fade" id="createStaffModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header bg-primary text-white rounded-top-4">
+                <h5 class="modal-title"><i class="fa-solid fa-user-plus me-2"></i>Create New Staff Member</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+                <div class="modal-body p-4">
+                    <h6 class="text-primary border-bottom pb-2 mb-3">1. Personal Information</h6>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">First Name</label>
+                            <input type="text" name="FirstName" class="form-control" placeholder="Enter first name" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">Last Name</label>
+                            <input type="text" name="LastName" class="form-control" placeholder="Enter last name" required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">Phone Number</label>
+                            <input type="text" name="Phone" class="form-control" placeholder="Enter phone number" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">Email Address</label>
+                            <input type="email" name="Email" class="form-control" placeholder="Enter email address" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">Specialization</label>
+                            <input type="text" name="Specialization" class="form-control" placeholder="e.g. Cardiology (leave blank if none)" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">Status</label>
+                            <select name="Status" class="form-select">
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                    <h6 class="text-primary border-bottom pb-2 mb-3 mt-2">2. Account Credentials (Optional)</h6>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold small">Username</label>
+                            <input type="text" name="Username" class="form-control" placeholder="Enter username" />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold small">Password</label>
+                            <input type="password" name="Password" class="form-control" placeholder="Enter password" />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold small">System Role</label>
+                            <select name="RoleId" class="form-select">
+                                <option value="">-- Select Role --</option>
+                                @foreach (var role in roles)
+                                {
+                                    <option value="@role.RoleId">@role.RoleName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">
+                        <i class="fa-solid fa-save me-1"></i> Save Staff Member
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Staff Modal -->
+<div class="modal fade" id="editStaffModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header bg-warning text-dark rounded-top-4">
+                <h5 class="modal-title"><i class="fa-solid fa-user-pen me-2"></i>Edit Staff Member</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="editStaffForm" method="post">
+                @Html.AntiForgeryToken()
+                <div class="modal-body p-4">
+                    <h6 class="text-primary border-bottom pb-2 mb-3">1. Personal Information</h6>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">First Name</label>
+                            <input type="text" name="FirstName" id="editStaffFirstName" class="form-control" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">Last Name</label>
+                            <input type="text" name="LastName" id="editStaffLastName" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">Phone Number</label>
+                            <input type="text" name="Phone" id="editStaffPhone" class="form-control" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">Email Address</label>
+                            <input type="email" name="Email" id="editStaffEmail" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">Specialization</label>
+                            <input type="text" name="Specialization" id="editStaffSpec" class="form-control" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">Status</label>
+                            <select name="Status" id="editStaffStatus" class="form-select">
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                    <h6 class="text-primary border-bottom pb-2 mb-3 mt-2">2. Account Credentials</h6>
+                    <p class="text-muted small">Leave Password blank to keep current. Remove Username to delete account.</p>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold small">Username</label>
+                            <input type="text" name="Username" id="editStaffUsername" class="form-control" />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold small">New Password</label>
+                            <input type="password" name="Password" class="form-control" placeholder="Leave blank to keep current" />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold small">System Role</label>
+                            <select name="RoleId" id="editStaffRole" class="form-select">
+                                <option value="">-- Select Role --</option>
+                                @foreach (var role in roles)
+                                {
+                                    <option value="@role.RoleId">@role.RoleName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning rounded-pill px-4">
+                        <i class="fa-solid fa-save me-1"></i> Update Staff Member
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div class="modal fade" id="deleteStaffModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header bg-danger text-white rounded-top-4">
+                <h5 class="modal-title"><i class="fa-solid fa-trash-alt me-2"></i>Delete Staff</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 text-center">
+                <i class="fa-solid fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                <p class="mb-1">Are you sure you want to delete:</p>
+                <p class="fw-bold fs-6" id="deleteStaffName"></p>
+                <p class="text-muted small">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer border-0 pt-0 justify-content-center">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteStaffForm" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger rounded-pill px-4">
+                        <i class="fa-solid fa-trash-alt me-1"></i> Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function filterRole(role) {
+            document.querySelectorAll('.btn-pill-filter').forEach(function(btn) {
+                btn.classList.toggle('active', btn.textContent.trim().includes(role) || (role === 'All' && btn.textContent.includes('All')));
+            });
+            var rows = document.querySelectorAll('.staff-row');
+            var count = 0;
+            rows.forEach(function(row) {
+                var show = role === 'All' || row.getAttribute('data-role').toLowerCase().includes(role.toLowerCase());
+                row.style.display = show ? '' : 'none';
+                if (show) count++;
+            });
+            document.getElementById('showingCount').textContent = 'Showing 1 to ' + count + ' of ' + count + ' entries';
+        }
+
+        document.getElementById('staffSearchInput').addEventListener('keyup', function() {
+            var val = this.value.toLowerCase().trim();
+            var rows = document.querySelectorAll('.staff-row');
+            var count = 0;
+            rows.forEach(function(row) {
+                var name = row.querySelector('.staff-name').textContent.toLowerCase();
+                var phone = row.querySelector('.staff-phone').textContent.toLowerCase();
+                var dept = row.querySelector('.staff-dept').textContent.toLowerCase();
+                var show = name.includes(val) || phone.includes(val) || dept.includes(val);
+                row.style.display = show ? '' : 'none';
+                if (show) count++;
+            });
+            document.getElementById('showingCount').textContent = 'Showing 1 to ' + count + ' of ' + count + ' entries';
+        });
+
+        function openEditStaffModal(id, firstName, lastName, spec, phone, email, status, username, roleId) {
+            document.getElementById('editStaffFirstName').value = firstName;
+            document.getElementById('editStaffLastName').value = lastName;
+            document.getElementById('editStaffSpec').value = spec;
+            document.getElementById('editStaffPhone').value = phone;
+            document.getElementById('editStaffEmail').value = email;
+            document.getElementById('editStaffStatus').value = status;
+            document.getElementById('editStaffUsername').value = username;
+            document.getElementById('editStaffRole').value = roleId || '';
+            document.getElementById('editStaffForm').action = '/Staffs/Edit/' + id;
+            new bootstrap.Modal(document.getElementById('editStaffModal')).show();
+        }
+
+        function openDeleteStaffModal(id, name) {
+            document.getElementById('deleteStaffName').textContent = name;
+            document.getElementById('deleteStaffForm').action = '/Staffs/Delete/' + id;
+            new bootstrap.Modal(document.getElementById('deleteStaffModal')).show();
+        }
+    </script>
+}

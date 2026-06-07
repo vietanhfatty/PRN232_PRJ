@@ -1,0 +1,40 @@
+@model MyProject.Application.DTOs.UpdateRoleRequest
+
+@{
+    ViewData["Title"] = "Edit Role";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-warning text-dark text-center py-3">
+                    <h3 class="h5 mb-0">Edit System Role</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Edit" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            <label asp-for="RoleName" class="form-label fw-bold">Role Name</label>
+                            <input asp-for="RoleName" class="form-control" placeholder="Enter role name" required />
+                            <span asp-validation-for="RoleName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-1"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-warning px-4">
+                                <i class="fas fa-save me-1"></i> Update Role
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

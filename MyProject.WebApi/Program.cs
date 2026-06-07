@@ -1,9 +1,50 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.OData;
+using MyProject.Domain.Entities;
+using MyProject.Domain.IRepositories;
+using MyProject.Infrastructure.Repositories;
+using MyProject.Application.Services;
+using Microsoft.AspNetCore.DataProtection;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add DbContext
+builder.Services.AddDbContext<HospitalManagementDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Register Repositories
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IMedicineRepository, MedicineRepository>();
+builder.Services.AddScoped<ILabTestRepository, LabTestRepository>();
+builder.Services.AddScoped<IDoctorScheduleRepository, DoctorScheduleRepository>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+
+// Register Services
+builder.Services.AddScoped<RoleService>();
+builder.Services.AddScoped<StaffService>();
+builder.Services.AddScoped<PatientService>();
+builder.Services.AddScoped<MedicineService>();
+builder.Services.AddScoped<LabTestService>();
+builder.Services.AddScoped<DoctorScheduleService>();
+builder.Services.AddScoped<AppointmentService>();
+builder.Services.AddScoped<AuthService>();
+
+// Add Data Protection to share authentication cookies with WebMvc
+builder.Services.AddDataProtection()
+    .SetApplicationName("HospitalManagementSharedApp");
+
+// Register Cookie Authentication
+builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = System.TimeSpan.FromMinutes(60);
+    });
+
+builder.Services.AddControllers()
+    .AddOData(options => options.Select().Filter().OrderBy().Expand().Count().SetMaxTop(100));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -18,6 +59,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
