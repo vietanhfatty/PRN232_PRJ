@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Application.DTOs;
 using MyProject.Application.Services;
@@ -7,6 +8,7 @@ namespace MyProject.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = "Admin")]
 public class RolesController : ControllerBase
 {
     private readonly RoleService _service;
@@ -35,8 +37,15 @@ public class RolesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateRoleRequest request)
     {
-        await _service.CreateAsync(request);
-        return Created("", null);
+        try
+        {
+            await _service.CreateAsync(request);
+            return Created("", null);
+        }
+        catch (System.ArgumentException ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
     }
 
     [HttpPut("{id}")]
@@ -51,12 +60,23 @@ public class RolesController : ControllerBase
         {
             return NotFound();
         }
+        catch (System.ArgumentException ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        await _service.DeleteAsync(id);
-        return NoContent();
+        try
+        {
+            await _service.DeleteAsync(id);
+            return NoContent();
+        }
+        catch (System.ArgumentException ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
     }
 }

@@ -31,6 +31,11 @@ namespace MyProject.WebMvc.Controllers
 
         public async Task<IActionResult> Index()
         {
+            if (User.IsInRole("Doctor"))
+            {
+                return RedirectToAction("Queue", "Appointments");
+            }
+
             var patients = await _patientService.GetAllAsync();
             var staff = await _staffService.GetAllAsync();
             var appointments = await _appointmentService.GetAllAsync();

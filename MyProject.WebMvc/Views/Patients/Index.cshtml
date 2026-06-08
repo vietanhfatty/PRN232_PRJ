@@ -99,9 +99,14 @@
                             var age = DateTime.Today.Year - item.Dob.Year;
                             if (item.Dob > DateOnly.FromDateTime(DateTime.Today.AddYears(-age))) age--;
 
+                            var todayAppts = ViewBag.TodayAppointments as IEnumerable<MyProject.Application.DTOs.AppointmentDto> ?? Enumerable.Empty<MyProject.Application.DTOs.AppointmentDto>();
+                            var patientAppt = todayAppts.FirstOrDefault(a => a.PatientId == item.PatientId);
+                            
                             var status = "Active";
-                            if (item.PatientId % 3 == 0) status = "Waiting";
-                            else if (item.PatientId % 3 == 1) status = "Scheduled";
+                            if (patientAppt != null)
+                            {
+                                status = patientAppt.Status;
+                            }
 
                             var avatarClasses = new[] { "avatar-blue", "avatar-indigo", "avatar-purple", "avatar-pink", "avatar-emerald", "avatar-rose" };
                             var avatarClass = avatarClasses[Math.Abs(item.PatientId) % avatarClasses.Length];
@@ -139,17 +144,25 @@
                                     }
                                 </td>
                                 <td>
-                                    @if (status == "Active")
-                                    {
-                                        <span class="modern-badge badge-active">Active</span>
-                                    }
-                                    else if (status == "Waiting")
+                                    @if (status == "Waiting")
                                     {
                                         <span class="modern-badge badge-waiting">Waiting</span>
                                     }
-                                    else
+                                    else if (status == "Scheduled")
                                     {
                                         <span class="modern-badge badge-scheduled">Scheduled</span>
+                                    }
+                                    else if (status == "Completed")
+                                    {
+                                        <span class="modern-badge badge-active">Completed</span>
+                                    }
+                                    else if (status == "Cancelled")
+                                    {
+                                        <span class="modern-badge bg-danger-subtle text-danger border border-danger-subtle">Cancelled</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="modern-badge badge-active">Active</span>
                                     }
                                 </td>
                                 <td class="text-end">
@@ -160,12 +173,21 @@
                                                 <i class="fa-solid fa-check me-1"></i> In Queue
                                             </button>
                                         }
+                                        else if (status == "Scheduled" && patientAppt != null)
+                                        {
+                                            <form asp-controller="Appointments" asp-action="CheckIn" asp-route-id="@patientAppt.AppointmentId" method="post" class="d-inline-block">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-sm btn-success rounded-pill px-3 py-1" style="font-size: 12px; padding: 5px 15px; box-shadow: none;">
+                                                    <i class="fa-solid fa-clipboard-check me-1"></i> Check-In
+                                                </button>
+                                            </form>
+                                        }
                                         else
                                         {
                                             <a asp-controller="Appointments" asp-action="Create" asp-route-patientId="@item.PatientId"
                                                class="btn btn-sm btn-primary-custom rounded-pill px-3 py-1 text-decoration-none"
                                                style="font-size: 12px; padding: 5px 15px; box-shadow: none;">
-                                                <i class="fa-solid fa-right-to-bracket"></i> Check-In
+                                                <i class="fa-solid fa-calendar-plus me-1"></i> Book Appt
                                             </a>
                                         }
                                         <button type="button" class="table-action-icon" title="Edit Patient"

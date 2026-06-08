@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MyProject.WebMvc")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9463ffe889ded14bbe515c6b315c81c2de00208")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c96c222ad3315b4d67a83edf9ca8cf0fea8b2110")]
 [assembly: System.Reflection.AssemblyProductAttribute("MyProject.WebMvc")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MyProject.WebMvc")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

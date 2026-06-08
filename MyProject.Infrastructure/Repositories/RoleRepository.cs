@@ -46,4 +46,9 @@ public class RoleRepository : IRoleRepository
             await _context.SaveChangesAsync();
         }
     }
+
+    public async Task<bool> IsInUseAsync(int roleId)
+    {
+        return await _context.Accounts.AnyAsync(a => a.RoleId == roleId);
+    }
 }

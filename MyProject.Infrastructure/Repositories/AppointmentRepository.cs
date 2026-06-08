@@ -42,6 +42,14 @@ public class AppointmentRepository : IAppointmentRepository
     public async Task UpdateAsync(Appointment appointment)
     {
         _context.Entry(appointment).State = EntityState.Modified;
+        if (appointment.Patient != null)
+        {
+            _context.Entry(appointment.Patient).State = EntityState.Unchanged;
+        }
+        if (appointment.Doctor != null)
+        {
+            _context.Entry(appointment.Doctor).State = EntityState.Unchanged;
+        }
         await _context.SaveChangesAsync();
     }
 

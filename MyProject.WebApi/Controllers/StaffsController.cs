@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Application.DTOs;
 using MyProject.Application.Services;
@@ -7,6 +8,7 @@ namespace MyProject.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class StaffsController : ControllerBase
 {
     private readonly StaffService _service;
@@ -33,13 +35,22 @@ public class StaffsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromBody] CreateStaffRequest request)
     {
-        await _service.CreateAsync(request);
-        return Created("", null);
+        try
+        {
+            await _service.CreateAsync(request);
+            return Created("", null);
+        }
+        catch (System.ArgumentException ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateStaffRequest request)
     {
         try
@@ -51,12 +62,24 @@ public class StaffsController : ControllerBase
         {
             return NotFound();
         }
+        catch (System.ArgumentException ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
-        await _service.DeleteAsync(id);
-        return NoContent();
+        try
+        {
+            await _service.DeleteAsync(id);
+            return NoContent();
+        }
+        catch (System.ArgumentException ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
     }
 }

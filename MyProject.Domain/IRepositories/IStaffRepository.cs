@@ -11,4 +11,6 @@ public interface IStaffRepository
     Task AddAsync(Staff staff);
     Task UpdateAsync(Staff staff);
     Task DeleteAsync(int id);
+    Task<Staff?> GetByPhoneAsync(string phone);
+    Task<Staff?> GetByEmailAsync(string email);
 }

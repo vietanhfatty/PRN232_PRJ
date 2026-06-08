@@ -95,5 +95,9 @@ public class AppointmentsController : ControllerBase
         {
             return BadRequest(new { Message = ex.Message });
         }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { Message = ex.InnerException?.Message ?? ex.Message });
+        }
     }
 }

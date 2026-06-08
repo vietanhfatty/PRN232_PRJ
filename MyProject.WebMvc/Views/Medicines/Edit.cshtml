@@ -27,7 +27,15 @@
 
                         <div class="mb-3">
                             <label asp-for="Unit" class="form-label fw-bold small text-muted">Unit</label>
-                            <input asp-for="Unit" class="form-control rounded-3" required />
+                            <select asp-for="Unit" class="form-select rounded-3" required>
+                                <option value="Tablet">Tablet</option>
+                                <option value="Capsule">Capsule</option>
+                                <option value="Bottle">Bottle</option>
+                                <option value="Injection">Injection</option>
+                                <option value="Tube">Tube</option>
+                                <option value="Box">Box</option>
+                                <option value="Hộp">Hộp</option>
+                            </select>
                         </div>
 
                         <div class="mb-3">

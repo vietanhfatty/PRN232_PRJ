@@ -10,9 +10,12 @@
             <h1 class="h3 mb-0 text-gray-800">Lab Tests Services</h1>
             <p class="text-muted small mb-0">Record and configure lab diagnostics and standard pricing</p>
         </div>
-        <button type="button" class="btn btn-primary shadow-sm rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#createLabTestModal">
-            <i class="fa-solid fa-plus-circle me-1"></i> Add Lab Test
-        </button>
+        @if (!User.IsInRole("Doctor"))
+        {
+            <button type="button" class="btn btn-primary shadow-sm rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#createLabTestModal">
+                <i class="fa-solid fa-plus-circle me-1"></i> Add Lab Test
+            </button>
+        }
     </div>
 
     <!-- Search box -->
@@ -50,10 +53,13 @@
                                 <td class="fw-bold text-dark labtest-name">@item.TestName</td>
                                 <td class="fw-bold text-success">@item.Cost.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</td>
                                 <td class="text-end pe-4">
-                                    <button type="button" class="btn btn-sm btn-outline-warning rounded-pill px-3 me-1"
-                                            onclick="openEditLabTestModal(@item.TestId, '@item.TestName.Replace("'", "\\'")', @item.Cost)">
-                                        <i class="fa-solid fa-edit me-1"></i>Edit
-                                    </button>
+                                    @if (!User.IsInRole("Doctor"))
+                                    {
+                                        <button type="button" class="btn btn-sm btn-outline-warning rounded-pill px-3 me-1"
+                                                onclick="openEditLabTestModal(@item.TestId, '@item.TestName.Replace("'", "\\'")', @item.Cost)">
+                                            <i class="fa-solid fa-edit me-1"></i>Edit
+                                        </button>
+                                    }
                                     <a asp-action="Details" asp-route-id="@item.TestId" class="btn btn-sm btn-outline-info rounded-pill px-3 me-1">
                                         <i class="fa-solid fa-info-circle me-1"></i>View
                                     </a>
