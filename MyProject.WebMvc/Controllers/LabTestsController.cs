@@ -34,6 +34,12 @@ public class LabTestsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateLabTestRequest request)
     {
+        if (User.IsInRole("Doctor"))
+        {
+            TempData["ErrorMessage"] = "Doctors are only allowed to view lab tests, not modify them.";
+            return RedirectToAction(nameof(Index));
+        }
+
         if (!ModelState.IsValid)
         {
             TempData["ErrorMessage"] = GetFirstModelError();
@@ -60,6 +66,12 @@ public class LabTestsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, UpdateLabTestRequest request)
     {
+        if (User.IsInRole("Doctor"))
+        {
+            TempData["ErrorMessage"] = "Doctors are only allowed to view lab tests, not modify them.";
+            return RedirectToAction(nameof(Index));
+        }
+
         if (!ModelState.IsValid)
         {
             TempData["ErrorMessage"] = GetFirstModelError();

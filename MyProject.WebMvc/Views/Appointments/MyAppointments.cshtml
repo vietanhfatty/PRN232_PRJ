@@ -1,0 +1,277 @@
+@model IEnumerable<MyProject.Application.DTOs.AppointmentDto>
+
+@{
+    ViewData["Title"] = "My Appointments";
+    var doctorName = ViewBag.DoctorName as string ?? "Doctor";
+}
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">My Appointments</h1>
+            <p class="text-muted small mb-0">Overview of all appointments assigned to Dr. @doctorName</p>
+        </div>
+        <div>
+            <a asp-action="Queue" class="btn btn-success shadow-sm rounded-pill px-4">
+                <i class="fa-solid fa-people-queue me-1"></i> My Waiting Queue
+            </a>
+        </div>
+    </div>
+
+    <!-- Advanced filters bar -->
+    <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="card-body p-3">
+            <div class="row g-3 align-items-end">
+                <!-- Patient Name search -->
+                <div class="col-md-3">
+                    <label for="patientSearchInput" class="form-label fw-bold small text-muted">Search Patient</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fa-solid fa-user text-muted"></i>
+                        </span>
+                        <input type="text" id="patientSearchInput" class="form-control border-start-0 rounded-end-3" placeholder="Search patient name..." />
+                    </div>
+                </div>
+
+                <!-- Status select dropdown -->
+                <div class="col-md-3">
+                    <label for="statusFilterSelect" class="form-label fw-bold small text-muted">Filter Status</label>
+                    <select id="statusFilterSelect" class="form-select rounded-3">
+                        <option value="">All Statuses</option>
+                        <option value="Scheduled">Scheduled</option>
+                        <option value="Waiting">Waiting</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <!-- Date Picker -->
+                <div class="col-md-3">
+                    <label for="dateFilterInput" class="form-label fw-bold small text-muted">Filter Date</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fa-solid fa-calendar text-muted"></i>
+                        </span>
+                        <input type="date" id="dateFilterInput" class="form-control border-start-0 rounded-end-3" />
+                    </div>
+                </div>
+
+                <!-- Quick Date Filters -->
+                <div class="col-md-3">
+                    <label class="form-label fw-bold small text-muted d-block">Quick Date Filters</label>
+                    <div class="btn-group w-100" role="group">
+                        <button type="button" id="btnFilterToday" class="btn btn-outline-primary px-2 py-2 text-nowrap">Today</button>
+                        <button type="button" id="btnFilterTomorrow" class="btn btn-outline-primary px-2 py-2 text-nowrap">Tomorrow</button>
+                        <button type="button" id="btnFilterThisWeek" class="btn btn-outline-primary px-2 py-2 text-nowrap">This Week</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="card-header bg-white py-3">
+            <h6 class="m-0 fw-bold text-primary">Appointment Bookings (@Model.Count() records)</h6>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" id="appointmentTable">
+                    <thead class="table-light text-uppercase font-monospace fs-7">
+                        <tr>
+                            <th class="ps-4">ID</th>
+                            <th>Patient Name</th>
+                            <th>Date & Time</th>
+                            <th>Queue No</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Reason</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="appt-row" data-status="@item.Status" data-date="@item.AppointmentDate.ToString("yyyy-MM-dd")">
+                                <td class="ps-4 fw-bold text-secondary">#@item.AppointmentId</td>
+                                <td class="fw-bold text-dark appt-patient">@item.PatientName</td>
+                                <td>@item.AppointmentDate.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>
+                                    @if (item.QueueNumber.HasValue)
+                                    {
+                                        <span class="badge bg-primary rounded-pill px-2">Q-@item.QueueNumber</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small">-</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Type == "First Visit")
+                                    {
+                                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2">First Visit</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-light text-dark border rounded-pill px-2">Follow-up</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Status == "Scheduled")
+                                    {
+                                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-2">Scheduled</span>
+                                    }
+                                    else if (item.Status == "Waiting")
+                                    {
+                                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2">Waiting</span>
+                                    }
+                                    else if (item.Status == "Completed")
+                                    {
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2">Completed</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-2">Cancelled</span>
+                                    }
+                                </td>
+                                <td class="text-muted small">
+                                    @(string.IsNullOrEmpty(item.Reason) ? "-" : item.Reason)
+                                </td>
+                                <td class="text-end pe-4">
+                                    <a asp-action="Details" asp-route-id="@item.AppointmentId" class="btn btn-sm btn-outline-info rounded-pill px-3">
+                                        <i class="fa-solid fa-info-circle me-1"></i> Details
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const patientInput = document.getElementById('patientSearchInput');
+        const statusSelect = document.getElementById('statusFilterSelect');
+        const dateInput = document.getElementById('dateFilterInput');
+        const btnToday = document.getElementById('btnFilterToday');
+        const btnTomorrow = document.getElementById('btnFilterTomorrow');
+        const btnThisWeek = document.getElementById('btnFilterThisWeek');
+
+        let activeDateMode = 'today'; // 'today', 'tomorrow', 'thisweek', 'custom'
+
+        function getTodayDateString() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function getTomorrowDateString() {
+            const now = new Date();
+            now.setDate(now.getDate() + 1);
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Initialize default filter to Today
+        dateInput.value = getTodayDateString();
+        updateQuickButtonStyles();
+        applyFilters();
+
+        function updateQuickButtonStyles() {
+            btnToday.classList.toggle('active', activeDateMode === 'today');
+            btnToday.classList.toggle('btn-primary', activeDateMode === 'today');
+            btnToday.classList.toggle('btn-outline-primary', activeDateMode !== 'today');
+
+            btnTomorrow.classList.toggle('active', activeDateMode === 'tomorrow');
+            btnTomorrow.classList.toggle('btn-primary', activeDateMode === 'tomorrow');
+            btnTomorrow.classList.toggle('btn-outline-primary', activeDateMode !== 'tomorrow');
+
+            btnThisWeek.classList.toggle('active', activeDateMode === 'thisweek');
+            btnThisWeek.classList.toggle('btn-primary', activeDateMode === 'thisweek');
+            btnThisWeek.classList.toggle('btn-outline-primary', activeDateMode !== 'thisweek');
+        }
+
+        function applyFilters() {
+            const searchVal = patientInput.value.toLowerCase().trim();
+            const statusVal = statusSelect.value;
+            const dateVal = dateInput.value;
+
+            let weekStart = null;
+            let weekEnd = null;
+            if (activeDateMode === 'thisweek') {
+                const now = new Date();
+                const day = now.getDay();
+                const diffToMonday = now.getDate() - day + (day === 0 ? -6 : 1);
+                weekStart = new Date(now.setDate(diffToMonday));
+                weekStart.setHours(0,0,0,0);
+                
+                weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekStart.getDate() + 6);
+                weekEnd.setHours(23,59,59,999);
+            }
+
+            document.querySelectorAll('.appt-row').forEach(function(row) {
+                const patientName = row.querySelector('.appt-patient').textContent.toLowerCase();
+                const matchesPatient = patientName.includes(searchVal);
+
+                const rowStatus = row.getAttribute('data-status');
+                const matchesStatus = !statusVal || rowStatus === statusVal;
+
+                const rowDateStr = row.getAttribute('data-date');
+                let matchesDate = false;
+
+                if (activeDateMode === 'thisweek') {
+                    const rowDate = new Date(rowDateStr);
+                    rowDate.setHours(0,0,0,0);
+                    matchesDate = rowDate >= weekStart && rowDate <= weekEnd;
+                } else if (dateVal) {
+                    matchesDate = rowDateStr === dateVal;
+                } else {
+                    matchesDate = true;
+                }
+
+                if (matchesPatient && matchesStatus && matchesDate) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        patientInput.addEventListener('keyup', applyFilters);
+        statusSelect.addEventListener('change', applyFilters);
+        
+        dateInput.addEventListener('change', function() {
+            activeDateMode = 'custom';
+            updateQuickButtonStyles();
+            applyFilters();
+        });
+
+        btnToday.addEventListener('click', function() {
+            activeDateMode = 'today';
+            dateInput.value = getTodayDateString();
+            updateQuickButtonStyles();
+            applyFilters();
+        });
+
+        btnTomorrow.addEventListener('click', function() {
+            activeDateMode = 'tomorrow';
+            dateInput.value = getTomorrowDateString();
+            updateQuickButtonStyles();
+            applyFilters();
+        });
+
+        btnThisWeek.addEventListener('click', function() {
+            activeDateMode = 'thisweek';
+            dateInput.value = '';
+            updateQuickButtonStyles();
+            applyFilters();
+        });
+    </script>
+}

@@ -43,10 +43,6 @@ public class DoctorSchedulesController : ControllerBase
             await _service.CreateAsync(request);
             return Created("", null);
         }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new { Message = ex.Message });
-        }
         catch (ArgumentException ex)
         {
             return BadRequest(new { Message = ex.Message });
@@ -72,7 +68,6 @@ public class DoctorSchedulesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         await _service.DeleteAsync(id);

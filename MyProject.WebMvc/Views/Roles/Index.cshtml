@@ -30,22 +30,44 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @{
+                            var coreRoles = new[] { "Admin", "Doctor", "Nurse", "Receptionist" };
+                        }
                         @foreach (var item in Model)
                         {
+                            var isCore = coreRoles.Any(cr => cr.Equals(item.RoleName, StringComparison.OrdinalIgnoreCase));
                             <tr>
                                 <td class="fw-bold text-secondary">#@item.RoleId</td>
                                 <td>
-                                    <span class="badge bg-info text-dark px-3 py-2">@item.RoleName</span>
+                                    <span class="badge bg-info text-dark px-3 py-2">
+                                        @item.RoleName
+                                        @if (isCore)
+                                        {
+                                            <i class="fas fa-lock text-muted ms-1" title="Core system role (Locked)"></i>
+                                        }
+                                    </span>
                                 </td>
                                 <td class="text-end">
-                                    <button type="button" class="btn btn-sm btn-outline-warning me-1"
-                                            onclick="openEditModal(@item.RoleId, '@item.RoleName')">
-                                        <i class="fas fa-edit me-1"></i> Edit
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-outline-danger"
-                                            onclick="openDeleteModal(@item.RoleId, '@item.RoleName')">
-                                        <i class="fas fa-trash me-1"></i> Delete
-                                    </button>
+                                    @if (isCore)
+                                    {
+                                        <button type="button" class="btn btn-sm btn-outline-secondary me-1" disabled title="Core system roles cannot be renamed">
+                                            <i class="fas fa-lock me-1"></i> Edit
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" disabled title="Core system roles cannot be deleted">
+                                            <i class="fas fa-lock me-1"></i> Delete
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-sm btn-outline-warning me-1"
+                                                onclick="openEditModal(@item.RoleId, '@item.RoleName')">
+                                            <i class="fas fa-edit me-1"></i> Edit
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                                onclick="openDeleteModal(@item.RoleId, '@item.RoleName')">
+                                            <i class="fas fa-trash me-1"></i> Delete
+                                        </button>
+                                    }
                                 </td>
                             </tr>
                         }

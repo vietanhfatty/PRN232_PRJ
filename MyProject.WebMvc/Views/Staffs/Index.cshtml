@@ -169,7 +169,7 @@
                 <h5 class="modal-title"><i class="fa-solid fa-user-plus me-2"></i>Create New Staff Member</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <form asp-action="Create" method="post">
+            <form asp-action="Create" method="post" id="createStaffForm">
                 @Html.AntiForgeryToken()
                 <div class="modal-body p-4">
                     <h6 class="text-primary border-bottom pb-2 mb-3">1. Personal Information</h6>
@@ -186,7 +186,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold small">Phone Number</label>
-                            <input type="text" name="Phone" class="form-control" placeholder="Enter phone number" required />
+                            <input type="text" name="Phone" id="createStaffPhone" class="form-control" placeholder="Enter phone number" required />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold small">Email Address</label>
@@ -194,11 +194,21 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold small">Specialization</label>
-                            <input type="text" name="Specialization" class="form-control" placeholder="e.g. Cardiology (leave blank if none)" />
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold small" id="createStaffRoleLabel">System Role <span class="text-danger select-asterisk" style="display:none;">*</span></label>
+                            <select name="RoleId" id="createStaffRole" class="form-select">
+                                <option value="">-- Select Role --</option>
+                                @foreach (var role in roles)
+                                {
+                                    <option value="@role.RoleId" data-role-name="@role.RoleName">@role.RoleName</option>
+                                }
+                            </select>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3" id="createStaffSpecContainer">
+                            <label class="form-label fw-bold small" id="createStaffSpecLabel">Specialization <span class="text-danger select-asterisk" style="display:none;">*</span></label>
+                            <input type="text" name="Specialization" id="createStaffSpec" class="form-control" placeholder="e.g. Cardiology" />
+                        </div>
+                        <div class="col-md-4 mb-3">
                             <label class="form-label fw-bold small">Status</label>
                             <select name="Status" class="form-select">
                                 <option value="Active">Active</option>
@@ -209,22 +219,17 @@
                     <h6 class="text-primary border-bottom pb-2 mb-3 mt-2">2. Account Credentials (Optional)</h6>
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <label class="form-label fw-bold small">Username</label>
-                            <input type="text" name="Username" class="form-control" placeholder="Enter username" />
+                            <label class="form-label fw-bold small" id="createStaffUsernameLabel">Username</label>
+                            <input type="text" name="Username" id="createStaffUsername" class="form-control" placeholder="Enter username" />
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label class="form-label fw-bold small">Password</label>
-                            <input type="password" name="Password" class="form-control" placeholder="Enter password" />
+                            <label class="form-label fw-bold small" id="createStaffPasswordLabel">Password <span class="text-danger select-asterisk" style="display:none;">*</span></label>
+                            <input type="password" name="Password" id="createStaffPassword" class="form-control" placeholder="Enter password" />
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label class="form-label fw-bold small">System Role</label>
-                            <select name="RoleId" class="form-select">
-                                <option value="">-- Select Role --</option>
-                                @foreach (var role in roles)
-                                {
-                                    <option value="@role.RoleId">@role.RoleName</option>
-                                }
-                            </select>
+                            <label class="form-label fw-bold small" id="createStaffConfirmPasswordLabel">Confirm Password <span class="text-danger select-asterisk" style="display:none;">*</span></label>
+                            <input type="password" id="createStaffConfirmPassword" class="form-control" placeholder="Confirm password" />
+                            <div class="invalid-feedback" id="createStaffConfirmPasswordError">Passwords do not match.</div>
                         </div>
                     </div>
                 </div>
@@ -272,11 +277,21 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold small">Specialization</label>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold small" id="editStaffRoleLabel">System Role <span class="text-danger select-asterisk" style="display:none;">*</span></label>
+                            <select name="RoleId" id="editStaffRole" class="form-select">
+                                <option value="">-- Select Role --</option>
+                                @foreach (var role in roles)
+                                {
+                                    <option value="@role.RoleId" data-role-name="@role.RoleName">@role.RoleName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3" id="editStaffSpecContainer">
+                            <label class="form-label fw-bold small" id="editStaffSpecLabel">Specialization <span class="text-danger select-asterisk" style="display:none;">*</span></label>
                             <input type="text" name="Specialization" id="editStaffSpec" class="form-control" />
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label class="form-label fw-bold small">Status</label>
                             <select name="Status" id="editStaffStatus" class="form-select">
                                 <option value="Active">Active</option>
@@ -288,22 +303,17 @@
                     <p class="text-muted small">Leave Password blank to keep current. Remove Username to delete account.</p>
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <label class="form-label fw-bold small">Username</label>
+                            <label class="form-label fw-bold small" id="editStaffUsernameLabel">Username</label>
                             <input type="text" name="Username" id="editStaffUsername" class="form-control" />
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label class="form-label fw-bold small">New Password</label>
-                            <input type="password" name="Password" class="form-control" placeholder="Leave blank to keep current" />
+                            <label class="form-label fw-bold small" id="editStaffPasswordLabel">New Password</label>
+                            <input type="password" name="Password" id="editStaffPassword" class="form-control" placeholder="Leave blank to keep current" />
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label class="form-label fw-bold small">System Role</label>
-                            <select name="RoleId" id="editStaffRole" class="form-select">
-                                <option value="">-- Select Role --</option>
-                                @foreach (var role in roles)
-                                {
-                                    <option value="@role.RoleId">@role.RoleName</option>
-                                }
-                            </select>
+                            <label class="form-label fw-bold small" id="editStaffConfirmPasswordLabel">Confirm New Password <span class="text-danger select-asterisk" style="display:none;">*</span></label>
+                            <input type="password" id="editStaffConfirmPassword" class="form-control" placeholder="Confirm new password" />
+                            <div class="invalid-feedback" id="editStaffConfirmPasswordError">Passwords do not match.</div>
                         </div>
                     </div>
                 </div>
@@ -386,6 +396,17 @@
             document.getElementById('editStaffUsername').value = username;
             document.getElementById('editStaffRole').value = roleId || '';
             document.getElementById('editStaffForm').action = '/Staffs/Edit/' + id;
+
+            // Reset passwords on modal load
+            document.getElementById('editStaffPassword').value = '';
+            document.getElementById('editStaffConfirmPassword').value = '';
+            document.getElementById('editStaffConfirmPassword').classList.remove('is-invalid');
+
+            // Trigger visual and input constraints logic for edit modal
+            toggleEditSpecialization();
+            toggleEditAccountFields();
+            toggleEditPasswordFields();
+
             new bootstrap.Modal(document.getElementById('editStaffModal')).show();
         }
 
@@ -394,5 +415,259 @@
             document.getElementById('deleteStaffForm').action = '/Staffs/Delete/' + id;
             new bootstrap.Modal(document.getElementById('deleteStaffModal')).show();
         }
+
+        function toggleCreateSpecialization() {
+            var select = document.getElementById('createStaffRole');
+            var selectedOption = select.options[select.selectedIndex];
+            var roleName = selectedOption ? selectedOption.getAttribute('data-role-name') : '';
+            var specInput = document.getElementById('createStaffSpec');
+            var asterisk = document.querySelector('#createStaffSpecContainer .select-asterisk');
+            
+            if (roleName && roleName.toLowerCase() === 'doctor') {
+                specInput.disabled = false;
+                specInput.required = true;
+                if (asterisk) asterisk.style.display = 'inline';
+            } else {
+                specInput.disabled = true;
+                specInput.required = false;
+                specInput.value = '';
+                if (asterisk) asterisk.style.display = 'none';
+            }
+        }
+
+        function toggleEditSpecialization() {
+            var select = document.getElementById('editStaffRole');
+            var selectedOption = select.options[select.selectedIndex];
+            var roleName = selectedOption ? selectedOption.getAttribute('data-role-name') : '';
+            var specInput = document.getElementById('editStaffSpec');
+            var asterisk = document.querySelector('#editStaffSpecContainer .select-asterisk');
+            
+            if (roleName && roleName.toLowerCase() === 'doctor') {
+                specInput.disabled = false;
+                specInput.required = true;
+                if (asterisk) asterisk.style.display = 'inline';
+            } else {
+                specInput.disabled = true;
+                specInput.required = false;
+                specInput.value = '';
+                if (asterisk) asterisk.style.display = 'none';
+            }
+        }
+
+        function toggleCreateAccountFields() {
+            var username = document.getElementById('createStaffUsername').value.trim();
+            var password = document.getElementById('createStaffPassword');
+            var confirmPassword = document.getElementById('createStaffConfirmPassword');
+            var roleSelect = document.getElementById('createStaffRole');
+            var pwdAsterisk = document.querySelector('#createStaffPasswordLabel .select-asterisk');
+            var confirmAsterisk = document.querySelector('#createStaffConfirmPasswordLabel .select-asterisk');
+            var roleAsterisk = document.querySelector('#createStaffRoleLabel .select-asterisk');
+
+            if (username.length > 0) {
+                password.required = true;
+                confirmPassword.required = true;
+                roleSelect.required = true;
+                if (pwdAsterisk) pwdAsterisk.style.display = 'inline';
+                if (confirmAsterisk) confirmAsterisk.style.display = 'inline';
+                if (roleAsterisk) roleAsterisk.style.display = 'inline';
+            } else {
+                password.required = false;
+                confirmPassword.required = false;
+                roleSelect.required = false;
+                if (pwdAsterisk) pwdAsterisk.style.display = 'none';
+                if (confirmAsterisk) confirmAsterisk.style.display = 'none';
+                if (roleAsterisk) roleAsterisk.style.display = 'none';
+            }
+        }
+
+        function toggleEditAccountFields() {
+            var username = document.getElementById('editStaffUsername').value.trim();
+            var roleSelect = document.getElementById('editStaffRole');
+            var roleAsterisk = document.querySelector('#editStaffRoleLabel .select-asterisk');
+
+            if (username.length > 0) {
+                roleSelect.required = true;
+                if (roleAsterisk) roleAsterisk.style.display = 'inline';
+            } else {
+                roleSelect.required = false;
+                if (roleAsterisk) roleAsterisk.style.display = 'none';
+            }
+        }
+
+        function toggleEditPasswordFields() {
+            var password = document.getElementById('editStaffPassword').value;
+            var confirmPassword = document.getElementById('editStaffConfirmPassword');
+            var confirmAsterisk = document.querySelector('#editStaffConfirmPasswordLabel .select-asterisk');
+
+            if (password.length > 0) {
+                confirmPassword.required = true;
+                if (confirmAsterisk) confirmAsterisk.style.display = 'inline';
+            } else {
+                confirmPassword.required = false;
+                if (confirmAsterisk) confirmAsterisk.style.display = 'none';
+            }
+        }
+
+        function validatePhoneField(inputElement, isSubmitOrBlur) {
+            var val = inputElement.value;
+            var feedback = inputElement.nextElementSibling;
+            if (!feedback || !feedback.classList.contains('invalid-feedback')) {
+                feedback = document.createElement('div');
+                feedback.className = 'invalid-feedback';
+                inputElement.parentNode.insertBefore(feedback, inputElement.nextSibling);
+            }
+            
+            if (val.length === 0) {
+                if (isSubmitOrBlur) {
+                    inputElement.classList.add('is-invalid');
+                    feedback.textContent = 'Phone number is required.';
+                } else {
+                    inputElement.classList.remove('is-invalid');
+                }
+                return false;
+            }
+            
+            if (val.length >= 2 && !/^(03|05|07|09)/.test(val)) {
+                inputElement.classList.add('is-invalid');
+                feedback.textContent = 'Phone number must start with 03, 05, 07, or 09.';
+                return false;
+            }
+            
+            if (val.length < 10) {
+                if (isSubmitOrBlur) {
+                    inputElement.classList.add('is-invalid');
+                    feedback.textContent = 'Phone number must be exactly 10 digits.';
+                } else {
+                    inputElement.classList.remove('is-invalid');
+                }
+                return false;
+            }
+            
+            inputElement.classList.remove('is-invalid');
+            return true;
+        }
+
+        function setupPhoneInput(phoneInput) {
+            if (!phoneInput) return;
+            
+            phoneInput.addEventListener('input', function() {
+                var cleanValue = this.value.replace(/\D/g, '');
+                if (cleanValue.length > 10) {
+                    cleanValue = cleanValue.substring(0, 10);
+                }
+                this.value = cleanValue;
+                validatePhoneField(this, false);
+            });
+            
+            phoneInput.addEventListener('blur', function() {
+                validatePhoneField(this, true);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup Phone Inputs
+            var createPhone = document.getElementById('createStaffPhone');
+            setupPhoneInput(createPhone);
+            var editPhone = document.getElementById('editStaffPhone');
+            setupPhoneInput(editPhone);
+
+            // Setup Create Modal Event Listeners
+            var createRole = document.getElementById('createStaffRole');
+            if (createRole) {
+                createRole.addEventListener('change', toggleCreateSpecialization);
+            }
+            var createUsername = document.getElementById('createStaffUsername');
+            if (createUsername) {
+                createUsername.addEventListener('input', toggleCreateAccountFields);
+            }
+
+            // Real-time password verification for Create
+            var createPassword = document.getElementById('createStaffPassword');
+            var createConfirmPassword = document.getElementById('createStaffConfirmPassword');
+            function validateCreatePasswordMatch() {
+                if (createConfirmPassword.value.length > 0 && createPassword.value !== createConfirmPassword.value) {
+                    createConfirmPassword.classList.add('is-invalid');
+                } else {
+                    createConfirmPassword.classList.remove('is-invalid');
+                }
+            }
+            if (createPassword && createConfirmPassword) {
+                createPassword.addEventListener('input', validateCreatePasswordMatch);
+                createConfirmPassword.addEventListener('input', validateCreatePasswordMatch);
+            }
+
+            // Setup Edit Modal Event Listeners
+            var editRole = document.getElementById('editStaffRole');
+            if (editRole) {
+                editRole.addEventListener('change', toggleEditSpecialization);
+            }
+            var editUsername = document.getElementById('editStaffUsername');
+            if (editUsername) {
+                editUsername.addEventListener('input', toggleEditAccountFields);
+            }
+
+            // Real-time password verification for Edit
+            var editPassword = document.getElementById('editStaffPassword');
+            var editConfirmPassword = document.getElementById('editStaffConfirmPassword');
+            function validateEditPasswordMatch() {
+                if (editConfirmPassword.value.length > 0 && editPassword.value !== editConfirmPassword.value) {
+                    editConfirmPassword.classList.add('is-invalid');
+                } else {
+                    editConfirmPassword.classList.remove('is-invalid');
+                }
+            }
+            if (editPassword && editConfirmPassword) {
+                editPassword.addEventListener('input', function() {
+                    toggleEditPasswordFields();
+                    validateEditPasswordMatch();
+                });
+                editConfirmPassword.addEventListener('input', validateEditPasswordMatch);
+            }
+
+            // Form submission hooks
+            var createForm = document.getElementById('createStaffForm');
+            if (createForm) {
+                createForm.addEventListener('submit', function(e) {
+                    var phone = document.getElementById('createStaffPhone');
+                    if (!validatePhoneField(phone, true)) {
+                        e.preventDefault();
+                        phone.focus();
+                        return;
+                    }
+
+                    var pwd = createPassword.value;
+                    var confirm = createConfirmPassword.value;
+                    if (pwd !== confirm) {
+                        e.preventDefault();
+                        createConfirmPassword.classList.add('is-invalid');
+                        createConfirmPassword.focus();
+                    }
+                });
+            }
+
+            var editForm = document.getElementById('editStaffForm');
+            if (editForm) {
+                editForm.addEventListener('submit', function(e) {
+                    var phone = document.getElementById('editStaffPhone');
+                    if (!validatePhoneField(phone, true)) {
+                        e.preventDefault();
+                        phone.focus();
+                        return;
+                    }
+
+                    var pwd = editPassword.value;
+                    var confirm = editConfirmPassword.value;
+                    if (pwd.length > 0 && pwd !== confirm) {
+                        e.preventDefault();
+                        editConfirmPassword.classList.add('is-invalid');
+                        editConfirmPassword.focus();
+                    }
+                });
+            }
+
+            // Initial trigger for create modal inputs
+            toggleCreateSpecialization();
+            toggleCreateAccountFields();
+        });
     </script>
 }

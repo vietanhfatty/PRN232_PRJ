@@ -67,6 +67,12 @@ public class MedicinesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateMedicineRequest request)
     {
+        if (User.IsInRole("Doctor"))
+        {
+            TempData["ErrorMessage"] = "Doctors are only allowed to view medicines, not modify them.";
+            return RedirectToAction(nameof(Index));
+        }
+
         if (!ModelState.IsValid)
         {
             TempData["ErrorMessage"] = GetFirstModelError();
@@ -93,6 +99,12 @@ public class MedicinesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, UpdateMedicineRequest request)
     {
+        if (User.IsInRole("Doctor"))
+        {
+            TempData["ErrorMessage"] = "Doctors are only allowed to view medicines, not modify them.";
+            return RedirectToAction(nameof(Index));
+        }
+
         if (!ModelState.IsValid)
         {
             TempData["ErrorMessage"] = GetFirstModelError();

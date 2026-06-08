@@ -13,17 +13,28 @@ namespace MyProject.WebMvc.Controllers;
 public class PatientsController : Controller
 {
     private readonly PatientApiService _patientService;
+    private readonly AppointmentApiService _appointmentService;
 
-    public PatientsController(PatientApiService patientService)
+    public PatientsController(PatientApiService patientService, AppointmentApiService appointmentService)
     {
         _patientService = patientService;
+        _appointmentService = appointmentService;
     }
 
     public async Task<IActionResult> Index(
         string? searchName, string? searchPhone, string? searchInsurance,
         string? filterGender, DateOnly? filterDobStart, DateOnly? filterDobEnd)
     {
+        if (User.IsInRole("Doctor"))
+        {
+            TempData["ErrorMessage"] = "Doctors are not authorized to view the general patient list.";
+            return RedirectToAction("Queue", "Appointments");
+        }
+
         var list = await _patientService.GetAllAsync();
+        var appointments = await _appointmentService.GetAllAsync();
+        var today = DateTime.Today;
+        ViewBag.TodayAppointments = appointments.Where(a => a.AppointmentDate.Date == today).ToList();
 
         if (!string.IsNullOrWhiteSpace(searchName))
         {
@@ -53,6 +64,12 @@ public class PatientsController : Controller
 
     public async Task<IActionResult> Details(int id)
     {
+        if (User.IsInRole("Doctor"))
+        {
+            TempData["ErrorMessage"] = "Doctors are not authorized to view detailed patient profiles.";
+            return RedirectToAction("Queue", "Appointments");
+        }
+
         var patient = await _patientService.GetByIdAsync(id);
         if (patient == null) return NotFound();
         return View(patient);
@@ -62,6 +79,12 @@ public class PatientsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreatePatientRequest request)
     {
+        if (User.IsInRole("Doctor"))
+        {
+            TempData["ErrorMessage"] = "Doctors are not authorized to register patients.";
+            return RedirectToAction("Queue", "Appointments");
+        }
+
         if (!ModelState.IsValid)
         {
             TempData["ErrorMessage"] = GetFirstModelError();
@@ -88,6 +111,12 @@ public class PatientsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, UpdatePatientRequest request)
     {
+        if (User.IsInRole("Doctor"))
+        {
+            TempData["ErrorMessage"] = "Doctors are not authorized to edit patient profiles.";
+            return RedirectToAction("Queue", "Appointments");
+        }
+
         if (!ModelState.IsValid)
         {
             TempData["ErrorMessage"] = GetFirstModelError();

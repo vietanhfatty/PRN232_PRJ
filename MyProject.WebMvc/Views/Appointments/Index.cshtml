@@ -26,14 +26,53 @@
         </div>
     </div>
 
-    <!-- Live filter search bar -->
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <div class="input-group">
-                <span class="input-group-text bg-white border-end-0">
-                    <i class="fa-solid fa-search text-muted"></i>
-                </span>
-                <input type="text" id="appointmentSearchInput" class="form-control border-start-0 rounded-end-3" placeholder="Search by patient or doctor name..." />
+    <!-- Advanced filters bar -->
+    <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="card-body p-3">
+            <div class="row g-3 align-items-end">
+                <!-- Patient Name search -->
+                <div class="col-md-3">
+                    <label for="patientSearchInput" class="form-label fw-bold small text-muted">Search Patient</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fa-solid fa-user text-muted"></i>
+                        </span>
+                        <input type="text" id="patientSearchInput" class="form-control border-start-0 rounded-end-3" placeholder="Search patient name..." />
+                    </div>
+                </div>
+
+                <!-- Doctor select dropdown -->
+                <div class="col-md-3">
+                    <label for="doctorFilterSelect" class="form-label fw-bold small text-muted">Filter Doctor</label>
+                    <select id="doctorFilterSelect" class="form-select rounded-3">
+                        <option value="">All Doctors</option>
+                        @foreach (var doc in doctors)
+                        {
+                            <option value="@doc.StaffId">@doc.FirstName @doc.LastName (@(string.IsNullOrEmpty(doc.Specialization) ? "General" : doc.Specialization))</option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Date Picker -->
+                <div class="col-md-3">
+                    <label for="dateFilterInput" class="form-label fw-bold small text-muted">Filter Date</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fa-solid fa-calendar text-muted"></i>
+                        </span>
+                        <input type="date" id="dateFilterInput" class="form-control border-start-0 rounded-end-3" />
+                    </div>
+                </div>
+
+                <!-- Quick Date Filters -->
+                <div class="col-md-3">
+                    <label class="form-label fw-bold small text-muted d-block">Quick Date Filters</label>
+                    <div class="btn-group w-100" role="group">
+                        <button type="button" id="btnFilterToday" class="btn btn-outline-primary px-2 py-2 text-nowrap">Today</button>
+                        <button type="button" id="btnFilterTomorrow" class="btn btn-outline-primary px-2 py-2 text-nowrap">Tomorrow</button>
+                        <button type="button" id="btnFilterThisWeek" class="btn btn-outline-primary px-2 py-2 text-nowrap">This Week</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -63,7 +102,7 @@
                             var safeReason = (item.Reason ?? "").Replace("'", "\\'").Replace("\n", " ").Replace("\r", "");
                             var apptDateStr = item.AppointmentDate.ToString("yyyy-MM-ddTHH:mm");
 
-                            <tr class="appt-row">
+                            <tr class="appt-row" data-doctor-id="@item.DoctorId" data-date="@item.AppointmentDate.ToString("yyyy-MM-dd")">
                                 <td class="ps-4 fw-bold text-secondary">#@item.AppointmentId</td>
                                 <td class="fw-bold text-dark appt-patient">@item.PatientName</td>
                                 <td class="appt-doctor">@item.DoctorName</td>
@@ -307,13 +346,126 @@
 
 @section Scripts {
     <script>
-        document.getElementById('appointmentSearchInput').addEventListener('keyup', function() {
-            var val = this.value.toLowerCase().trim();
+        const patientInput = document.getElementById('patientSearchInput');
+        const doctorSelect = document.getElementById('doctorFilterSelect');
+        const dateInput = document.getElementById('dateFilterInput');
+        const btnToday = document.getElementById('btnFilterToday');
+        const btnTomorrow = document.getElementById('btnFilterTomorrow');
+        const btnThisWeek = document.getElementById('btnFilterThisWeek');
+
+        let activeDateMode = 'today'; // 'today', 'tomorrow', 'thisweek', 'custom'
+
+        function getTodayDateString() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function getTomorrowDateString() {
+            const now = new Date();
+            now.setDate(now.getDate() + 1);
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Initialize default filter to Today
+        dateInput.value = getTodayDateString();
+        updateQuickButtonStyles();
+        applyFilters();
+
+        function updateQuickButtonStyles() {
+            btnToday.classList.toggle('active', activeDateMode === 'today');
+            btnToday.classList.toggle('btn-primary', activeDateMode === 'today');
+            btnToday.classList.toggle('btn-outline-primary', activeDateMode !== 'today');
+
+            btnTomorrow.classList.toggle('active', activeDateMode === 'tomorrow');
+            btnTomorrow.classList.toggle('btn-primary', activeDateMode === 'tomorrow');
+            btnTomorrow.classList.toggle('btn-outline-primary', activeDateMode !== 'tomorrow');
+
+            btnThisWeek.classList.toggle('active', activeDateMode === 'thisweek');
+            btnThisWeek.classList.toggle('btn-primary', activeDateMode === 'thisweek');
+            btnThisWeek.classList.toggle('btn-outline-primary', activeDateMode !== 'thisweek');
+        }
+
+        function applyFilters() {
+            const searchVal = patientInput.value.toLowerCase().trim();
+            const doctorVal = doctorSelect.value;
+            const dateVal = dateInput.value;
+
+            let weekStart = null;
+            let weekEnd = null;
+            if (activeDateMode === 'thisweek') {
+                const now = new Date();
+                const day = now.getDay();
+                const diffToMonday = now.getDate() - day + (day === 0 ? -6 : 1);
+                weekStart = new Date(now.setDate(diffToMonday));
+                weekStart.setHours(0,0,0,0);
+                
+                weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekStart.getDate() + 6);
+                weekEnd.setHours(23,59,59,999);
+            }
+
             document.querySelectorAll('.appt-row').forEach(function(row) {
-                var pat = row.querySelector('.appt-patient').textContent.toLowerCase();
-                var doc = row.querySelector('.appt-doctor').textContent.toLowerCase();
-                row.style.display = (pat.includes(val) || doc.includes(val)) ? '' : 'none';
+                const patientName = row.querySelector('.appt-patient').textContent.toLowerCase();
+                const matchesPatient = patientName.includes(searchVal);
+
+                const rowDoctorId = row.getAttribute('data-doctor-id');
+                const matchesDoctor = !doctorVal || rowDoctorId === doctorVal;
+
+                const rowDateStr = row.getAttribute('data-date');
+                let matchesDate = false;
+
+                if (activeDateMode === 'thisweek') {
+                    const rowDate = new Date(rowDateStr);
+                    rowDate.setHours(0,0,0,0);
+                    matchesDate = rowDate >= weekStart && rowDate <= weekEnd;
+                } else if (dateVal) {
+                    matchesDate = rowDateStr === dateVal;
+                } else {
+                    matchesDate = true;
+                }
+
+                if (matchesPatient && matchesDoctor && matchesDate) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
             });
+        }
+
+        patientInput.addEventListener('keyup', applyFilters);
+        doctorSelect.addEventListener('change', applyFilters);
+        
+        dateInput.addEventListener('change', function() {
+            activeDateMode = 'custom';
+            updateQuickButtonStyles();
+            applyFilters();
+        });
+
+        btnToday.addEventListener('click', function() {
+            activeDateMode = 'today';
+            dateInput.value = getTodayDateString();
+            updateQuickButtonStyles();
+            applyFilters();
+        });
+
+        btnTomorrow.addEventListener('click', function() {
+            activeDateMode = 'tomorrow';
+            dateInput.value = getTomorrowDateString();
+            updateQuickButtonStyles();
+            applyFilters();
+        });
+
+        btnThisWeek.addEventListener('click', function() {
+            activeDateMode = 'thisweek';
+            dateInput.value = ''; // Clear picker to show it's a range
+            updateQuickButtonStyles();
+            applyFilters();
         });
 
         function openEditAppointmentModal(id, patientId, doctorId, apptDate, type, status, queueNumber, reason) {

@@ -52,4 +52,20 @@ public class StaffRepository : IStaffRepository
             await _context.SaveChangesAsync();
         }
     }
+
+    public async Task<Staff?> GetByPhoneAsync(string phone)
+    {
+        return await _context.Staffs
+            .Include(s => s.Account)
+                .ThenInclude(a => a.Role)
+            .FirstOrDefaultAsync(s => s.Phone == phone);
+    }
+
+    public async Task<Staff?> GetByEmailAsync(string email)
+    {
+        return await _context.Staffs
+            .Include(s => s.Account)
+                .ThenInclude(a => a.Role)
+            .FirstOrDefaultAsync(s => s.Email == email);
+    }
 }
