@@ -9,7 +9,7 @@ using MyProject.Application.Services;
 
 namespace MyProject.WebMvc.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class PatientsController : Controller
 {
     private readonly PatientApiService _patientService;

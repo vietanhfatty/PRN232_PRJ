@@ -10,7 +10,7 @@ using MyProject.Application.Services;
 
 namespace MyProject.WebMvc.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin,Doctor")]
 public class AppointmentsController : Controller
 {
     private readonly AppointmentApiService _appointmentService;
@@ -59,7 +59,7 @@ public class AppointmentsController : Controller
         var list = await _appointmentService.GetAllAsync();
         var today = DateOnly.FromDateTime(DateTime.Today);
         var queue = list
-            .Where(a => a.DoctorId == doctor.DoctorId && a.Status == "Confirmed" && a.AppointmentDate == today)
+            .Where(a => a.DoctorId == doctor.DoctorId && (a.Status == "Confirmed" || a.Status == "InProgress") && a.AppointmentDate == today)
             .OrderBy(a => a.AppointmentTime)
             .ToList();
 
@@ -103,6 +103,7 @@ public class AppointmentsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create(int? patientId)
     {
         await PopulateDropdownsViewBag();
@@ -118,6 +119,7 @@ public class AppointmentsController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateAppointmentRequest request)
     {
@@ -148,6 +150,7 @@ public class AppointmentsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(int id)
     {
         var appt = await _appointmentService.GetByIdAsync(id);
@@ -168,6 +171,7 @@ public class AppointmentsController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, UpdateAppointmentRequest request)
     {
@@ -198,15 +202,10 @@ public class AppointmentsController : Controller
     }
 
     [HttpPost, ActionName("Delete")]
+    [Authorize(Roles = "Admin")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        if (!User.IsInRole("Admin"))
-        {
-            TempData["ErrorMessage"] = "Only Administrators can delete appointments.";
-            return RedirectToAction(nameof(Index));
-        }
-
         try
         {
             await _appointmentService.DeleteAsync(id);
@@ -240,45 +239,67 @@ public class AppointmentsController : Controller
     }
 
     [HttpPost]
-    [Authorize(Roles = "Doctor")]
+    [Authorize(Roles = "Doctor,Admin")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ScheduleFollowup(int patientId, DateTime appointmentDate, string? reason)
+    public async Task<IActionResult> Confirm(int id)
     {
-        var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
-        {
-            TempData["ErrorMessage"] = "Could not identify logged-in user.";
-            return RedirectToAction(nameof(Index));
-        }
-
-        var doctors = await _doctorService.GetAllAsync();
-        var doctor = doctors.FirstOrDefault(d => d.UserId == userId);
-        if (doctor == null)
-        {
-            TempData["ErrorMessage"] = "Could not identify logged-in doctor profile.";
-            return RedirectToAction(nameof(Index));
-        }
-
         try
         {
-            var request = new CreateAppointmentRequest(
-                PatientId: patientId,
-                DoctorId: doctor.DoctorId,
-                AppointmentDate: DateOnly.FromDateTime(appointmentDate),
-                AppointmentTime: TimeSpan.FromHours(9),
-                Status: "Pending",
-                Reason: string.IsNullOrWhiteSpace(reason) ? "Follow-up consultation booked by Doctor" : reason
-            );
-
-            await _appointmentService.CreateAsync(request);
-            TempData["SuccessMessage"] = "Follow-up appointment scheduled successfully.";
+            await _appointmentService.ConfirmAsync(id);
+            TempData["SuccessMessage"] = "Appointment confirmed successfully.";
         }
         catch (Exception ex)
         {
             TempData["ErrorMessage"] = ex.Message;
         }
+        
+        var referer = Request.Headers["Referer"].ToString();
+        if (!string.IsNullOrEmpty(referer))
+        {
+            return Redirect(referer);
+        }
+        return RedirectToAction(nameof(Queue));
+    }
 
-        return RedirectToAction(nameof(MyAppointments));
+    [HttpPost]
+    [Authorize(Roles = "Doctor")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> StartExamination(int id)
+    {
+        try
+        {
+            await _appointmentService.StartExaminationAsync(id);
+            TempData["SuccessMessage"] = "Examination started.";
+        }
+        catch (Exception ex)
+        {
+            TempData["ErrorMessage"] = ex.Message;
+        }
+        
+        var referer = Request.Headers["Referer"].ToString();
+        if (!string.IsNullOrEmpty(referer))
+        {
+            return Redirect(referer);
+        }
+        return RedirectToAction(nameof(Queue));
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Doctor")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Complete(int id)
+    {
+        try
+        {
+            await _appointmentService.CompleteAsync(id);
+            TempData["SuccessMessage"] = "Appointment completed. Please write the medical record.";
+            return RedirectToAction("Create", "MedicalRecords", new { appointmentId = id });
+        }
+        catch (Exception ex)
+        {
+            TempData["ErrorMessage"] = ex.Message;
+            return RedirectToAction(nameof(Queue));
+        }
     }
 
     private async Task PopulateDropdownsViewBag()

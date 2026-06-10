@@ -102,6 +102,64 @@ public class AppointmentService
         await _repo.UpdateAsync(appointment);
     }
 
+    public async Task ConfirmAsync(int id)
+    {
+        var appointment = await _repo.GetByIdAsync(id)
+            ?? throw new KeyNotFoundException($"Appointment with ID {id} not found");
+
+        if (appointment.Status != "Pending")
+        {
+            throw new InvalidOperationException($"Cannot confirm. Current status is '{appointment.Status}' but must be 'Pending'.");
+        }
+
+        appointment.Status = "Confirmed";
+        await _repo.UpdateAsync(appointment);
+    }
+
+    public async Task StartExaminationAsync(int id)
+    {
+        var appointment = await _repo.GetByIdAsync(id)
+            ?? throw new KeyNotFoundException($"Appointment with ID {id} not found");
+
+        if (appointment.Status != "Confirmed")
+        {
+            throw new InvalidOperationException($"Cannot start examination. Current status is '{appointment.Status}' but must be 'Confirmed'.");
+        }
+
+        appointment.Status = "InProgress";
+        await _repo.UpdateAsync(appointment);
+    }
+
+    public async Task CompleteAsync(int id)
+    {
+        var appointment = await _repo.GetByIdAsync(id)
+            ?? throw new KeyNotFoundException($"Appointment with ID {id} not found");
+
+        if (appointment.Status != "InProgress")
+        {
+            throw new InvalidOperationException($"Cannot complete appointment. Current status is '{appointment.Status}' but must be 'InProgress'.");
+        }
+
+        appointment.Status = "Completed";
+        await _repo.UpdateAsync(appointment);
+    }
+
+    public async Task<IEnumerable<AppointmentDto>> GetByPatientUserIdAsync(int userId)
+    {
+        var list = await _repo.GetAllAsync();
+        return list
+            .Where(a => a.Patient != null && a.Patient.UserId == userId)
+            .Select(MapToDto);
+    }
+
+    public async Task<IEnumerable<AppointmentDto>> GetByPatientIdAsync(int patientId)
+    {
+        var list = await _repo.GetAllAsync();
+        return list
+            .Where(a => a.PatientId == patientId)
+            .Select(MapToDto);
+    }
+
     private AppointmentDto MapToDto(Appointment a)
     {
         return new AppointmentDto(

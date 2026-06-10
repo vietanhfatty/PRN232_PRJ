@@ -37,6 +37,11 @@ namespace MyProject.WebMvc.Controllers
                 return RedirectToAction("Queue", "Appointments");
             }
 
+            if (User.IsInRole("Patient"))
+            {
+                return RedirectToAction("Dashboard", "PatientPortal");
+            }
+
             var patients = await _patientService.GetAllAsync();
             var doctors = await _doctorRepo.GetAllAsync();
             var appointments = await _appointmentService.GetAllAsync();

@@ -21,7 +21,9 @@ public class AppointmentRepository : IAppointmentRepository
     {
         return await _context.Appointments
             .Include(a => a.Patient)
+                .ThenInclude(p => p.User)
             .Include(a => a.Doctor)
+                .ThenInclude(d => d.User)
             .ToListAsync();
     }
 
@@ -29,7 +31,9 @@ public class AppointmentRepository : IAppointmentRepository
     {
         return await _context.Appointments
             .Include(a => a.Patient)
+                .ThenInclude(p => p.User)
             .Include(a => a.Doctor)
+                .ThenInclude(d => d.User)
             .FirstOrDefaultAsync(a => a.AppointmentId == id);
     }
 

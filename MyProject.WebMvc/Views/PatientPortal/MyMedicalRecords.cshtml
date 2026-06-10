@@ -1,0 +1,66 @@
+@model IEnumerable<MyProject.Application.DTOs.MedicalRecordDto>
+
+@{
+    ViewData["Title"] = "My Medical Records";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800"><i class="fa-solid fa-file-prescription text-success me-2"></i>My Medical Records</h1>
+            <p class="text-muted small mb-0">Confidential clinical diagnosis and prescriptions from your attending doctors.</p>
+        </div>
+    </div>
+
+    <!-- Records card list -->
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-header bg-white py-3">
+            <h6 class="m-0 fw-bold text-success">Clinical Records Archive (@Model.Count() records)</h6>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light text-uppercase font-monospace fs-7">
+                        <tr>
+                            <th class="ps-4">Record ID</th>
+                            <th>Doctor</th>
+                            <th>Date Created</th>
+                            <th>Diagnosis</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted">
+                                    <i class="fa-solid fa-notes-medical fa-3x mb-3 text-secondary"></i>
+                                    <p class="mb-0 fw-bold">No clinical files released yet.</p>
+                                    <p class="small text-muted mb-0">Records are automatically updated once doctors complete consultations.</p>
+                                </td>
+                            </tr>
+                        }
+                        @foreach (var rec in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold text-secondary">#@rec.MedicalRecordId</td>
+                                <td class="fw-bold text-dark">@rec.DoctorName</td>
+                                <td>@rec.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>
+                                    <span class="fw-bold text-dark">
+                                        @(string.IsNullOrEmpty(rec.Diagnosis) ? "N/A" : rec.Diagnosis.Length > 50 ? rec.Diagnosis.Substring(0, 47) + "..." : rec.Diagnosis)
+                                    </span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <a asp-controller="MedicalRecords" asp-action="Details" asp-route-id="@rec.MedicalRecordId" class="btn btn-sm btn-outline-success rounded-pill px-3">
+                                        <i class="fa-solid fa-file-medical me-1"></i> View Details
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

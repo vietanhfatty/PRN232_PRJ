@@ -1,0 +1,145 @@
+@model MyProject.Application.DTOs.PatientDto
+
+@{
+    ViewData["Title"] = "Patient Portal Dashboard";
+    var upcoming = ViewBag.UpcomingAppointments as List<MyProject.Application.DTOs.AppointmentDto> ?? new List<MyProject.Application.DTOs.AppointmentDto>();
+}
+
+<div class="container mt-4">
+    <!-- Welcome banner -->
+    <div class="card shadow-sm border-0 rounded-4 bg-white p-4 mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2 class="fw-bold text-dark">Hello, @Model.FullName!</h2>
+                <p class="text-muted mb-0">Welcome to your Personal Health Portal. Access your records, book new appointments, and view histories.</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <a asp-action="BookAppointment" class="btn btn-success rounded-pill px-4 py-2">
+                    <i class="fa-solid fa-calendar-plus me-1"></i> Book Appointment
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats and Quick Actions Row -->
+    <div class="row mb-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-3 h-100">
+                <div class="d-flex align-items-center">
+                    <div class="bg-primary-subtle text-primary rounded-circle p-3 me-3">
+                        <i class="fa-solid fa-calendar-days fa-lg"></i>
+                    </div>
+                    <div>
+                        <div class="text-muted small">Total Bookings</div>
+                        <div class="fs-4 fw-bold">@upcoming.Count</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-3 h-100">
+                <div class="d-flex align-items-center">
+                    <div class="bg-warning-subtle text-warning rounded-circle p-3 me-3">
+                        <i class="fa-solid fa-hourglass-half fa-lg"></i>
+                    </div>
+                    <div>
+                        <div class="text-muted small">Pending Approvals</div>
+                        <div class="fs-4 fw-bold">@upcoming.Count(a => a.Status == "Pending")</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-3 h-100">
+                <div class="d-flex align-items-center">
+                    <div class="bg-success-subtle text-success rounded-circle p-3 me-3">
+                        <i class="fa-solid fa-shield-heart fa-lg"></i>
+                    </div>
+                    <div>
+                        <div class="text-muted small">Blood Type</div>
+                        <div class="fs-4 fw-bold">@(string.IsNullOrEmpty(Model.BloodType) ? "N/A" : Model.BloodType)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-3 h-100">
+                <div class="d-flex align-items-center">
+                    <div class="bg-info-subtle text-info rounded-circle p-3 me-3">
+                        <i class="fa-solid fa-hospital-user fa-lg"></i>
+                    </div>
+                    <div>
+                        <div class="text-muted small">My Profile</div>
+                        <a asp-action="MyProfile" class="small text-decoration-none text-info fw-bold">Edit Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Schedules Table -->
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-header bg-white py-3">
+            <h6 class="m-0 fw-bold text-success">Upcoming Active Schedules</h6>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light text-uppercase font-monospace fs-7">
+                        <tr>
+                            <th class="ps-4">Appointment ID</th>
+                            <th>Attending Doctor</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                            <th>Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!upcoming.Any())
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center py-5 text-muted">
+                                    <i class="fa-solid fa-calendar-xmark fa-3x mb-3 text-secondary"></i>
+                                    <p class="mb-0 fw-bold">No active appointments scheduled!</p>
+                                    <p class="small text-muted mb-0">Book a new appointment using the button above.</p>
+                                </td>
+                            </tr>
+                        }
+                        @foreach (var app in upcoming)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold text-secondary">#@app.AppointmentId</td>
+                                <td class="fw-bold text-dark">@app.DoctorName</td>
+                                <td>@app.AppointmentDate.ToString("yyyy-MM-dd")</td>
+                                <td>@app.AppointmentTime.ToString(@"hh\:mm")</td>
+                                <td>
+                                    @if (app.Status == "Pending")
+                                    {
+                                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-2">Pending</span>
+                                    }
+                                    else if (app.Status == "Confirmed")
+                                    {
+                                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2">Confirmed</span>
+                                    }
+                                    else if (app.Status == "InProgress")
+                                    {
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2">In Progress</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2">@app.Status</span>
+                                    }
+                                </td>
+                                <td class="text-muted small">@(string.IsNullOrEmpty(app.Reason) ? "General consultation" : app.Reason)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

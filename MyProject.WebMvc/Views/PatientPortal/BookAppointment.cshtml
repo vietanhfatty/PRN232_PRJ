@@ -1,0 +1,95 @@
+@model MyProject.Application.DTOs.CreateAppointmentRequest
+
+@{
+    ViewData["Title"] = "Book Consultation";
+    var doctors = ViewBag.Doctors as List<MyProject.Application.DTOs.DoctorDto> ?? new List<MyProject.Application.DTOs.DoctorDto>();
+}
+
+<div class="container mt-4">
+    <div class="mb-4">
+        <a asp-action="Dashboard" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+            <i class="fa-solid fa-arrow-left me-1"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 rounded-4 bg-white p-4">
+                <h3 class="fw-bold text-dark mb-2"><i class="fa-solid fa-calendar-plus text-success me-2"></i>Book a Consultation</h3>
+                <p class="text-muted small border-bottom pb-3 mb-4">Fill in the details below to request a new consultation with our specialist doctors.</p>
+
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger mb-4" role="alert">
+                        <i class="fa-solid fa-circle-exclamation me-2"></i>@TempData["ErrorMessage"]
+                    </div>
+                }
+
+                <form asp-action="BookAppointment" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="PatientId" />
+                    <input type="hidden" asp-for="Status" value="Pending" />
+
+                    <!-- Select Doctor -->
+                    <div class="mb-4">
+                        <label asp-for="DoctorId" class="form-label fw-bold text-muted small">Select Doctor (Bác sĩ chuyên khoa)*</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-user-md text-muted"></i></span>
+                            <select asp-for="DoctorId" class="form-select border-start-0 rounded-end-3" required>
+                                <option value="">-- Choose Attending Physician --</option>
+                                @foreach (var doc in doctors)
+                                {
+                                    <option value="@doc.DoctorId">@doc.FullName (@doc.Specialization)</option>
+                                }
+                            </select>
+                        </div>
+                        <span asp-validation-for="DoctorId" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Date & Time -->
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="AppointmentDate" class="form-label fw-bold text-muted small">Appointment Date (Ngày khám)*</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-calendar-alt text-muted"></i></span>
+                                <input asp-for="AppointmentDate" type="date" class="form-control border-start-0 rounded-end-3" min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" required />
+                            </div>
+                            <span asp-validation-for="AppointmentDate" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="AppointmentTime" class="form-label fw-bold text-muted small">Preferred Time (Giờ khám)*</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-clock text-muted"></i></span>
+                                <select asp-for="AppointmentTime" class="form-select border-start-0 rounded-end-3" required>
+                                    <option value="08:00:00">08:00 AM</option>
+                                    <option value="09:00:00">09:00 AM</option>
+                                    <option value="10:00:00">10:00 AM</option>
+                                    <option value="11:00:00">11:00 AM</option>
+                                    <option value="13:30:00">01:30 PM</option>
+                                    <option value="14:30:00">02:30 PM</option>
+                                    <option value="15:30:00">03:30 PM</option>
+                                    <option value="16:30:00">04:30 PM</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="AppointmentTime" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Reason -->
+                    <div class="mb-4">
+                        <label asp-for="Reason" class="form-label fw-bold text-muted small">Reason for Visit (Lý do khám bệnh)*</label>
+                        <textarea asp-for="Reason" class="form-control rounded-3" rows="3" placeholder="Tell us briefly about your symptoms or medical concern..." required></textarea>
+                        <span asp-validation-for="Reason" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-success rounded-pill py-2 fw-bold">
+                            Request Appointment <i class="fa-solid fa-paper-plane ms-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -100,4 +100,79 @@ public class AppointmentsController : ControllerBase
             return StatusCode(500, new { Message = ex.InnerException?.Message ?? ex.Message });
         }
     }
+
+    [HttpPost("{id}/confirm")]
+    [Authorize(Roles = "Doctor,Admin")]
+    public async Task<IActionResult> Confirm(int id)
+    {
+        try
+        {
+            await _service.ConfirmAsync(id);
+            return Ok(new { Message = "Appointment confirmed successfully." });
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new { Message = ex.Message });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { Message = ex.InnerException?.Message ?? ex.Message });
+        }
+    }
+
+    [HttpPost("{id}/start")]
+    [Authorize(Roles = "Doctor")]
+    public async Task<IActionResult> StartExamination(int id)
+    {
+        try
+        {
+            await _service.StartExaminationAsync(id);
+            return Ok(new { Message = "Examination started." });
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new { Message = ex.Message });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { Message = ex.InnerException?.Message ?? ex.Message });
+        }
+    }
+
+    [HttpPost("{id}/complete")]
+    [Authorize(Roles = "Doctor")]
+    public async Task<IActionResult> Complete(int id)
+    {
+        try
+        {
+            await _service.CompleteAsync(id);
+            return Ok(new { Message = "Appointment completed." });
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new { Message = ex.Message });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { Message = ex.InnerException?.Message ?? ex.Message });
+        }
+    }
+
+    [HttpGet("by-patient/{patientId}")]
+    public async Task<IActionResult> GetByPatient(int patientId)
+    {
+        return Ok(await _service.GetByPatientIdAsync(patientId));
+    }
 }
