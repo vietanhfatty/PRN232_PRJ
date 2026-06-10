@@ -53,6 +53,7 @@ public class PatientsController : ControllerBase
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> Create([FromBody] CreatePatientRequest request)
     {
         try

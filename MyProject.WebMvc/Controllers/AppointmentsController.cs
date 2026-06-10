@@ -95,6 +95,35 @@ public class AppointmentsController : Controller
         return View(myAppointments);
     }
 
+    [Authorize(Roles = "Doctor")]
+    public async Task<IActionResult> MySchedule()
+    {
+        var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+        {
+            TempData["ErrorMessage"] = "Could not identify logged-in user.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        var doctors = await _doctorService.GetAllAsync();
+        var doctor = doctors.FirstOrDefault(d => d.UserId == userId);
+        if (doctor == null)
+        {
+            TempData["ErrorMessage"] = "Could not identify logged-in doctor profile.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        var list = await _appointmentService.GetAllAsync();
+        var myAppointments = list
+            .Where(a => a.DoctorId == doctor.DoctorId && (a.Status == "Confirmed" || a.Status == "InProgress" || a.Status == "Completed"))
+            .OrderBy(a => a.AppointmentDate)
+            .ThenBy(a => a.AppointmentTime)
+            .ToList();
+
+        ViewBag.DoctorName = User.FindFirst("FullName")?.Value ?? User.Identity?.Name;
+        return View(myAppointments);
+    }
+
     public async Task<IActionResult> Details(int id)
     {
         var appointment = await _appointmentService.GetByIdAsync(id);

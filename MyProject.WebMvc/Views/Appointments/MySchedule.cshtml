@@ -1,0 +1,442 @@
+@model IEnumerable<MyProject.Application.DTOs.AppointmentDto>
+
+@{
+    ViewData["Title"] = "My Schedule";
+    var doctorName = ViewBag.DoctorName as string ?? "Doctor";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet" />
+
+<style>
+    /* Make the calendar time slots taller so that event text has enough vertical space */
+    .fc-timegrid-slot, .fc-timegrid-slot-lane {
+        height: 70px !important;
+    }
+
+    .fc-v-event .fc-event-main {
+        padding: 0 !important;
+    }
+
+    .fc-v-event {
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .custom-calendar-event {
+        transition: all 0.2s ease;
+    }
+
+    .custom-calendar-event:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+        filter: brightness(0.98);
+        cursor: pointer;
+    }
+</style>
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800"><i class="fa-solid fa-calendar-days text-primary me-2"></i>My Schedule</h1>
+            <p class="text-muted small mb-0">Interactive agenda and scheduled patient visits for Dr. <strong>@doctorName</strong></p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="Queue" class="btn btn-success shadow-sm rounded-pill px-4">
+                <i class="fa-solid fa-people-queue me-1"></i> My Waiting Queue
+            </a>
+            <a asp-action="MyAppointments" class="btn btn-outline-primary shadow-sm rounded-pill px-4">
+                <i class="fa-solid fa-list me-1"></i> List View
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4 p-4 bg-white mb-4">
+        <div id="calendar" style="min-height: 650px;"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="apptDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header text-white rounded-top-4" id="modalHeaderBg">
+                <h5 class="modal-title fw-bold" id="modalApptTitle">
+                    <i class="fa-solid fa-clock-rotate-left me-2"></i>Appointment Details
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="avatar-circle avatar-blue me-3" id="patientAvatarInitials">
+                        PT
+                    </div>
+                    <div>
+                        <h4 class="fw-bold text-dark mb-0" id="detailPatientName">Patient Name</h4>
+                        <span class="badge rounded-pill px-2.5 py-1 text-uppercase font-monospace fs-8 mt-1" id="detailStatusBadge">Pending</span>
+                    </div>
+                </div>
+
+                <hr class="text-muted opacity-25" />
+
+                <div class="row g-3">
+                    <div class="col-6">
+                        <span class="text-muted small d-block">Date</span>
+                        <strong class="text-dark" id="detailDate"><i class="fa-regular fa-calendar-days me-1 text-primary"></i> 2026-06-11</strong>
+                    </div>
+                    <div class="col-6">
+                        <span class="text-muted small d-block">Time</span>
+                        <strong class="text-dark" id="detailTime"><i class="fa-regular fa-clock me-1 text-primary"></i> 09:30 AM</strong>
+                    </div>
+                    <div class="col-12">
+                        <span class="text-muted small d-block">Reason for Visit</span>
+                        <p class="text-secondary small mb-0 p-2.5 bg-light rounded-3 border-start border-primary border-3" id="detailReason">No reason specified</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0 justify-content-between">
+                <div>
+                    <form id="formConfirm" asp-action="Confirm" method="post" class="d-none">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" id="confirmId" />
+                        <button type="submit" class="btn btn-success rounded-pill px-4">
+                            <i class="fa-solid fa-check me-1"></i> Confirm Booking
+                        </button>
+                    </form>
+
+                    <form id="formStart" asp-action="StartExamination" method="post" class="d-none">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" id="startId" />
+                        <button type="submit" class="btn btn-primary rounded-pill px-4">
+                            <i class="fa-solid fa-play me-1"></i> Start Exam
+                        </button>
+                    </form>
+
+                    <form id="formComplete" asp-action="Complete" method="post" class="d-none">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" id="completeId" />
+                        <button type="submit" class="btn btn-success rounded-pill px-4">
+                            <i class="fa-solid fa-circle-check me-1"></i> Complete Exam
+                        </button>
+                    </form>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a id="btnRecordLink" asp-action="Details" class="btn btn-outline-info rounded-pill px-3">
+                        <i class="fa-solid fa-folder-open me-1"></i> Patient Record
+                    </a>
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarEl = document.getElementById('calendar');
+
+            // Build raw events list from server model
+            const rawEvents = [
+                @foreach (var appt in Model)
+                {
+                        var startIso = $"{appt.AppointmentDate:yyyy-MM-dd}T{appt.AppointmentTime:hh\\:mm\\:ss}";
+                        var end = appt.AppointmentTime.Add(TimeSpan.FromMinutes(30));
+                        var endIso = $"{appt.AppointmentDate:yyyy-MM-dd}T{end:hh\\:mm\\:ss}";
+
+                        <text>
+                        {
+                            id: "@appt.AppointmentId",
+                            title: "@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(appt.PatientName))",
+                            start: "@startIso",
+                            end: "@endIso",
+                            extendedProps: {
+                                status: "@appt.Status",
+                                reason: "@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(appt.Reason ?? ""))",
+                                patientName: "@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(appt.PatientName))",
+                                dateStr: "@appt.AppointmentDate.ToString("yyyy-MM-dd")",
+                                timeStr: "@appt.AppointmentTime.ToString(@"hh\:mm")"
+                            },
+                            color: getEventColor("@appt.Status"),
+                            textColor: "#ffffff"
+                        },
+                        </text>
+                }
+            ];
+
+            // Group events by date and time
+            const groups = {};
+            rawEvents.forEach(evt => {
+                const key = `${evt.extendedProps.dateStr}_${evt.extendedProps.timeStr}`;
+                if (!groups[key]) groups[key] = [];
+                groups[key].push(evt);
+            });
+
+            const events = [];
+            Object.keys(groups).forEach(key => {
+                const list = groups[key];
+                const count = list.length;
+
+                // Chia đều 30 phút của ca khám cho tổng số lịch khám trong ca đó
+                const durationPerEvent = 30 / count;
+
+                list.forEach((evt, index) => {
+                    const datePart = evt.start.substring(0, 11); // "2026-06-12T"
+                    const timePart = evt.start.substring(11);    // "08:00:00"
+                    const parts = timePart.split(':');
+                    const startHour = parseInt(parts[0], 10);
+                    const startMin = parseInt(parts[1], 10);
+
+                    // Tính thời gian bắt đầu mới cho từng dòng
+                    let newStartMin = startMin + Math.round(index * durationPerEvent);
+                    let newStartHr = startHour + Math.floor(newStartMin / 60);
+                    newStartMin = newStartMin % 60;
+
+                    // Tính thời gian kết thúc mới cho từng dòng
+                    let newEndMin = startMin + Math.round((index + 1) * durationPerEvent);
+                    let newEndHr = startHour + Math.floor(newEndMin / 60);
+                    newEndMin = newEndMin % 60;
+
+                    // Cập nhật lại thời gian start/end để FullCalendar xếp dọc thành dòng riêng biệt
+                    evt.start = `${datePart}${String(newStartHr).padStart(2, '0')}:${String(newStartMin).padStart(2, '0')}:00`;
+                    evt.end = `${datePart}${String(newEndHr).padStart(2, '0')}:${String(newEndMin).padStart(2, '0')}:00`;
+
+                    // Cập nhật lại extendedProps.timeStr để hiển thị đúng thời gian ca khám thực tế
+                    evt.extendedProps.timeStr = `${String(newStartHr).padStart(2, '0')}:${String(newStartMin).padStart(2, '0')}`;
+
+                    events.push(evt);
+                });
+            });
+
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                slotMinTime: '08:00:00',
+                slotMaxTime: '18:00:00',
+                expandRows: true,
+                allDaySlot: false,
+                navLinks: true,
+                editable: false,
+                selectable: false,
+                nowIndicator: true,
+                events: events,
+
+                eventContent: function(arg) {
+                    const status = arg.event.extendedProps.status;
+                    const timeStr = arg.event.extendedProps.timeStr;
+                    const title = arg.event.title;
+
+                    // Get customized styles for different statuses
+                    let style = {
+                        bg: "#f8fafc",
+                        borderLeft: "4px solid #64748b",
+                        text: "#334155",
+                        icon: "fa-solid fa-calendar"
+                    };
+
+                    if (status === "Confirmed") {
+                        style = {
+                            bg: "#eff6ff",
+                            borderLeft: "4px solid #3b82f6",
+                            text: "#1e40af",
+                            icon: "fa-solid fa-calendar-check"
+                        };
+                    } else if (status === "InProgress") {
+                        style = {
+                            bg: "#e0e7ff",
+                            borderLeft: "4px solid #4f46e5",
+                            text: "#3730a3",
+                            icon: "fa-solid fa-spinner fa-spin"
+                        };
+                    } else if (status === "Completed") {
+                        style = {
+                            bg: "#ecfdf5",
+                            borderLeft: "4px solid #10b981",
+                            text: "#065f46",
+                            icon: "fa-solid fa-circle-check"
+                        };
+                    } else if (status === "Pending") {
+                        style = {
+                            bg: "#fffbeb",
+                            borderLeft: "4px solid #f59e0b",
+                            text: "#92400e",
+                            icon: "fa-regular fa-clock"
+                        };
+                    } else if (status === "Cancelled") {
+                        style = {
+                            bg: "#fef2f2",
+                            borderLeft: "4px solid #ef4444",
+                            text: "#991b1b",
+                            icon: "fa-solid fa-circle-xmark"
+                        };
+                    }
+
+                    // Calculate duration in minutes
+                    const durationMins = (arg.event.end - arg.event.start) / (1000 * 60);
+                    const isCompact = durationMins < 14;
+
+                    if (isCompact) {
+                        return {
+                            html: `<div class="custom-calendar-event" style="
+                                     background-color: ${style.bg};
+                                     border-left: ${style.borderLeft};
+                                     color: ${style.text};
+                                     height: 100%;
+                                     width: 100%;
+                                     border-radius: 4px;
+                                     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+                                     box-sizing: border-box;
+                                     display: flex;
+                                     align-items: center;
+                                     padding: 2px 6px;
+                                     gap: 6px;
+                                     overflow: hidden;
+                                   ">
+                                     <i class="${style.icon}" style="font-size: 10px; flex-shrink: 0; opacity: 0.85;"></i>
+                                     <span style="font-size: 10px; font-weight: 600; flex-shrink: 0; opacity: 0.9;">${timeStr}</span>
+                                     <span style="opacity: 0.4; font-size: 9px; flex-shrink: 0;">|</span>
+                                     <span style="font-size: 11px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${title}</span>
+                                   </div>`
+                        };
+                    } else {
+                        return {
+                            html: `<div class="custom-calendar-event" style="
+                                     background-color: ${style.bg};
+                                     border-left: ${style.borderLeft};
+                                     color: ${style.text};
+                                     height: 100%;
+                                     width: 100%;
+                                     border-radius: 6px;
+                                     box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+                                     box-sizing: border-box;
+                                     display: flex;
+                                     flex-direction: column;
+                                     justify-content: center;
+                                     padding: 4px 8px;
+                                     gap: 2px;
+                                     overflow: hidden;
+                                   ">
+                                     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;">
+                                       <span style="font-size: 10px; font-weight: 600; opacity: 0.9; letter-spacing: 0.2px;">
+                                         <i class="${style.icon}" style="font-size: 9.5px; margin-right: 3px; opacity: 0.85;"></i>${timeStr}
+                                       </span>
+                                     </div>
+                                     <div style="font-size: 12px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; letter-spacing: 0.1px;">
+                                       ${title}
+                                     </div>
+                                   </div>`
+                        };
+                    }
+                },
+
+                eventClick: function(info) {
+                    showAppointmentDetails(info.event);
+                }
+            });
+
+            calendar.render();
+
+            function getEventColor(status) {
+                switch(status) {
+                    case "Pending":
+                        return "#f59e0b"; // Warning Orange
+                    case "Confirmed":
+                        return "#3b82f6"; // Info Blue
+                    case "InProgress":
+                        return "#2563eb"; // Primary Indigo
+                    case "Completed":
+                        return "#10b981"; // Success Green
+                    case "Cancelled":
+                        return "#ef4444"; // Danger Red
+                    default:
+                        return "#64748b"; // Secondary Slate
+                }
+            }
+
+            function getStatusBadgeClass(status) {
+                switch(status) {
+                    case "Pending": return "bg-warning-subtle text-warning border border-warning-subtle";
+                    case "Confirmed": return "bg-info-subtle text-info border border-info-subtle";
+                    case "InProgress": return "bg-primary-subtle text-primary border border-primary-subtle";
+                    case "Completed": return "bg-success-subtle text-success border border-success-subtle";
+                    default: return "bg-danger-subtle text-danger border border-danger-subtle";
+                }
+            }
+
+            function getModalHeaderBg(status) {
+                switch(status) {
+                    case "Pending": return "bg-warning text-dark";
+                    case "Confirmed": return "bg-info text-white";
+                    case "InProgress": return "bg-primary text-white";
+                    case "Completed": return "bg-success text-white";
+                    default: return "bg-danger text-white";
+                }
+            }
+
+            function showAppointmentDetails(event) {
+                const id = event.id;
+                const name = event.extendedProps.patientName;
+                const status = event.extendedProps.status;
+                const reason = event.extendedProps.reason || "No reason specified";
+                const date = event.extendedProps.dateStr;
+                const time = event.extendedProps.timeStr;
+
+                // Set content
+                document.getElementById('detailPatientName').innerText = name;
+                document.getElementById('detailDate').innerHTML = `<i class="fa-regular fa-calendar-days me-1 text-primary"></i> ${date}`;
+                document.getElementById('detailTime').innerHTML = `<i class="fa-regular fa-clock me-1 text-primary"></i> ${time}`;
+                document.getElementById('detailReason').innerText = reason;
+
+                // Initials
+                const initials = name.split(' ').map(p => p[0]).join('').substring(0, 2).toUpperCase();
+                document.getElementById('patientAvatarInitials').innerText = initials;
+
+                // Status Badge
+                const badge = document.getElementById('detailStatusBadge');
+                badge.innerText = status;
+                badge.className = "badge rounded-pill px-2.5 py-1 text-uppercase font-monospace fs-8 mt-1 " + getStatusBadgeClass(status);
+
+                // Modal Header Color
+                const header = document.getElementById('modalHeaderBg');
+                header.className = "modal-header rounded-top-4 " + getModalHeaderBg(status);
+
+                // Adjust text colors for warning header
+                if (status === "Pending") {
+                    header.querySelectorAll('.btn-close')[0].classList.remove('btn-close-white');
+                } else {
+                    header.querySelectorAll('.btn-close')[0].classList.add('btn-close-white');
+                }
+
+                // Links
+                document.getElementById('btnRecordLink').href = `/Appointments/Details/${id}`;
+
+                // Reset Action forms
+                document.getElementById('formConfirm').classList.add('d-none');
+                document.getElementById('formStart').classList.add('d-none');
+                document.getElementById('formComplete').classList.add('d-none');
+
+                // Conditionally show buttons
+                if (status === "Pending") {
+                    document.getElementById('confirmId').value = id;
+                    document.getElementById('formConfirm').classList.remove('d-none');
+                } else if (status === "Confirmed") {
+                    document.getElementById('startId').value = id;
+                    document.getElementById('formStart').classList.remove('d-none');
+                } else if (status === "InProgress") {
+                    document.getElementById('completeId').value = id;
+                    document.getElementById('formComplete').classList.remove('d-none');
+                }
+
+                // Show modal
+                const modal = new bootstrap.Modal(document.getElementById('apptDetailsModal'));
+                modal.show();
+            }
+        });
+    </script>
+}

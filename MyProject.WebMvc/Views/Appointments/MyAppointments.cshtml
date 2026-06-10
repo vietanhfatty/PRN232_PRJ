@@ -60,6 +60,7 @@
                 <div class="col-md-3">
                     <label class="form-label fw-bold small text-muted d-block">Quick Date Filters</label>
                     <div class="btn-group w-100" role="group">
+                        <button type="button" id="btnFilterAll" class="btn btn-outline-primary px-2 py-2 text-nowrap">All</button>
                         <button type="button" id="btnFilterToday" class="btn btn-outline-primary px-2 py-2 text-nowrap">Today</button>
                         <button type="button" id="btnFilterTomorrow" class="btn btn-outline-primary px-2 py-2 text-nowrap">Tomorrow</button>
                         <button type="button" id="btnFilterThisWeek" class="btn btn-outline-primary px-2 py-2 text-nowrap">This Week</button>
@@ -144,11 +145,12 @@
         const patientInput = document.getElementById('patientSearchInput');
         const statusSelect = document.getElementById('statusFilterSelect');
         const dateInput = document.getElementById('dateFilterInput');
+        const btnAll = document.getElementById('btnFilterAll');
         const btnToday = document.getElementById('btnFilterToday');
         const btnTomorrow = document.getElementById('btnFilterTomorrow');
         const btnThisWeek = document.getElementById('btnFilterThisWeek');
 
-        let activeDateMode = 'today'; // 'today', 'tomorrow', 'thisweek', 'custom'
+        let activeDateMode = 'all'; // 'all', 'today', 'tomorrow', 'thisweek', 'custom'
 
         function getTodayDateString() {
             const now = new Date();
@@ -158,12 +160,25 @@
             return `${year}-${month}-${day}`;
         }
 
-        // Initialize default filter to Today
-        dateInput.value = getTodayDateString();
+        function getTomorrowDateString() {
+            const now = new Date();
+            now.setDate(now.getDate() + 1);
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Initialize default filter to All
+        dateInput.value = '';
         updateQuickButtonStyles();
         applyFilters();
 
         function updateQuickButtonStyles() {
+            btnAll.classList.toggle('active', activeDateMode === 'all');
+            btnAll.classList.toggle('btn-primary', activeDateMode === 'all');
+            btnAll.classList.toggle('btn-outline-primary', activeDateMode !== 'all');
+
             btnToday.classList.toggle('active', activeDateMode === 'today');
             btnToday.classList.toggle('btn-primary', activeDateMode === 'today');
             btnToday.classList.toggle('btn-outline-primary', activeDateMode !== 'today');
@@ -206,7 +221,9 @@
                 const rowDateStr = row.getAttribute('data-date');
                 let matchesDate = false;
 
-                if (activeDateMode === 'thisweek') {
+                if (activeDateMode === 'all') {
+                    matchesDate = true;
+                } else if (activeDateMode === 'thisweek') {
                     const rowDate = new Date(rowDateStr);
                     rowDate.setHours(0,0,0,0);
                     matchesDate = rowDate >= weekStart && rowDate <= weekEnd;
@@ -229,6 +246,13 @@
         
         dateInput.addEventListener('change', function() {
             activeDateMode = 'custom';
+            updateQuickButtonStyles();
+            applyFilters();
+        });
+
+        btnAll.addEventListener('click', function() {
+            activeDateMode = 'all';
+            dateInput.value = '';
             updateQuickButtonStyles();
             applyFilters();
         });
