@@ -121,9 +121,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MyProject.WebApi.Controllers.DoctorSchedulesController",
+    "ContainingType": "MyProject.WebApi.Controllers.DoctorsController",
     "Method": "GetAll",
-    "RelativePath": "api/DoctorSchedules",
+    "RelativePath": "api/Doctors",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -131,25 +131,25 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MyProject.WebApi.Controllers.DoctorSchedulesController",
+    "ContainingType": "MyProject.WebApi.Controllers.DoctorsController",
     "Method": "Create",
-    "RelativePath": "api/DoctorSchedules",
+    "RelativePath": "api/Doctors",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "request",
-        "Type": "MyProject.Application.DTOs.CreateDoctorScheduleRequest",
+        "Type": "MyProject.Application.DTOs.CreateDoctorRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MyProject.WebApi.Controllers.DoctorSchedulesController",
+    "ContainingType": "MyProject.WebApi.Controllers.DoctorsController",
     "Method": "GetById",
-    "RelativePath": "api/DoctorSchedules/{id}",
+    "RelativePath": "api/Doctors/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -163,9 +163,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MyProject.WebApi.Controllers.DoctorSchedulesController",
+    "ContainingType": "MyProject.WebApi.Controllers.DoctorsController",
     "Method": "Update",
-    "RelativePath": "api/DoctorSchedules/{id}",
+    "RelativePath": "api/Doctors/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -177,174 +177,16 @@
       },
       {
         "Name": "request",
-        "Type": "MyProject.Application.DTOs.UpdateDoctorScheduleRequest",
+        "Type": "MyProject.Application.DTOs.UpdateDoctorRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MyProject.WebApi.Controllers.DoctorSchedulesController",
+    "ContainingType": "MyProject.WebApi.Controllers.DoctorsController",
     "Method": "Delete",
-    "RelativePath": "api/DoctorSchedules/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyProject.WebApi.Controllers.LabTestsController",
-    "Method": "GetAll",
-    "RelativePath": "api/LabTests",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyProject.WebApi.Controllers.LabTestsController",
-    "Method": "Create",
-    "RelativePath": "api/LabTests",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "MyProject.Application.DTOs.CreateLabTestRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyProject.WebApi.Controllers.LabTestsController",
-    "Method": "GetById",
-    "RelativePath": "api/LabTests/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyProject.WebApi.Controllers.LabTestsController",
-    "Method": "Update",
-    "RelativePath": "api/LabTests/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "request",
-        "Type": "MyProject.Application.DTOs.UpdateLabTestRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyProject.WebApi.Controllers.LabTestsController",
-    "Method": "Delete",
-    "RelativePath": "api/LabTests/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyProject.WebApi.Controllers.MedicinesController",
-    "Method": "Get",
-    "RelativePath": "api/Medicines",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyProject.WebApi.Controllers.MedicinesController",
-    "Method": "Create",
-    "RelativePath": "api/Medicines",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "MyProject.Application.DTOs.CreateMedicineRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyProject.WebApi.Controllers.MedicinesController",
-    "Method": "GetById",
-    "RelativePath": "api/Medicines/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyProject.WebApi.Controllers.MedicinesController",
-    "Method": "Update",
-    "RelativePath": "api/Medicines/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "request",
-        "Type": "MyProject.Application.DTOs.UpdateMedicineRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyProject.WebApi.Controllers.MedicinesController",
-    "Method": "Delete",
-    "RelativePath": "api/Medicines/{id}",
+    "RelativePath": "api/Doctors/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -503,85 +345,6 @@
     "ContainingType": "MyProject.WebApi.Controllers.RolesController",
     "Method": "Delete",
     "RelativePath": "api/Roles/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyProject.WebApi.Controllers.StaffsController",
-    "Method": "GetAll",
-    "RelativePath": "api/Staffs",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyProject.WebApi.Controllers.StaffsController",
-    "Method": "Create",
-    "RelativePath": "api/Staffs",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "MyProject.Application.DTOs.CreateStaffRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyProject.WebApi.Controllers.StaffsController",
-    "Method": "GetById",
-    "RelativePath": "api/Staffs/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyProject.WebApi.Controllers.StaffsController",
-    "Method": "Update",
-    "RelativePath": "api/Staffs/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "request",
-        "Type": "MyProject.Application.DTOs.UpdateStaffRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyProject.WebApi.Controllers.StaffsController",
-    "Method": "Delete",
-    "RelativePath": "api/Staffs/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,

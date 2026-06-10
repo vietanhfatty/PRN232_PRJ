@@ -28,7 +28,7 @@
                                     {
                                         @foreach (var pat in ViewBag.Patients)
                                         {
-                                            <option value="@pat.PatientId" selected="@(Model.PatientId == pat.PatientId)">@pat.FirstName @pat.LastName (@pat.Phone)</option>
+                                            <option value="@pat.PatientId" selected="@(Model.PatientId == pat.PatientId)">@pat.FullName (@(pat.Phone ?? "N/A"))</option>
                                         }
                                     }
                                 </select>
@@ -40,7 +40,7 @@
                                     {
                                         @foreach (var doc in ViewBag.Doctors)
                                         {
-                                            <option value="@doc.StaffId" selected="@(Model.DoctorId == doc.StaffId)">@doc.FirstName @doc.LastName (@(string.IsNullOrEmpty(doc.Specialization) ? "General" : doc.Specialization))</option>
+                                            <option value="@doc.DoctorId" selected="@(Model.DoctorId == doc.DoctorId)">@doc.FullName (@(string.IsNullOrEmpty(doc.Specialization) ? "General" : doc.Specialization))</option>
                                         }
                                     }
                                 </select>
@@ -49,31 +49,24 @@
 
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label asp-for="AppointmentDate" class="form-label fw-bold small text-muted">Appointment Date & Time</label>
-                                <input asp-for="AppointmentDate" type="datetime-local" class="form-control rounded-3" required value="@Model.AppointmentDate.ToString("yyyy-MM-ddTHH:mm")" />
+                                <label asp-for="AppointmentDate" class="form-label fw-bold small text-muted">Appointment Date</label>
+                                <input asp-for="AppointmentDate" type="date" class="form-control rounded-3" required value="@Model.AppointmentDate.ToString("yyyy-MM-dd")" />
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="Type" class="form-label fw-bold small text-muted">Appointment Type</label>
-                                <select asp-for="Type" class="form-select rounded-3">
-                                    <option value="First Visit" selected="@(Model.Type == "First Visit")">First Visit</option>
-                                    <option value="Follow-up" selected="@(Model.Type == "Follow-up")">Follow-up</option>
-                                </select>
+                                <label asp-for="AppointmentTime" class="form-label fw-bold small text-muted">Appointment Time</label>
+                                <input asp-for="AppointmentTime" type="time" class="form-control rounded-3" required value="@Model.AppointmentTime.ToString(@"hh\:mm")" />
                             </div>
                         </div>
 
                         <div class="row mb-3">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <label asp-for="Status" class="form-label fw-bold small text-muted">Status</label>
                                 <select asp-for="Status" class="form-select rounded-3">
-                                    <option value="Scheduled" selected="@(Model.Status == "Scheduled")">Scheduled</option>
-                                    <option value="Waiting" selected="@(Model.Status == "Waiting")">Waiting</option>
+                                    <option value="Pending" selected="@(Model.Status == "Pending")">Pending</option>
+                                    <option value="Confirmed" selected="@(Model.Status == "Confirmed")">Confirmed</option>
                                     <option value="Completed" selected="@(Model.Status == "Completed")">Completed</option>
                                     <option value="Cancelled" selected="@(Model.Status == "Cancelled")">Cancelled</option>
                                 </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label asp-for="QueueNumber" class="form-label fw-bold small text-muted">Queue Number</label>
-                                <input asp-for="QueueNumber" type="number" class="form-control rounded-3" placeholder="e.g. 5 (leave blank if none)" value="@Model.QueueNumber" />
                             </div>
                         </div>
 

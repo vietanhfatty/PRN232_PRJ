@@ -22,7 +22,7 @@ public class PatientsController : Controller
     }
 
     public async Task<IActionResult> Index(
-        string? searchName, string? searchPhone, string? searchInsurance,
+        string? searchName, string? searchPhone,
         string? filterGender, DateOnly? filterDobStart, DateOnly? filterDobEnd)
     {
         if (User.IsInRole("Doctor"))
@@ -33,28 +33,25 @@ public class PatientsController : Controller
 
         var list = await _patientService.GetAllAsync();
         var appointments = await _appointmentService.GetAllAsync();
-        var today = DateTime.Today;
-        ViewBag.TodayAppointments = appointments.Where(a => a.AppointmentDate.Date == today).ToList();
+        var today = DateOnly.FromDateTime(DateTime.Today);
+        ViewBag.TodayAppointments = appointments.Where(a => a.AppointmentDate == today).ToList();
 
         if (!string.IsNullOrWhiteSpace(searchName))
         {
             var name = searchName.Trim().ToLower();
-            list = list.Where(p => (p.FirstName + " " + p.LastName).ToLower().Contains(name)).ToList();
+            list = list.Where(p => p.FullName.ToLower().Contains(name)).ToList();
         }
         if (!string.IsNullOrWhiteSpace(searchPhone))
-            list = list.Where(p => p.Phone.Contains(searchPhone.Trim())).ToList();
-        if (!string.IsNullOrWhiteSpace(searchInsurance))
-            list = list.Where(p => p.InsuranceNo != null && p.InsuranceNo.Contains(searchInsurance.Trim())).ToList();
+            list = list.Where(p => p.Phone != null && p.Phone.Contains(searchPhone.Trim())).ToList();
         if (!string.IsNullOrWhiteSpace(filterGender) && filterGender != "All")
             list = list.Where(p => p.Gender == filterGender).ToList();
         if (filterDobStart.HasValue)
-            list = list.Where(p => p.Dob >= filterDobStart.Value).ToList();
+            list = list.Where(p => p.DateOfBirth.HasValue && p.DateOfBirth.Value >= filterDobStart.Value).ToList();
         if (filterDobEnd.HasValue)
-            list = list.Where(p => p.Dob <= filterDobEnd.Value).ToList();
+            list = list.Where(p => p.DateOfBirth.HasValue && p.DateOfBirth.Value <= filterDobEnd.Value).ToList();
 
         ViewBag.SearchName = searchName;
         ViewBag.SearchPhone = searchPhone;
-        ViewBag.SearchInsurance = searchInsurance;
         ViewBag.FilterGender = filterGender;
         ViewBag.FilterDobStart = filterDobStart?.ToString("yyyy-MM-dd");
         ViewBag.FilterDobEnd = filterDobEnd?.ToString("yyyy-MM-dd");
@@ -94,7 +91,7 @@ public class PatientsController : Controller
         try
         {
             await _patientService.CreateAsync(request);
-            TempData["SuccessMessage"] = $"Patient '{request.FirstName} {request.LastName}' registered successfully.";
+            TempData["SuccessMessage"] = $"Patient '{request.FullName}' registered successfully.";
         }
         catch (ArgumentException ex)
         {
@@ -126,7 +123,7 @@ public class PatientsController : Controller
         try
         {
             await _patientService.UpdateAsync(id, request);
-            TempData["SuccessMessage"] = $"Patient '{request.FirstName} {request.LastName}' updated successfully.";
+            TempData["SuccessMessage"] = $"Patient '{request.FullName}' updated successfully.";
         }
         catch (KeyNotFoundException)
         {

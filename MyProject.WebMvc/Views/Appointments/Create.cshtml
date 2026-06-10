@@ -29,7 +29,7 @@
                                     {
                                         @foreach (var pat in ViewBag.Patients)
                                         {
-                                            <option value="@pat.PatientId">@pat.FirstName @pat.LastName (@pat.Phone)</option>
+                                            <option value="@pat.PatientId">@pat.FullName (@(pat.Phone ?? "N/A"))</option>
                                         }
                                     }
                                 </select>
@@ -42,7 +42,7 @@
                                     {
                                         @foreach (var doc in ViewBag.Doctors)
                                         {
-                                            <option value="@doc.StaffId">@doc.FirstName @doc.LastName (@(string.IsNullOrEmpty(doc.Specialization) ? "General" : doc.Specialization))</option>
+                                            <option value="@doc.DoctorId">@doc.FullName (@(string.IsNullOrEmpty(doc.Specialization) ? "General" : doc.Specialization))</option>
                                         }
                                     }
                                 </select>
@@ -51,15 +51,12 @@
 
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label asp-for="AppointmentDate" class="form-label fw-bold small text-muted">Appointment Date & Time</label>
-                                <input asp-for="AppointmentDate" type="datetime-local" class="form-control rounded-3" required />
+                                <label asp-for="AppointmentDate" class="form-label fw-bold small text-muted">Appointment Date</label>
+                                <input asp-for="AppointmentDate" type="date" class="form-control rounded-3" required />
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="Type" class="form-label fw-bold small text-muted">Appointment Type</label>
-                                <select asp-for="Type" class="form-select rounded-3">
-                                    <option value="First Visit">First Visit</option>
-                                    <option value="Follow-up">Follow-up</option>
-                                </select>
+                                <label asp-for="AppointmentTime" class="form-label fw-bold small text-muted">Appointment Time</label>
+                                <input asp-for="AppointmentTime" type="time" class="form-control rounded-3" required />
                             </div>
                         </div>
 
@@ -68,7 +65,7 @@
                             <textarea asp-for="Reason" rows="3" class="form-control rounded-3" placeholder="Enter reason for booking..."></textarea>
                         </div>
 
-                        <input type="hidden" name="Status" value="Scheduled" />
+                        <input type="hidden" name="Status" value="Pending" />
 
                         <div class="d-flex justify-content-between">
                             <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Cancel</a>

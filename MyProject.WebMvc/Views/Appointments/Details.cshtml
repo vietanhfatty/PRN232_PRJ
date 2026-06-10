@@ -28,38 +28,23 @@
                         <div class="col-sm-8 text-dark">@Model.DoctorName</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-4 text-muted small fw-bold">DATE & TIME</div>
-                        <div class="col-sm-8 text-dark">@Model.AppointmentDate.ToString("yyyy-MM-dd HH:mm")</div>
+                        <div class="col-sm-4 text-muted small fw-bold">DATE</div>
+                        <div class="col-sm-8 text-dark">@Model.AppointmentDate.ToString("yyyy-MM-dd")</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-4 text-muted small fw-bold">QUEUE NUMBER</div>
-                        <div class="col-sm-8 text-dark">
-                            @if (Model.QueueNumber.HasValue)
-                            {
-                                <span class="badge bg-primary rounded-pill px-3 py-1">Q-@Model.QueueNumber</span>
-                            }
-                            else
-                            {
-                                <span class="text-muted small">Not checked-in yet</span>
-                            }
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-4 text-muted small fw-bold">TYPE</div>
-                        <div class="col-sm-8">
-                            <span class="badge bg-secondary-subtle text-secondary border rounded-pill px-3 py-1">@Model.Type</span>
-                        </div>
+                        <div class="col-sm-4 text-muted small fw-bold">TIME</div>
+                        <div class="col-sm-8 text-dark">@Model.AppointmentTime.ToString(@"hh\:mm")</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4 text-muted small fw-bold">STATUS</div>
                         <div class="col-sm-8">
-                            @if (Model.Status == "Scheduled")
+                            @if (Model.Status == "Pending")
                             {
-                                <span class="badge bg-warning-subtle text-warning border rounded-pill px-3 py-1">Scheduled</span>
+                                <span class="badge bg-warning-subtle text-warning border rounded-pill px-3 py-1">Pending</span>
                             }
-                            else if (Model.Status == "Waiting")
+                            else if (Model.Status == "Confirmed")
                             {
-                                <span class="badge bg-info-subtle text-info border rounded-pill px-3 py-1">Waiting</span>
+                                <span class="badge bg-info-subtle text-info border rounded-pill px-3 py-1">Confirmed</span>
                             }
                             else if (Model.Status == "Completed")
                             {

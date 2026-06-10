@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Appointments Registry";
     var patients = ViewBag.Patients as IEnumerable<PatientDto> ?? Enumerable.Empty<PatientDto>();
-    var doctors = ViewBag.Doctors as IEnumerable<StaffDto> ?? Enumerable.Empty<StaffDto>();
+    var doctors = ViewBag.Doctors as IEnumerable<DoctorDto> ?? Enumerable.Empty<DoctorDto>();
 }
 
 <div class="container-fluid mt-4">
@@ -48,7 +48,7 @@
                         <option value="">All Doctors</option>
                         @foreach (var doc in doctors)
                         {
-                            <option value="@doc.StaffId">@doc.FirstName @doc.LastName (@(string.IsNullOrEmpty(doc.Specialization) ? "General" : doc.Specialization))</option>
+                            <option value="@doc.DoctorId">@doc.FullName (@(string.IsNullOrEmpty(doc.Specialization) ? "General" : doc.Specialization))</option>
                         }
                     </select>
                 </div>
@@ -89,9 +89,8 @@
                             <th class="ps-4">ID</th>
                             <th>Patient Name</th>
                             <th>Doctor Name</th>
-                            <th>Date & Time</th>
-                            <th>Queue No</th>
-                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Time</th>
                             <th>Status</th>
                             <th class="text-end pe-4">Actions</th>
                         </tr>
@@ -100,41 +99,23 @@
                         @foreach (var item in Model)
                         {
                             var safeReason = (item.Reason ?? "").Replace("'", "\\'").Replace("\n", " ").Replace("\r", "");
-                            var apptDateStr = item.AppointmentDate.ToString("yyyy-MM-ddTHH:mm");
+                            var apptDateStr = item.AppointmentDate.ToString("yyyy-MM-dd");
+                            var apptTimeStr = item.AppointmentTime.ToString(@"hh\:mm");
 
                             <tr class="appt-row" data-doctor-id="@item.DoctorId" data-date="@item.AppointmentDate.ToString("yyyy-MM-dd")">
                                 <td class="ps-4 fw-bold text-secondary">#@item.AppointmentId</td>
                                 <td class="fw-bold text-dark appt-patient">@item.PatientName</td>
                                 <td class="appt-doctor">@item.DoctorName</td>
-                                <td>@item.AppointmentDate.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>@item.AppointmentDate.ToString("yyyy-MM-dd")</td>
+                                <td>@apptTimeStr</td>
                                 <td>
-                                    @if (item.QueueNumber.HasValue)
+                                    @if (item.Status == "Pending")
                                     {
-                                        <span class="badge bg-primary rounded-pill px-2">Q-@item.QueueNumber</span>
+                                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-2">Pending</span>
                                     }
-                                    else
+                                    else if (item.Status == "Confirmed")
                                     {
-                                        <span class="text-muted small">-</span>
-                                    }
-                                </td>
-                                <td>
-                                    @if (item.Type == "First Visit")
-                                    {
-                                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2">First Visit</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-light text-dark border rounded-pill px-2">Follow-up</span>
-                                    }
-                                </td>
-                                <td>
-                                    @if (item.Status == "Scheduled")
-                                    {
-                                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-2">Scheduled</span>
-                                    }
-                                    else if (item.Status == "Waiting")
-                                    {
-                                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2">Waiting</span>
+                                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2">Confirmed</span>
                                     }
                                     else if (item.Status == "Completed")
                                     {
@@ -146,17 +127,17 @@
                                     }
                                 </td>
                                 <td class="text-end pe-4">
-                                    @if (item.Status == "Scheduled")
+                                    @if (item.Status == "Pending")
                                     {
                                         <form asp-action="CheckIn" asp-route-id="@item.AppointmentId" method="post" class="d-inline-block me-1">
                                             @Html.AntiForgeryToken()
                                             <button type="submit" class="btn btn-sm btn-success rounded-pill px-3">
-                                                <i class="fa-solid fa-clipboard-check me-1"></i>Check In
+                                                <i class="fa-solid fa-clipboard-check me-1"></i>Confirm
                                             </button>
                                         </form>
                                     }
                                     <button type="button" class="btn btn-sm btn-outline-warning rounded-pill px-3 me-1"
-                                            onclick="openEditAppointmentModal(@item.AppointmentId, @item.PatientId, @item.DoctorId, '@apptDateStr', '@item.Type', '@item.Status', @(item.QueueNumber.HasValue ? item.QueueNumber.Value.ToString() : "null"), '@safeReason')">
+                                            onclick="openEditAppointmentModal(@item.AppointmentId, @item.PatientId, @item.DoctorId, '@apptDateStr', '@apptTimeStr', '@item.Status', '@safeReason')">
                                         <i class="fa-solid fa-edit"></i>
                                     </button>
                                     <a asp-action="Details" asp-route-id="@item.AppointmentId" class="btn btn-sm btn-outline-info rounded-pill px-3 me-1">
@@ -197,7 +178,7 @@
                                 <option value="">-- Select Patient --</option>
                                 @foreach (var pat in patients)
                                 {
-                                    <option value="@pat.PatientId">@pat.FirstName @pat.LastName (@pat.Phone)</option>
+                                    <option value="@pat.PatientId">@pat.FullName (@(pat.Phone ?? "N/A"))</option>
                                 }
                             </select>
                         </div>
@@ -207,29 +188,26 @@
                                 <option value="">-- Select Doctor --</option>
                                 @foreach (var doc in doctors)
                                 {
-                                    <option value="@doc.StaffId">@doc.FirstName @doc.LastName (@(string.IsNullOrEmpty(doc.Specialization) ? "General" : doc.Specialization))</option>
+                                    <option value="@doc.DoctorId">@doc.FullName (@(string.IsNullOrEmpty(doc.Specialization) ? "General" : doc.Specialization))</option>
                                 }
                             </select>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-muted">Appointment Date & Time</label>
-                            <input type="datetime-local" name="AppointmentDate" class="form-control rounded-3" required />
+                            <label class="form-label fw-bold small text-muted">Appointment Date</label>
+                            <input type="date" name="AppointmentDate" class="form-control rounded-3" required />
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-muted">Appointment Type</label>
-                            <select name="Type" class="form-select rounded-3">
-                                <option value="First Visit">First Visit</option>
-                                <option value="Follow-up">Follow-up</option>
-                            </select>
+                            <label class="form-label fw-bold small text-muted">Appointment Time</label>
+                            <input type="time" name="AppointmentTime" class="form-control rounded-3" required />
                         </div>
                     </div>
                     <div class="mb-2">
                         <label class="form-label fw-bold small text-muted">Reason for Visit</label>
                         <textarea name="Reason" rows="2" class="form-control rounded-3" placeholder="Enter reason for booking..."></textarea>
                     </div>
-                    <input type="hidden" name="Status" value="Scheduled" />
+                    <input type="hidden" name="Status" value="Pending" />
                 </div>
                 <div class="modal-footer border-0 pt-0">
                     <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
@@ -259,7 +237,7 @@
                             <select name="PatientId" id="editApptPatientId" class="form-select rounded-3" required>
                                 @foreach (var pat in patients)
                                 {
-                                    <option value="@pat.PatientId">@pat.FirstName @pat.LastName (@pat.Phone)</option>
+                                    <option value="@pat.PatientId">@pat.FullName (@(pat.Phone ?? "N/A"))</option>
                                 }
                             </select>
                         </div>
@@ -268,37 +246,30 @@
                             <select name="DoctorId" id="editApptDoctorId" class="form-select rounded-3" required>
                                 @foreach (var doc in doctors)
                                 {
-                                    <option value="@doc.StaffId">@doc.FirstName @doc.LastName (@(string.IsNullOrEmpty(doc.Specialization) ? "General" : doc.Specialization))</option>
+                                    <option value="@doc.DoctorId">@doc.FullName (@(string.IsNullOrEmpty(doc.Specialization) ? "General" : doc.Specialization))</option>
                                 }
                             </select>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-muted">Appointment Date & Time</label>
-                            <input type="datetime-local" name="AppointmentDate" id="editApptDate" class="form-control rounded-3" required />
+                            <label class="form-label fw-bold small text-muted">Appointment Date</label>
+                            <input type="date" name="AppointmentDate" id="editApptDate" class="form-control rounded-3" required />
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-muted">Appointment Type</label>
-                            <select name="Type" id="editApptType" class="form-select rounded-3">
-                                <option value="First Visit">First Visit</option>
-                                <option value="Follow-up">Follow-up</option>
-                            </select>
+                            <label class="form-label fw-bold small text-muted">Appointment Time</label>
+                            <input type="time" name="AppointmentTime" id="editApptTime" class="form-control rounded-3" required />
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label class="form-label fw-bold small text-muted">Status</label>
                             <select name="Status" id="editApptStatus" class="form-select rounded-3">
-                                <option value="Scheduled">Scheduled</option>
-                                <option value="Waiting">Waiting</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Confirmed">Confirmed</option>
                                 <option value="Completed">Completed</option>
                                 <option value="Cancelled">Cancelled</option>
                             </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold small text-muted">Queue Number</label>
-                            <input type="number" name="QueueNumber" id="editApptQueue" class="form-control rounded-3" placeholder="e.g. 5 (leave blank if none)" />
                         </div>
                     </div>
                     <div class="mb-2">
@@ -468,13 +439,12 @@
             applyFilters();
         });
 
-        function openEditAppointmentModal(id, patientId, doctorId, apptDate, type, status, queueNumber, reason) {
+        function openEditAppointmentModal(id, patientId, doctorId, apptDate, apptTime, status, reason) {
             document.getElementById('editApptPatientId').value = patientId;
             document.getElementById('editApptDoctorId').value = doctorId;
             document.getElementById('editApptDate').value = apptDate;
-            document.getElementById('editApptType').value = type;
+            document.getElementById('editApptTime').value = apptTime;
             document.getElementById('editApptStatus').value = status;
-            document.getElementById('editApptQueue').value = (queueNumber !== null && queueNumber !== 'null') ? queueNumber : '';
             document.getElementById('editApptReason').value = reason;
             document.getElementById('editAppointmentForm').action = '/Appointments/Edit/' + id;
             new bootstrap.Modal(document.getElementById('editAppointmentModal')).show();

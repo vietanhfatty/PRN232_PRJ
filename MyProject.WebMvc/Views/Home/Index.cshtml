@@ -132,7 +132,7 @@
                                     </td>
                                     <td>@dept</td>
                                     <td>Dr. @item.DoctorName</td>
-                                    <td>@item.AppointmentDate.ToString("hh:mm tt")</td>
+                                    <td>@DateTime.Today.Add(item.AppointmentTime).ToString("hh:mm tt")</td>
                                     <td>
                                         @if (item.Status == "Waiting")
                                         {

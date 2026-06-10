@@ -27,7 +27,20 @@ public class PatientsController : ControllerBase
     [EnableQuery]
     public IActionResult Get()
     {
-        return Ok(_service.GetQueryable());
+        var query = _service.GetQueryable().Select(p => new PatientDto(
+            p.PatientId,
+            p.UserId,
+            p.User.FullName,
+            p.User.Username,
+            p.User.Phone,
+            p.DateOfBirth,
+            p.Gender,
+            p.Address,
+            p.BloodType,
+            p.EmergencyContactName,
+            p.EmergencyContactPhone
+        ));
+        return Ok(query);
     }
 
     [HttpGet("{id}")]

@@ -10,49 +10,52 @@
             <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                     <h5 class="m-0 fw-bold text-primary"><i class="fa-solid fa-address-card me-2"></i>Patient Profile Details</h5>
-                    <a asp-action="Edit" asp-route-id="@Model.PatientId" class="btn btn-outline-warning btn-sm rounded-pill px-3">
-                        <i class="fa-solid fa-edit me-1"></i> Edit Profile
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Back to List
                     </a>
                 </div>
                 <div class="card-body p-4">
                     <div class="row mb-3">
-                        <div class="col-sm-4 text-muted small fw-bold uppercase">Patient ID</div>
+                        <div class="col-sm-4 text-muted small fw-bold text-uppercase">Patient ID</div>
                         <div class="col-sm-8 text-dark fw-bold">#@Model.PatientId</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-4 text-muted small fw-bold uppercase">Full Name</div>
-                        <div class="col-sm-8 text-dark fw-bold fs-5">@Model.FirstName @Model.LastName</div>
+                        <div class="col-sm-4 text-muted small fw-bold text-uppercase">Full Name</div>
+                        <div class="col-sm-8 text-dark fw-bold fs-5">@Model.FullName</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-4 text-muted small fw-bold uppercase">Gender</div>
+                        <div class="col-sm-4 text-muted small fw-bold text-uppercase">Username</div>
+                        <div class="col-sm-8 text-dark">@@@Model.Username</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4 text-muted small fw-bold text-uppercase">Gender</div>
                         <div class="col-sm-8">
-                            <span class="badge bg-secondary-subtle text-secondary border rounded-pill px-3 py-1">@Model.Gender</span>
+                            <span class="badge bg-secondary-subtle text-secondary border rounded-pill px-3 py-1">@(Model.Gender ?? "N/A")</span>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-4 text-muted small fw-bold uppercase">Date of Birth</div>
-                        <div class="col-sm-8 text-dark">@Model.Dob.ToString("yyyy-MM-dd")</div>
+                        <div class="col-sm-4 text-muted small fw-bold text-uppercase">Date of Birth</div>
+                        <div class="col-sm-8 text-dark">@(Model.DateOfBirth.HasValue ? Model.DateOfBirth.Value.ToString("yyyy-MM-dd") : "N/A")</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-4 text-muted small fw-bold uppercase">Phone Number</div>
-                        <div class="col-sm-8 text-dark">@Model.Phone</div>
+                        <div class="col-sm-4 text-muted small fw-bold text-uppercase">Phone Number</div>
+                        <div class="col-sm-8 text-dark">@(Model.Phone ?? "N/A")</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-4 text-muted small fw-bold uppercase">Insurance No (BHYT)</div>
-                        <div class="col-sm-8">
-                            @if (!string.IsNullOrEmpty(Model.InsuranceNo))
-                            {
-                                <span class="badge bg-success-subtle text-success border rounded-pill px-3 py-1">@Model.InsuranceNo</span>
-                            }
-                            else
-                            {
-                                <span class="text-muted small">No insurance registered</span>
-                            }
-                        </div>
+                        <div class="col-sm-4 text-muted small fw-bold text-uppercase">Blood Type</div>
+                        <div class="col-sm-8 text-dark">@(Model.BloodType ?? "N/A")</div>
                     </div>
-                    <div class="row mb-4">
-                        <div class="col-sm-4 text-muted small fw-bold uppercase">Residential Address</div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4 text-muted small fw-bold text-uppercase">Residential Address</div>
                         <div class="col-sm-8 text-dark text-wrap">@(string.IsNullOrEmpty(Model.Address) ? "No address listed" : Model.Address)</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4 text-muted small fw-bold text-uppercase">Emergency Contact Name</div>
+                        <div class="col-sm-8 text-dark">@(Model.EmergencyContactName ?? "N/A")</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4 text-muted small fw-bold text-uppercase">Emergency Contact Phone</div>
+                        <div class="col-sm-8 text-dark">@(Model.EmergencyContactPhone ?? "N/A")</div>
                     </div>
 
                     <div class="d-flex justify-content-start mt-4">

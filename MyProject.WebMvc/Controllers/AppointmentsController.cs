@@ -15,19 +15,16 @@ public class AppointmentsController : Controller
 {
     private readonly AppointmentApiService _appointmentService;
     private readonly PatientApiService _patientService;
-    private readonly StaffApiService _staffService;
-    private readonly DoctorScheduleApiService _scheduleService;
+    private readonly DoctorApiService _doctorService;
 
     public AppointmentsController(
         AppointmentApiService appointmentService,
         PatientApiService patientService,
-        StaffApiService staffService,
-        DoctorScheduleApiService scheduleService)
+        DoctorApiService doctorService)
     {
         _appointmentService = appointmentService;
         _patientService = patientService;
-        _staffService = staffService;
-        _scheduleService = scheduleService;
+        _doctorService = doctorService;
     }
 
     public async Task<IActionResult> Index()
@@ -44,18 +41,26 @@ public class AppointmentsController : Controller
 
     public async Task<IActionResult> Queue()
     {
-        var staffIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (string.IsNullOrEmpty(staffIdString) || !int.TryParse(staffIdString, out int doctorId))
+        var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
         {
-            TempData["ErrorMessage"] = "Could not identify logged-in staff member.";
+            TempData["ErrorMessage"] = "Could not identify logged-in user.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        var doctors = await _doctorService.GetAllAsync();
+        var doctor = doctors.FirstOrDefault(d => d.UserId == userId);
+        if (doctor == null)
+        {
+            TempData["ErrorMessage"] = "Could not identify logged-in doctor profile.";
             return RedirectToAction(nameof(Index));
         }
 
         var list = await _appointmentService.GetAllAsync();
-        var today = DateTime.Today;
+        var today = DateOnly.FromDateTime(DateTime.Today);
         var queue = list
-            .Where(a => a.DoctorId == doctorId && a.Status == "Waiting" && a.AppointmentDate.Date == today)
-            .OrderBy(a => a.QueueNumber ?? 0)
+            .Where(a => a.DoctorId == doctor.DoctorId && a.Status == "Confirmed" && a.AppointmentDate == today)
+            .OrderBy(a => a.AppointmentTime)
             .ToList();
 
         ViewBag.DoctorName = User.FindFirst("FullName")?.Value ?? User.Identity?.Name;
@@ -65,16 +70,24 @@ public class AppointmentsController : Controller
     [Authorize(Roles = "Doctor")]
     public async Task<IActionResult> MyAppointments()
     {
-        var staffIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (string.IsNullOrEmpty(staffIdString) || !int.TryParse(staffIdString, out int doctorId))
+        var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
         {
-            TempData["ErrorMessage"] = "Could not identify logged-in staff member.";
+            TempData["ErrorMessage"] = "Could not identify logged-in user.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        var doctors = await _doctorService.GetAllAsync();
+        var doctor = doctors.FirstOrDefault(d => d.UserId == userId);
+        if (doctor == null)
+        {
+            TempData["ErrorMessage"] = "Could not identify logged-in doctor profile.";
             return RedirectToAction(nameof(Index));
         }
 
         var list = await _appointmentService.GetAllAsync();
         var myAppointments = list
-            .Where(a => a.DoctorId == doctorId)
+            .Where(a => a.DoctorId == doctor.DoctorId)
             .OrderByDescending(a => a.AppointmentDate)
             .ToList();
 
@@ -96,9 +109,9 @@ public class AppointmentsController : Controller
         var request = new CreateAppointmentRequest(
             PatientId: patientId ?? 0,
             DoctorId: 0,
-            AppointmentDate: DateTime.Now.Date.AddHours(9),
-            Type: "First Visit",
-            Status: "Scheduled",
+            AppointmentDate: DateOnly.FromDateTime(DateTime.Now),
+            AppointmentTime: TimeSpan.FromHours(9),
+            Status: "Pending",
             Reason: null
         );
         return View(request);
@@ -146,10 +159,9 @@ public class AppointmentsController : Controller
             PatientId: appt.PatientId,
             DoctorId: appt.DoctorId,
             AppointmentDate: appt.AppointmentDate,
-            Type: appt.Type,
+            AppointmentTime: appt.AppointmentTime,
             Status: appt.Status,
-            Reason: appt.Reason,
-            QueueNumber: appt.QueueNumber
+            Reason: appt.Reason
         );
 
         return View(request);
@@ -227,84 +239,23 @@ public class AppointmentsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = "Doctor")]
-    public async Task<IActionResult> MySchedule()
-    {
-        var staffIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (string.IsNullOrEmpty(staffIdString) || !int.TryParse(staffIdString, out int doctorId))
-        {
-            TempData["ErrorMessage"] = "Could not identify logged-in staff member.";
-            return RedirectToAction(nameof(Index));
-        }
-
-        var allSchedules = await _scheduleService.GetAllAsync();
-        var mySchedules = allSchedules
-            .Where(s => s.DoctorId == doctorId)
-            .OrderBy(s => s.WorkDate)
-            .ToList();
-
-        ViewBag.DoctorName = User.FindFirst("FullName")?.Value ?? User.Identity?.Name;
-        return View(mySchedules);
-    }
-
-    [HttpPost]
-    [Authorize(Roles = "Doctor")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AddShift(DateTime workDate, string shiftName)
-    {
-        var staffIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (string.IsNullOrEmpty(staffIdString) || !int.TryParse(staffIdString, out int doctorId))
-        {
-            TempData["ErrorMessage"] = "Could not identify logged-in staff member.";
-            return RedirectToAction(nameof(MySchedule));
-        }
-
-        try
-        {
-            var request = new CreateDoctorScheduleRequest(
-                DoctorId: doctorId,
-                WorkDate: DateOnly.FromDateTime(workDate),
-                ShiftName: shiftName,
-                MaxPatients: 20
-            );
-            await _scheduleService.CreateAsync(request);
-            TempData["SuccessMessage"] = "Shift added successfully.";
-        }
-        catch (Exception ex)
-        {
-            TempData["ErrorMessage"] = ex.Message;
-        }
-
-        return RedirectToAction(nameof(MySchedule));
-    }
-
-    [HttpPost]
-    [Authorize(Roles = "Doctor")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteShift(int id)
-    {
-        try
-        {
-            await _scheduleService.DeleteAsync(id);
-            TempData["SuccessMessage"] = "Shift blocked/removed successfully.";
-        }
-        catch (Exception ex)
-        {
-            TempData["ErrorMessage"] = ex.Message;
-        }
-
-        return RedirectToAction(nameof(MySchedule));
-    }
-
     [HttpPost]
     [Authorize(Roles = "Doctor")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ScheduleFollowup(int patientId, DateTime appointmentDate, string? reason)
     {
-        var staffIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (string.IsNullOrEmpty(staffIdString) || !int.TryParse(staffIdString, out int doctorId))
+        var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
         {
-            TempData["ErrorMessage"] = "Could not identify logged-in staff member.";
+            TempData["ErrorMessage"] = "Could not identify logged-in user.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        var doctors = await _doctorService.GetAllAsync();
+        var doctor = doctors.FirstOrDefault(d => d.UserId == userId);
+        if (doctor == null)
+        {
+            TempData["ErrorMessage"] = "Could not identify logged-in doctor profile.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -312,10 +263,10 @@ public class AppointmentsController : Controller
         {
             var request = new CreateAppointmentRequest(
                 PatientId: patientId,
-                DoctorId: doctorId,
-                AppointmentDate: appointmentDate,
-                Type: "Follow-up",
-                Status: "Scheduled",
+                DoctorId: doctor.DoctorId,
+                AppointmentDate: DateOnly.FromDateTime(appointmentDate),
+                AppointmentTime: TimeSpan.FromHours(9),
+                Status: "Pending",
                 Reason: string.IsNullOrWhiteSpace(reason) ? "Follow-up consultation booked by Doctor" : reason
             );
 
@@ -330,15 +281,10 @@ public class AppointmentsController : Controller
         return RedirectToAction(nameof(MyAppointments));
     }
 
-
-
     private async Task PopulateDropdownsViewBag()
     {
         ViewBag.Patients = await _patientService.GetAllAsync();
-        var staffs = await _staffService.GetAllAsync();
-        ViewBag.Doctors = staffs
-            .Where(s => s.RoleName == "Doctor" || !string.IsNullOrEmpty(s.Specialization))
-            .ToList();
+        ViewBag.Doctors = await _doctorService.GetAllAsync();
     }
 
     private string GetFirstModelError()

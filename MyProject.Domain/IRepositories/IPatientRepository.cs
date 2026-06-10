@@ -12,7 +12,5 @@ public interface IPatientRepository
     Task AddAsync(Patient patient);
     Task UpdateAsync(Patient patient);
     Task DeleteAsync(int id);
-    Task<Patient?> GetByPhoneAsync(string phone);
-    Task<Patient?> GetByInsuranceNoAsync(string insuranceNo);
     IQueryable<Patient> GetQueryable();
 }

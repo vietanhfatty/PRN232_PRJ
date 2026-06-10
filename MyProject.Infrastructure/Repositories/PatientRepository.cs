@@ -18,12 +18,16 @@ public class PatientRepository : IPatientRepository
 
     public async Task<IEnumerable<Patient>> GetAllAsync()
     {
-        return await _context.Patients.ToListAsync();
+        return await _context.Patients
+            .Include(p => p.User)
+            .ToListAsync();
     }
 
     public async Task<Patient?> GetByIdAsync(int id)
     {
-        return await _context.Patients.FindAsync(id);
+        return await _context.Patients
+            .Include(p => p.User)
+            .FirstOrDefaultAsync(p => p.PatientId == id);
     }
 
     public async Task AddAsync(Patient patient)
@@ -35,6 +39,10 @@ public class PatientRepository : IPatientRepository
     public async Task UpdateAsync(Patient patient)
     {
         _context.Entry(patient).State = EntityState.Modified;
+        if (patient.User != null)
+        {
+            _context.Entry(patient.User).State = EntityState.Modified;
+        }
         await _context.SaveChangesAsync();
     }
 
@@ -48,18 +56,8 @@ public class PatientRepository : IPatientRepository
         }
     }
 
-    public async Task<Patient?> GetByPhoneAsync(string phone)
-    {
-        return await _context.Patients.FirstOrDefaultAsync(p => p.Phone == phone);
-    }
-
-    public async Task<Patient?> GetByInsuranceNoAsync(string insuranceNo)
-    {
-        return await _context.Patients.FirstOrDefaultAsync(p => p.InsuranceNo == insuranceNo);
-    }
-
     public IQueryable<Patient> GetQueryable()
     {
-        return _context.Patients.AsQueryable();
+        return _context.Patients.Include(p => p.User).AsQueryable();
     }
 }
