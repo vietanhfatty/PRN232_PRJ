@@ -1,0 +1,218 @@
+@model MyProject.Application.DTOs.CreateMedicalRecordRequest
+
+@{
+    ViewData["Title"] = "Create Medical Record";
+    var appt = ViewBag.Appointment as MyProject.Application.DTOs.AppointmentDto;
+}
+
+<div class="container mt-4">
+    <div class="mb-4">
+        <a asp-controller="Appointments" asp-action="Queue" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+            <i class="fa-solid fa-arrow-left me-1"></i> Back to Queue
+        </a>
+    </div>
+
+    <!-- Appointment Reference Header -->
+    <div class="card shadow-sm border-0 rounded-4 bg-white p-4 mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-9">
+                <span class="badge bg-success rounded-pill px-3 py-2 mb-2"><i class="fa-solid fa-check me-1"></i> APPOINTMENT COMPLETED</span>
+                <h3 class="fw-bold text-dark mb-1">Create Medical File & Prescription</h3>
+                <p class="text-muted small mb-0">
+                    Patient: <strong>@(appt?.PatientName ?? "Unknown")</strong> | 
+                    Date: <strong>@(appt?.AppointmentDate.ToString("yyyy-MM-dd") ?? "Today")</strong> | 
+                    Attending: <strong>@(appt?.DoctorName ?? "Physician")</strong>
+                </p>
+            </div>
+            <div class="col-md-3 text-md-end mt-3 mt-md-0">
+                <div class="font-monospace text-muted small">ID: #@(appt?.AppointmentId ?? 0)</div>
+            </div>
+        </div>
+    </div>
+
+    <form asp-action="Create" method="post" id="recordForm">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="AppointmentId" />
+        <input type="hidden" name="medicinesJson" id="medicinesJson" />
+
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Assessment Form Card -->
+                <div class="card shadow-sm border-0 rounded-4 bg-white p-4 mb-4">
+                    <h5 class="fw-bold text-dark border-bottom pb-2 mb-4"><i class="fa-solid fa-stethoscope text-primary me-2"></i>Clinical Evaluation</h5>
+
+                    <div class="mb-3">
+                        <label asp-for="Symptoms" class="form-label fw-bold text-muted small">Symptoms & Complaint (Triệu chứng lâm sàng)</label>
+                        <textarea asp-for="Symptoms" class="form-control rounded-3" rows="3" placeholder="Enter patient's symptoms..."></textarea>
+                        <span asp-validation-for="Symptoms" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Diagnosis" class="form-label fw-bold text-muted small">Diagnosis (Chẩn đoán bệnh)*</label>
+                        <textarea asp-for="Diagnosis" class="form-control rounded-3 border-primary" rows="2" placeholder="Primary diagnosis (Required)..." required></textarea>
+                        <span asp-validation-for="Diagnosis" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Treatment" class="form-label fw-bold text-muted small">Treatment Plan (Phương án điều trị)*</label>
+                        <textarea asp-for="Treatment" class="form-control rounded-3" rows="3" placeholder="Rest, physical therapy, medicine, etc..." required></textarea>
+                        <span asp-validation-for="Treatment" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-0">
+                        <label asp-for="Notes" class="form-label fw-bold text-muted small">Administrative/Clinical Notes (Ghi chú thêm)</label>
+                        <textarea asp-for="Notes" class="form-control rounded-3" rows="2" placeholder="Additional doctor notes..."></textarea>
+                        <span asp-validation-for="Notes" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <!-- Prescription Builder Card -->
+                <div class="card shadow-sm border-0 rounded-4 bg-white p-4 mb-4">
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+                        <h5 class="fw-bold text-dark mb-0"><i class="fa-solid fa-pills text-danger me-2"></i>Prescription Builder (Kê đơn thuốc)</h5>
+                        <button type="button" class="btn btn-sm btn-outline-danger rounded-pill px-3" id="btnAddMedicine">
+                            <i class="fa-solid fa-plus me-1"></i> Add Medicine
+                        </button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table align-middle" id="prescriptionTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 35%">Medicine Name</th>
+                                    <th style="width: 20%">Dosage</th>
+                                    <th style="width: 15%">Qty</th>
+                                    <th style="width: 25%">Instructions</th>
+                                    <th style="width: 5%"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="prescriptionList">
+                                <tr class="empty-row-placeholder">
+                                    <td colspan="5" class="text-center py-4 text-muted small">
+                                        No medicines added. Click "Add Medicine" to prescribe drugs.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <!-- Action Sidebar card -->
+                <div class="card shadow-sm border-0 rounded-4 bg-white p-4 mb-4">
+                    <h5 class="fw-bold text-dark border-bottom pb-2 mb-3">Submission Details</h5>
+                    
+                    <p class="small text-muted mb-4">
+                        Upon saving, this record will be published to the patient portal, and the appointment status will be confirmed as completed.
+                    </p>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success rounded-pill py-2 fw-bold" id="btnSaveRecord">
+                            <i class="fa-solid fa-floppy-disk me-1"></i> Save Medical File
+                        </button>
+                        <a asp-controller="Appointments" asp-action="Queue" class="btn btn-outline-secondary rounded-pill py-2">
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0 rounded-4 bg-light p-4">
+                    <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-circle-info text-info me-2"></i>Note on Prescribing</h6>
+                    <p class="small text-muted mb-0">
+                        Ensure medicine names are spelt correctly. Quantity and instruction fields are highly recommended for patient safety.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnAddMedicine = document.getElementById('btnAddMedicine');
+            const prescriptionList = document.getElementById('prescriptionList');
+            const recordForm = document.getElementById('recordForm');
+            const medicinesJson = document.getElementById('medicinesJson');
+
+            btnAddMedicine.addEventListener('click', function() {
+                // Remove empty placeholder row if it exists
+                const placeholder = prescriptionList.querySelector('.empty-row-placeholder');
+                if (placeholder) {
+                    placeholder.remove();
+                }
+
+                // Append new row
+                const tr = document.createElement('tr');
+                tr.className = 'medicine-item';
+                tr.innerHTML = `
+                    <td>
+                        <input type="text" class="form-control form-control-sm border rounded-2 prep-name" placeholder="Paracetamol 500mg" required />
+                    </td>
+                    <td>
+                        <input type="text" class="form-control form-control-sm border rounded-2 prep-dosage" placeholder="1 tab daily" />
+                    </td>
+                    <td>
+                        <input type="number" class="form-control form-control-sm border rounded-2 prep-qty" min="1" value="10" />
+                    </td>
+                    <td>
+                        <input type="text" class="form-control form-control-sm border rounded-2 prep-instruction" placeholder="Take after breakfast" />
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-link text-danger p-0 btn-delete-row"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+
+                // Add delete listener
+                tr.querySelector('.btn-delete-row').addEventListener('click', function() {
+                    tr.remove();
+                    checkEmptyTable();
+                });
+
+                prescriptionList.appendChild(tr);
+            });
+
+            function checkEmptyTable() {
+                if (prescriptionList.querySelectorAll('.medicine-item').length === 0) {
+                    prescriptionList.innerHTML = `
+                        <tr class="empty-row-placeholder">
+                            <td colspan="5" class="text-center py-4 text-muted small">
+                                No medicines added. Click "Add Medicine" to prescribe drugs.
+                            </td>
+                        </tr>
+                    `;
+                }
+            }
+
+            recordForm.addEventListener('submit', function(e) {
+                // Compile medicines list to JSON
+                const medicineRows = prescriptionList.querySelectorAll('.medicine-item');
+                const list = [];
+                
+                medicineRows.forEach(row => {
+                    const name = row.querySelector('.prep-name').value.trim();
+                    const dosage = row.querySelector('.prep-dosage').value.trim();
+                    const qtyVal = row.querySelector('.prep-qty').value;
+                    const qty = qtyVal ? parseInt(qtyVal, 10) : null;
+                    const instruction = row.querySelector('.prep-instruction').value.trim();
+
+                    if (name) {
+                        list.push({
+                            MedicineName: name,
+                            Dosage: dosage || null,
+                            Quantity: qty,
+                            Instruction: instruction || null
+                        });
+                    }
+                });
+
+                if (list.length > 0) {
+                    medicinesJson.value = JSON.stringify(list);
+                } else {
+                    medicinesJson.value = '';
+                }
+            });
+        });
+    </script>
+}

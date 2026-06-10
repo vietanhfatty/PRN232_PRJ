@@ -38,7 +38,41 @@
                 </a>
 
                 <ul class="nav-menu">
-                    @if (User.IsInRole("Doctor"))
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-menu-item">
+                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index">
+                                <i class="fa-solid fa-chart-line"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-menu-item">
+                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Patients" ? "active" : "")" asp-controller="Patients" asp-action="Index">
+                                <i class="fa-solid fa-user-injured"></i> Patients
+                            </a>
+                        </li>
+                        <li class="nav-menu-item">
+                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Appointments" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")" asp-controller="Appointments" asp-action="Index">
+                                <i class="fa-solid fa-calendar-check"></i> Appointments
+                            </a>
+                        </li>
+                        <li class="nav-menu-item">
+                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "MedicalRecords" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")" asp-controller="MedicalRecords" asp-action="Index">
+                                <i class="fa-solid fa-file-medical"></i> Medical Records
+                            </a>
+                        </li>
+                        <li class="nav-menu-item">
+                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Medicines" ? "active" : "")" asp-controller="Medicines" asp-action="Index">
+                                <i class="fa-solid fa-pills"></i> Inventory
+                            </a>
+                        </li>
+
+                        <li class="nav-menu-item">
+                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Roles" ? "active" : "")" asp-controller="Roles" asp-action="Index">
+                                <i class="fa-solid fa-shield-alt"></i> Administration
+                            </a>
+                        </li>
+                    }
+                    else if (User.IsInRole("Doctor"))
                     {
                         <li class="nav-menu-item">
                             <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Appointments" && ViewContext.RouteData.Values["Action"]?.ToString() == "Queue" ? "active" : "")" asp-controller="Appointments" asp-action="Queue">
@@ -56,48 +90,31 @@
                             </a>
                         </li>
                     }
-                    else
+                    else if (User.IsInRole("Patient"))
                     {
                         <li class="nav-menu-item">
-                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index">
+                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "PatientPortal" && ViewContext.RouteData.Values["Action"]?.ToString() == "Dashboard" ? "active" : "")" asp-controller="PatientPortal" asp-action="Dashboard">
                                 <i class="fa-solid fa-chart-line"></i> Dashboard
                             </a>
                         </li>
                         <li class="nav-menu-item">
-                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Patients" ? "active" : "")" asp-controller="Patients" asp-action="Index">
-                                <i class="fa-solid fa-user-injured"></i> Patients
+                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "PatientPortal" && ViewContext.RouteData.Values["Action"]?.ToString() == "BookAppointment" ? "active" : "")" asp-controller="PatientPortal" asp-action="BookAppointment">
+                                <i class="fa-solid fa-calendar-plus"></i> Book Appointment
                             </a>
                         </li>
                         <li class="nav-menu-item">
-                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Appointments" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")" asp-controller="Appointments" asp-action="Index">
-                                <i class="fa-solid fa-calendar-check"></i> Appointments
+                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "PatientPortal" && ViewContext.RouteData.Values["Action"]?.ToString() == "MyHistory" ? "active" : "")" asp-controller="PatientPortal" asp-action="MyHistory">
+                                <i class="fa-solid fa-history"></i> My History
                             </a>
                         </li>
-                    }
-                    @if (User.IsInRole("Admin"))
-                    {
                         <li class="nav-menu-item">
-                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Staffs" ? "active" : "")" asp-controller="Staffs" asp-action="Index">
-                                <i class="fa-solid fa-user-md"></i> Staff
+                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "PatientPortal" && ViewContext.RouteData.Values["Action"]?.ToString() == "MyMedicalRecords" ? "active" : "")" asp-controller="PatientPortal" asp-action="MyMedicalRecords">
+                                <i class="fa-solid fa-file-prescription"></i> Medical Records
                             </a>
                         </li>
-                    }
-
-                    <li class="nav-menu-item">
-                        <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Medicines" ? "active" : "")" asp-controller="Medicines" asp-action="Index">
-                            <i class="fa-solid fa-pills"></i> Inventory
-                        </a>
-                    </li>
-                    <li class="nav-menu-item">
-                        <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "LabTests" ? "active" : "")" asp-controller="LabTests" asp-action="Index">
-                            <i class="fa-solid fa-flask"></i> Lab Tests
-                        </a>
-                    </li>
-                    @if (User.IsInRole("Admin"))
-                    {
                         <li class="nav-menu-item">
-                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Roles" ? "active" : "")" asp-controller="Roles" asp-action="Index">
-                                <i class="fa-solid fa-shield-alt"></i> Administration
+                            <a class="nav-menu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "PatientPortal" && ViewContext.RouteData.Values["Action"]?.ToString() == "MyProfile" ? "active" : "")" asp-controller="PatientPortal" asp-action="MyProfile">
+                                <i class="fa-solid fa-user-circle"></i> My Profile
                             </a>
                         </li>
                     }

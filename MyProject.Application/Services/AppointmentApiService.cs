@@ -66,6 +66,35 @@ public class AppointmentApiService
         await ThrowIfErrorAsync(response);
     }
 
+    public async Task ConfirmAsync(int id)
+    {
+        var client = GetClient();
+        var response = await client.PostAsync($"appointments/{id}/confirm", null);
+        await ThrowIfErrorAsync(response);
+    }
+
+    public async Task StartExaminationAsync(int id)
+    {
+        var client = GetClient();
+        var response = await client.PostAsync($"appointments/{id}/start", null);
+        await ThrowIfErrorAsync(response);
+    }
+
+    public async Task CompleteAsync(int id)
+    {
+        var client = GetClient();
+        var response = await client.PostAsync($"appointments/{id}/complete", null);
+        await ThrowIfErrorAsync(response);
+    }
+
+    public async Task<List<AppointmentDto>> GetByPatientAsync(int patientId)
+    {
+        var client = GetClient();
+        var response = await client.GetAsync($"appointments/by-patient/{patientId}");
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadFromJsonAsync<List<AppointmentDto>>() ?? new List<AppointmentDto>();
+    }
+
     private static async Task ThrowIfErrorAsync(HttpResponseMessage response)
     {
         if (response.IsSuccessStatusCode) return;

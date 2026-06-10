@@ -1,0 +1,159 @@
+@model MyProject.Application.DTOs.MedicalRecordDto
+
+@{
+    ViewData["Title"] = "Medical Record Details";
+}
+
+<div class="container mt-4">
+    <!-- Back Navigation -->
+    <div class="mb-4">
+        @if (User.IsInRole("Patient"))
+        {
+            <a asp-controller="PatientPortal" asp-action="MyMedicalRecords" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                <i class="fa-solid fa-arrow-left me-1"></i> Back to My Records
+            </a>
+        }
+        else if (User.IsInRole("Doctor"))
+        {
+            <a asp-controller="Appointments" asp-action="Queue" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                <i class="fa-solid fa-arrow-left me-1"></i> Back to Queue
+            </a>
+        }
+        else
+        {
+            <a asp-action="Index" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                <i class="fa-solid fa-arrow-left me-1"></i> Back to Directory
+            </a>
+        }
+    </div>
+
+    <!-- Header Block -->
+    <div class="card shadow-sm border-0 rounded-4 bg-white p-4 mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="badge bg-primary rounded-pill me-3 font-monospace fs-6">RECORD #@Model.MedicalRecordId</span>
+                    <span class="text-muted small"><i class="fa-solid fa-clock me-1"></i> Created on @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
+                </div>
+                <h2 class="fw-bold text-dark mb-0">Hồ Sơ Bệnh Án / Medical File</h2>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <button class="btn btn-outline-primary rounded-pill px-4" onclick="window.print()">
+                    <i class="fa-solid fa-print me-1"></i> Print Record
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Main details card -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 rounded-4 bg-white p-4 mb-4">
+                <h5 class="fw-bold text-dark border-bottom pb-2 mb-3"><i class="fa-solid fa-stethoscope text-primary me-2"></i>Clinical Assessment</h5>
+
+                <div class="mb-4">
+                    <h6 class="fw-bold text-muted small text-uppercase">Symptoms & Complaints (Triệu chứng)</h6>
+                    <p class="text-dark bg-light p-3 rounded-3 border-start border-primary border-3">
+                        @(string.IsNullOrEmpty(Model.Symptoms) ? "No symptoms recorded." : Model.Symptoms)
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                    <h6 class="fw-bold text-muted small text-uppercase">Diagnosis (Chẩn đoán bệnh)</h6>
+                    <p class="text-dark bg-light p-3 rounded-3 border-start border-danger border-3 fw-bold">
+                        @(string.IsNullOrEmpty(Model.Diagnosis) ? "No diagnosis recorded." : Model.Diagnosis)
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                    <h6 class="fw-bold text-muted small text-uppercase">Treatment Plan (Phương án điều trị)</h6>
+                    <p class="text-dark bg-light p-3 rounded-3 border-start border-success border-3">
+                        @(string.IsNullOrEmpty(Model.Treatment) ? "No treatment plan recorded." : Model.Treatment)
+                    </p>
+                </div>
+
+                <div class="mb-0">
+                    <h6 class="fw-bold text-muted small text-uppercase">Clinical Notes (Ghi chú lâm sàng)</h6>
+                    <p class="text-dark bg-light p-3 rounded-3">
+                        @(string.IsNullOrEmpty(Model.Notes) ? "No notes available." : Model.Notes)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Prescription card -->
+            <div class="card shadow-sm border-0 rounded-4 bg-white p-4 mb-4">
+                <h5 class="fw-bold text-dark border-bottom pb-2 mb-3"><i class="fa-solid fa-file-prescription text-danger me-2"></i>Prescription (Đơn thuốc)</h5>
+                
+                @if (Model.Prescriptions == null || !Model.Prescriptions.Any())
+                {
+                    <div class="text-center py-4 text-muted bg-light rounded-3">
+                        <i class="fa-solid fa-pills fa-2x mb-2 text-secondary"></i>
+                        <p class="mb-0 small fw-bold">No medicines prescribed in this session.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Medicine Name</th>
+                                    <th>Dosage</th>
+                                    <th>Quantity</th>
+                                    <th>Instructions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var prep in Model.Prescriptions)
+                                {
+                                    <tr>
+                                        <td class="fw-bold text-dark">@prep.MedicineName</td>
+                                        <td>@prep.Dosage</td>
+                                        <td><span class="badge bg-secondary-subtle text-secondary rounded-pill px-2">@prep.Quantity</span></td>
+                                        <td class="small text-muted">@prep.Instruction</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Meta Sidebar info card -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 rounded-4 bg-white p-4 mb-4">
+                <h5 class="fw-bold text-dark border-bottom pb-2 mb-3"><i class="fa-solid fa-id-card text-success me-2"></i>Parties Involved</h5>
+                
+                <!-- Patient info -->
+                <div class="d-flex align-items-center mb-4">
+                    <div class="bg-success-subtle text-success rounded-circle p-3 me-3">
+                        <i class="fa-solid fa-user-injured fa-lg"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-muted small mb-0 text-uppercase">Patient</h6>
+                        <span class="text-dark fw-bold">@Model.PatientName</span>
+                    </div>
+                </div>
+
+                <!-- Doctor info -->
+                <div class="d-flex align-items-center mb-2">
+                    <div class="bg-primary-subtle text-primary rounded-circle p-3 me-3">
+                        <i class="fa-solid fa-user-md fa-lg"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-muted small mb-0 text-uppercase">Attending Physician</h6>
+                        <span class="text-dark fw-bold">@Model.DoctorName</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card shadow-sm border-0 rounded-4 bg-primary text-white p-4">
+                <h5 class="fw-bold mb-3"><i class="fa-solid fa-shield-halved me-2"></i>Medical Confidentiality</h5>
+                <p class="small mb-0 text-white-50">
+                    This file is encrypted and protected under healthcare confidentiality regulations. Access is tracked and authorized to medical personnel and the patient only.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

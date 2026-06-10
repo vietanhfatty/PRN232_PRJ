@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Application.DTOs;
 using MyProject.Application.Services;
@@ -13,10 +14,12 @@ namespace MyProject.WebMvc.Controllers;
 public class AccountController : Controller
 {
     private readonly AuthService _authService;
+    private readonly PatientService _patientService;
 
-    public AccountController(AuthService authService)
+    public AccountController(AuthService authService, PatientService patientService)
     {
         _authService = authService;
+        _patientService = patientService;
     }
 
     [HttpGet]
@@ -70,6 +73,45 @@ public class AccountController : Controller
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return RedirectToAction(nameof(Login));
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult Register()
+    {
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        return View();
+    }
+
+    [HttpPost]
+    [AllowAnonymous]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(CreatePatientRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(request);
+        }
+
+        try
+        {
+            await _patientService.CreateAsync(request);
+            TempData["SuccessMessage"] = "Registration successful! Please log in.";
+            return RedirectToAction(nameof(Login));
+        }
+        catch (ArgumentException ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            return View(request);
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", "Registration failed: " + ex.Message);
+            return View(request);
+        }
     }
 
     [HttpGet]

@@ -25,6 +25,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
+builder.Services.AddScoped<IPrescriptionRepository, PrescriptionRepository>();
 
 // Register Services
 builder.Services.AddScoped<RoleService>();
@@ -32,12 +34,14 @@ builder.Services.AddScoped<PatientService>();
 builder.Services.AddScoped<DoctorService>();
 builder.Services.AddScoped<AppointmentService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<MedicalRecordService>();
 
 // Register API Services (for calling WebApi via HttpClient)
 builder.Services.AddScoped<RoleApiService>();
 builder.Services.AddScoped<PatientApiService>();
 builder.Services.AddScoped<DoctorApiService>();
 builder.Services.AddScoped<AppointmentApiService>();
+builder.Services.AddScoped<MedicalRecordApiService>();
 
 // Register Cookie Authentication
 builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme)

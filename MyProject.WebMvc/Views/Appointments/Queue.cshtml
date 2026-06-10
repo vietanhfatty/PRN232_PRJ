@@ -25,6 +25,7 @@
                             <th class="ps-4">No.</th>
                             <th>Patient Name</th>
                             <th>Appointment Time</th>
+                            <th>Status</th>
                             <th>Reason for Visit</th>
                             <th class="text-end pe-4">Actions</th>
                         </tr>
@@ -33,7 +34,7 @@
                         @if (!Model.Any())
                         {
                             <tr>
-                                <td colspan="5" class="text-center py-5 text-muted">
+                                <td colspan="6" class="text-center py-5 text-muted">
                                     <i class="fa-solid fa-mug-hot fa-3x mb-3 text-success"></i>
                                     <p class="mb-0 fw-bold">No patients waiting in queue!</p>
                                     <p class="small text-muted mb-0">Either all patients have been treated or none have checked in today.</p>
@@ -48,8 +49,42 @@
                                 </td>
                                 <td class="fw-bold text-dark">@item.PatientName</td>
                                 <td>@item.AppointmentTime.ToString(@"hh\:mm")</td>
+                                <td>
+                                    @if (item.Status == "Confirmed")
+                                    {
+                                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2">Confirmed</span>
+                                    }
+                                    else if (item.Status == "InProgress")
+                                    {
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2">In Progress</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2">@item.Status</span>
+                                    }
+                                </td>
                                 <td>@(string.IsNullOrEmpty(item.Reason) ? "General Checkup" : item.Reason)</td>
                                 <td class="text-end pe-4">
+                                    @if (item.Status == "Confirmed")
+                                    {
+                                        <form asp-action="StartExamination" method="post" class="d-inline me-1">
+                                            <input type="hidden" name="id" value="@item.AppointmentId" />
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-sm btn-primary rounded-pill px-3">
+                                                <i class="fa-solid fa-play me-1"></i> Start Exam
+                                            </button>
+                                        </form>
+                                    }
+                                    else if (item.Status == "InProgress")
+                                    {
+                                        <form asp-action="Complete" method="post" class="d-inline me-1">
+                                            <input type="hidden" name="id" value="@item.AppointmentId" />
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-sm btn-success rounded-pill px-3">
+                                                <i class="fa-solid fa-check me-1"></i> Complete
+                                            </button>
+                                        </form>
+                                    }
                                     <a asp-action="Details" asp-route-id="@item.AppointmentId" class="btn btn-sm btn-outline-info rounded-pill px-3">
                                         <i class="fa-solid fa-address-book me-1"></i> Patient Record
                                     </a>

@@ -121,6 +121,70 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MyProject.WebApi.Controllers.AppointmentsController",
+    "Method": "Complete",
+    "RelativePath": "api/Appointments/{id}/complete",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyProject.WebApi.Controllers.AppointmentsController",
+    "Method": "Confirm",
+    "RelativePath": "api/Appointments/{id}/confirm",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyProject.WebApi.Controllers.AppointmentsController",
+    "Method": "StartExamination",
+    "RelativePath": "api/Appointments/{id}/start",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyProject.WebApi.Controllers.AppointmentsController",
+    "Method": "GetByPatient",
+    "RelativePath": "api/Appointments/by-patient/{patientId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MyProject.WebApi.Controllers.DoctorsController",
     "Method": "GetAll",
     "RelativePath": "api/Doctors",
@@ -193,6 +257,101 @@
     "Parameters": [
       {
         "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyProject.WebApi.Controllers.MedicalRecordsController",
+    "Method": "GetAll",
+    "RelativePath": "api/MedicalRecords",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyProject.WebApi.Controllers.MedicalRecordsController",
+    "Method": "Create",
+    "RelativePath": "api/MedicalRecords",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MyProject.Application.DTOs.CreateMedicalRecordRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyProject.WebApi.Controllers.MedicalRecordsController",
+    "Method": "GetById",
+    "RelativePath": "api/MedicalRecords/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyProject.WebApi.Controllers.MedicalRecordsController",
+    "Method": "AddPrescriptions",
+    "RelativePath": "api/MedicalRecords/{id}/prescriptions",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "prescriptions",
+        "Type": "System.Collections.Generic.List\u00601[[MyProject.Application.DTOs.CreatePrescriptionRequest, MyProject.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyProject.WebApi.Controllers.MedicalRecordsController",
+    "Method": "GetByAppointmentId",
+    "RelativePath": "api/MedicalRecords/by-appointment/{appointmentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "appointmentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyProject.WebApi.Controllers.MedicalRecordsController",
+    "Method": "GetByPatientId",
+    "RelativePath": "api/MedicalRecords/by-patient/{patientId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
         "Type": "System.Int32",
         "IsRequired": true
       }
