@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\PRN212_demo\\232\\Project_PRN232\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{2D5D3078-1B72-470D-AFC8-8BB274B9C76C}|MyProject.WebMvc\\MyProject.WebMvc.csproj|d:\\prn212_demo\\232\\project_prn232\\myproject.webmvc\\views\\appointments\\myschedule.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2D5D3078-1B72-470D-AFC8-8BB274B9C76C}|MyProject.WebMvc\\MyProject.WebMvc.csproj|solutionrelative:myproject.webmvc\\views\\appointments\\myschedule.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2D5D3078-1B72-470D-AFC8-8BB274B9C76C}|MyProject.WebMvc\\MyProject.WebMvc.csproj|d:\\prn212_demo\\232\\project_prn232\\myproject.webmvc\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{2D5D3078-1B72-470D-AFC8-8BB274B9C76C}|MyProject.WebMvc\\MyProject.WebMvc.csproj|solutionrelative:myproject.webmvc\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -945,6 +949,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "MySchedule.cshtml",
+              "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.WebMvc\\Views\\Appointments\\MySchedule.cshtml",
+              "RelativeDocumentMoniker": "MyProject.WebMvc\\Views\\Appointments\\MySchedule.cshtml",
+              "ToolTip": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.WebMvc\\Views\\Appointments\\MySchedule.cshtml",
+              "RelativeToolTip": "MyProject.WebMvc\\Views\\Appointments\\MySchedule.cshtml",
+              "ViewState": "AgIAAHQBAAAAAAAAAAAkwLkBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-10T18:02:46.195Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.WebMvc\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "MyProject.WebMvc\\Views\\Home\\Index.cshtml",
@@ -957,7 +974,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "IDoctorScheduleRepository.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Domain\\IRepositories\\IDoctorScheduleRepository.cs",
               "RelativeDocumentMoniker": "MyProject.Domain\\IRepositories\\IDoctorScheduleRepository.cs",
@@ -969,7 +986,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "IAccountRepository.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Domain\\IRepositories\\IAccountRepository.cs",
               "RelativeDocumentMoniker": "MyProject.Domain\\IRepositories\\IAccountRepository.cs",
@@ -981,7 +998,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "PatientRepository.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Infrastructure\\Repositories\\PatientRepository.cs",
               "RelativeDocumentMoniker": "MyProject.Infrastructure\\Repositories\\PatientRepository.cs",
@@ -993,7 +1010,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "AppointmentApiService.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Application\\Services\\AppointmentApiService.cs",
               "RelativeDocumentMoniker": "MyProject.Application\\Services\\AppointmentApiService.cs",
@@ -1005,7 +1022,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "ILabTestRepository.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Domain\\IRepositories\\ILabTestRepository.cs",
               "RelativeDocumentMoniker": "MyProject.Domain\\IRepositories\\ILabTestRepository.cs",
@@ -1017,7 +1034,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "IRoleRepository.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Domain\\IRepositories\\IRoleRepository.cs",
               "RelativeDocumentMoniker": "MyProject.Domain\\IRepositories\\IRoleRepository.cs",
@@ -1029,7 +1046,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "AppointmentRepository.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Infrastructure\\Repositories\\AppointmentRepository.cs",
               "RelativeDocumentMoniker": "MyProject.Infrastructure\\Repositories\\AppointmentRepository.cs",
@@ -1041,7 +1058,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "DoctorScheduleRepository.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Infrastructure\\Repositories\\DoctorScheduleRepository.cs",
               "RelativeDocumentMoniker": "MyProject.Infrastructure\\Repositories\\DoctorScheduleRepository.cs",
@@ -1053,7 +1070,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "HospitalManagementDbContext.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Infrastructure\\HospitalManagementDbContext.cs",
               "RelativeDocumentMoniker": "MyProject.Infrastructure\\HospitalManagementDbContext.cs",
@@ -1065,7 +1082,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "AccountRepository.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Infrastructure\\Repositories\\AccountRepository.cs",
               "RelativeDocumentMoniker": "MyProject.Infrastructure\\Repositories\\AccountRepository.cs",
@@ -1077,7 +1094,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "Room.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Domain\\Entities\\Room.cs",
               "RelativeDocumentMoniker": "MyProject.Domain\\Entities\\Room.cs",
@@ -1089,7 +1106,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "Bill.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Domain\\Entities\\Bill.cs",
               "RelativeDocumentMoniker": "MyProject.Domain\\Entities\\Bill.cs",
@@ -1101,7 +1118,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "AppointmentDto.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Application\\DTOs\\AppointmentDto.cs",
               "RelativeDocumentMoniker": "MyProject.Application\\DTOs\\AppointmentDto.cs",
@@ -1113,7 +1130,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "LabTestDto.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Application\\DTOs\\LabTestDto.cs",
               "RelativeDocumentMoniker": "MyProject.Application\\DTOs\\LabTestDto.cs",
@@ -1125,7 +1142,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "DoctorScheduleApiService.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Application\\Services\\DoctorScheduleApiService.cs",
               "RelativeDocumentMoniker": "MyProject.Application\\Services\\DoctorScheduleApiService.cs",
@@ -1137,7 +1154,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "DoctorScheduleService.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Application\\Services\\DoctorScheduleService.cs",
               "RelativeDocumentMoniker": "MyProject.Application\\Services\\DoctorScheduleService.cs",
@@ -1149,7 +1166,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "LabTestService.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Application\\Services\\LabTestService.cs",
               "RelativeDocumentMoniker": "MyProject.Application\\Services\\LabTestService.cs",
@@ -1161,7 +1178,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "IAppointmentRepository.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Domain\\IRepositories\\IAppointmentRepository.cs",
               "RelativeDocumentMoniker": "MyProject.Domain\\IRepositories\\IAppointmentRepository.cs",
@@ -1173,7 +1190,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "PatientsController.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.WebMvc\\Controllers\\PatientsController.cs",
               "RelativeDocumentMoniker": "MyProject.WebMvc\\Controllers\\PatientsController.cs",
@@ -1185,7 +1202,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 25,
               "Title": "MedicinesController.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.WebMvc\\Controllers\\MedicinesController.cs",
               "RelativeDocumentMoniker": "MyProject.WebMvc\\Controllers\\MedicinesController.cs",
@@ -1197,7 +1214,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "AccountController.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.WebMvc\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "MyProject.WebMvc\\Controllers\\AccountController.cs",
@@ -1209,7 +1226,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "AppointmentsController.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.WebMvc\\Controllers\\AppointmentsController.cs",
               "RelativeDocumentMoniker": "MyProject.WebMvc\\Controllers\\AppointmentsController.cs",
@@ -1221,7 +1238,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "MyProject.WebApi.csproj",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.WebApi\\MyProject.WebApi.csproj",
               "RelativeDocumentMoniker": "MyProject.WebApi\\MyProject.WebApi.csproj",
@@ -1233,7 +1250,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "Role.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Domain\\Entities\\Role.cs",
               "RelativeDocumentMoniker": "MyProject.Domain\\Entities\\Role.cs",
@@ -1245,7 +1262,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 26,
               "Title": "Staff.cs",
               "DocumentMoniker": "D:\\PRN212_demo\\232\\Project_PRN232\\MyProject.Domain\\Entities\\Staff.cs",
               "RelativeDocumentMoniker": "MyProject.Domain\\Entities\\Staff.cs",
