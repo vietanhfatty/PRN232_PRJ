@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace MyProject.Domain.Entities;
@@ -7,15 +7,15 @@ public partial class Prescription
 {
     public int PrescriptionId { get; set; }
 
-    public int RecordId { get; set; }
+    public int MedicalRecordId { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    public string MedicineName { get; set; } = null!;
 
-    public bool? IsDispensed { get; set; }
+    public string? Dosage { get; set; }
 
-    public DateTime? DispensedAt { get; set; }
+    public int? Quantity { get; set; }
 
-    public virtual ICollection<PrescriptionDetail> PrescriptionDetails { get; set; } = new List<PrescriptionDetail>();
+    public string? Instruction { get; set; }
 
-    public virtual MedicalRecord Record { get; set; } = null!;
+    public virtual MedicalRecord MedicalRecord { get; set; } = null!;
 }

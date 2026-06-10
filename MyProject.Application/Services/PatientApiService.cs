@@ -8,17 +8,26 @@ using MyProject.Application.DTOs;
 
 namespace MyProject.Application.Services;
 
+// Helper wrapper to handle OData response format
+public class ODataResponse<T>
+{
+    public List<T> Value { get; set; } = new();
+}
+
 // Mutable raw class for deserializing Patient entity JSON (handles OData + plain)
 public class PatientDtoRaw
 {
     public int PatientId { get; set; }
-    public string FirstName { get; set; } = "";
-    public string LastName { get; set; } = "";
-    public string Gender { get; set; } = "";
-    public string Dob { get; set; } = ""; // DateOnly serialized as string
-    public string Phone { get; set; } = "";
+    public int UserId { get; set; }
+    public string FullName { get; set; } = "";
+    public string Username { get; set; } = "";
+    public string? Phone { get; set; }
+    public string? DateOfBirth { get; set; } // DateOnly serialized as string
+    public string? Gender { get; set; }
     public string? Address { get; set; }
-    public string? InsuranceNo { get; set; }
+    public string? BloodType { get; set; }
+    public string? EmergencyContactName { get; set; }
+    public string? EmergencyContactPhone { get; set; }
 }
 
 public class PatientApiService
@@ -40,8 +49,24 @@ public class PatientApiService
 
     private PatientDto MapRaw(PatientDtoRaw raw)
     {
-        DateOnly.TryParse(raw.Dob, out var dob);
-        return new PatientDto(raw.PatientId, raw.FirstName, raw.LastName, raw.Gender, dob, raw.Phone, raw.Address, raw.InsuranceNo);
+        DateOnly? dob = null;
+        if (!string.IsNullOrEmpty(raw.DateOfBirth) && DateOnly.TryParse(raw.DateOfBirth, out var parsedDob))
+        {
+            dob = parsedDob;
+        }
+        return new PatientDto(
+            raw.PatientId,
+            raw.UserId,
+            raw.FullName,
+            raw.Username,
+            raw.Phone,
+            dob,
+            raw.Gender,
+            raw.Address,
+            raw.BloodType,
+            raw.EmergencyContactName,
+            raw.EmergencyContactPhone
+        );
     }
 
     public async Task<List<PatientDto>> GetAllAsync()

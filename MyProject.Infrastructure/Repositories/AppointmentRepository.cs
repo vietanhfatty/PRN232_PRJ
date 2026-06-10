@@ -62,23 +62,4 @@ public class AppointmentRepository : IAppointmentRepository
             await _context.SaveChangesAsync();
         }
     }
-
-    public async Task<int> GetMaxQueueNumberAsync(int doctorId, DateTime date)
-    {
-        // Get appointments for the doctor on the same date (ignoring time)
-        var appointments = await _context.Appointments
-            .Where(a => a.DoctorId == doctorId && a.QueueNumber.HasValue)
-            .ToListAsync();
-
-        var dailyAppointments = appointments
-            .Where(a => a.AppointmentDate.Date == date.Date)
-            .ToList();
-
-        if (!dailyAppointments.Any())
-        {
-            return 0;
-        }
-
-        return dailyAppointments.Max(a => a.QueueNumber ?? 0);
-    }
 }

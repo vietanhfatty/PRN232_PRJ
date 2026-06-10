@@ -3,6 +3,7 @@ using MyProject.WebMvc.Models;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using MyProject.Application.Services;
+using MyProject.Domain.IRepositories;
 using System.Linq;
 using System;
 using Microsoft.AspNetCore.Authorization;
@@ -14,18 +15,18 @@ namespace MyProject.WebMvc.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly PatientService _patientService;
-        private readonly StaffService _staffService;
+        private readonly IDoctorRepository _doctorRepo;
         private readonly AppointmentService _appointmentService;
 
         public HomeController(
             ILogger<HomeController> logger,
             PatientService patientService,
-            StaffService staffService,
+            IDoctorRepository doctorRepo,
             AppointmentService appointmentService)
         {
             _logger = logger;
             _patientService = patientService;
-            _staffService = staffService;
+            _doctorRepo = doctorRepo;
             _appointmentService = appointmentService;
         }
 
@@ -37,7 +38,7 @@ namespace MyProject.WebMvc.Controllers
             }
 
             var patients = await _patientService.GetAllAsync();
-            var staff = await _staffService.GetAllAsync();
+            var doctors = await _doctorRepo.GetAllAsync();
             var appointments = await _appointmentService.GetAllAsync();
 
             var today = DateTime.Today;
@@ -45,11 +46,11 @@ namespace MyProject.WebMvc.Controllers
             var viewModel = new DashboardViewModel
             {
                 TotalPatientsCount = patients.Count(),
-                ActiveDoctorsCount = staff.Count(s => s.Status == "Active" && (s.RoleName == "Doctor" || !string.IsNullOrEmpty(s.Specialization))),
-                WaitingQueueCount = appointments.Count(a => a.Status == "Waiting" && a.AppointmentDate.Date == today),
-                TodayAppointmentsCount = appointments.Count(a => a.AppointmentDate.Date == today),
+                ActiveDoctorsCount = doctors.Count(d => d.User.IsActive),
+                WaitingQueueCount = appointments.Count(a => a.Status == "Waiting" && a.AppointmentDate == DateOnly.FromDateTime(today)),
+                TodayAppointmentsCount = appointments.Count(a => a.AppointmentDate == DateOnly.FromDateTime(today)),
                 RecentCheckIns = appointments
-                    .Where(a => a.AppointmentDate.Date == today)
+                    .Where(a => a.AppointmentDate == DateOnly.FromDateTime(today))
                     .OrderByDescending(a => a.AppointmentId)
                     .Take(5)
                     .ToList()

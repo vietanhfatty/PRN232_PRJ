@@ -38,8 +38,8 @@
                     <label for="statusFilterSelect" class="form-label fw-bold small text-muted">Filter Status</label>
                     <select id="statusFilterSelect" class="form-select rounded-3">
                         <option value="">All Statuses</option>
-                        <option value="Scheduled">Scheduled</option>
-                        <option value="Waiting">Waiting</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Confirmed">Confirmed</option>
                         <option value="Completed">Completed</option>
                         <option value="Cancelled">Cancelled</option>
                     </select>
@@ -80,9 +80,8 @@
                         <tr>
                             <th class="ps-4">ID</th>
                             <th>Patient Name</th>
-                            <th>Date & Time</th>
-                            <th>Queue No</th>
-                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Time</th>
                             <th>Status</th>
                             <th>Reason</th>
                             <th class="text-end pe-4">Actions</th>
@@ -94,35 +93,16 @@
                             <tr class="appt-row" data-status="@item.Status" data-date="@item.AppointmentDate.ToString("yyyy-MM-dd")">
                                 <td class="ps-4 fw-bold text-secondary">#@item.AppointmentId</td>
                                 <td class="fw-bold text-dark appt-patient">@item.PatientName</td>
-                                <td>@item.AppointmentDate.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>@item.AppointmentDate.ToString("yyyy-MM-dd")</td>
+                                <td>@item.AppointmentTime.ToString(@"hh\:mm")</td>
                                 <td>
-                                    @if (item.QueueNumber.HasValue)
+                                    @if (item.Status == "Pending")
                                     {
-                                        <span class="badge bg-primary rounded-pill px-2">Q-@item.QueueNumber</span>
+                                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-2">Pending</span>
                                     }
-                                    else
+                                    else if (item.Status == "Confirmed")
                                     {
-                                        <span class="text-muted small">-</span>
-                                    }
-                                </td>
-                                <td>
-                                    @if (item.Type == "First Visit")
-                                    {
-                                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2">First Visit</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-light text-dark border rounded-pill px-2">Follow-up</span>
-                                    }
-                                </td>
-                                <td>
-                                    @if (item.Status == "Scheduled")
-                                    {
-                                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-2">Scheduled</span>
-                                    }
-                                    else if (item.Status == "Waiting")
-                                    {
-                                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2">Waiting</span>
+                                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2">Confirmed</span>
                                     }
                                     else if (item.Status == "Completed")
                                     {
@@ -163,15 +143,6 @@
 
         function getTodayDateString() {
             const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
-
-        function getTomorrowDateString() {
-            const now = new Date();
-            now.setDate(now.getDate() + 1);
             const year = now.getFullYear();
             const month = String(now.getMonth() + 1).padStart(2, '0');
             const day = String(now.getDate()).padStart(2, '0');

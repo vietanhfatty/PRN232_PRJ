@@ -12,16 +12,16 @@ public class AppointmentService
 {
     private readonly IAppointmentRepository _repo;
     private readonly IPatientRepository _patientRepo;
-    private readonly IStaffRepository _staffRepo;
+    private readonly IDoctorRepository _doctorRepo;
 
     public AppointmentService(
         IAppointmentRepository repo,
         IPatientRepository patientRepo,
-        IStaffRepository staffRepo)
+        IDoctorRepository doctorRepo)
     {
         _repo = repo;
         _patientRepo = patientRepo;
-        _staffRepo = staffRepo;
+        _doctorRepo = doctorRepo;
     }
 
     public async Task<IEnumerable<AppointmentDto>> GetAllAsync()
@@ -43,17 +43,18 @@ public class AppointmentService
             ?? throw new KeyNotFoundException($"Patient with ID {req.PatientId} not found");
 
         // Check doctor exists
-        var doctor = await _staffRepo.GetByIdAsync(req.DoctorId)
-            ?? throw new KeyNotFoundException($"Staff/Doctor with ID {req.DoctorId} not found");
+        var doctor = await _doctorRepo.GetByIdAsync(req.DoctorId)
+            ?? throw new KeyNotFoundException($"Doctor with ID {req.DoctorId} not found");
 
         var appointment = new Appointment
         {
             PatientId = req.PatientId,
             DoctorId = req.DoctorId,
             AppointmentDate = req.AppointmentDate,
-            Type = string.IsNullOrWhiteSpace(req.Type) ? "First Visit" : req.Type.Trim(),
-            Status = string.IsNullOrWhiteSpace(req.Status) ? "Scheduled" : req.Status.Trim(),
-            Reason = req.Reason?.Trim()
+            AppointmentTime = req.AppointmentTime,
+            Status = string.IsNullOrWhiteSpace(req.Status) ? "Pending" : req.Status.Trim(),
+            Reason = req.Reason?.Trim(),
+            CreatedAt = DateTime.UtcNow
         };
 
         await _repo.AddAsync(appointment);
@@ -69,16 +70,15 @@ public class AppointmentService
             ?? throw new KeyNotFoundException($"Patient with ID {req.PatientId} not found");
 
         // Check doctor exists
-        _ = await _staffRepo.GetByIdAsync(req.DoctorId)
-            ?? throw new KeyNotFoundException($"Staff/Doctor with ID {req.DoctorId} not found");
+        _ = await _doctorRepo.GetByIdAsync(req.DoctorId)
+            ?? throw new KeyNotFoundException($"Doctor with ID {req.DoctorId} not found");
 
         appointment.PatientId = req.PatientId;
         appointment.DoctorId = req.DoctorId;
         appointment.AppointmentDate = req.AppointmentDate;
-        appointment.Type = string.IsNullOrWhiteSpace(req.Type) ? "First Visit" : req.Type.Trim();
-        appointment.Status = string.IsNullOrWhiteSpace(req.Status) ? "Scheduled" : req.Status.Trim();
+        appointment.AppointmentTime = req.AppointmentTime;
+        appointment.Status = string.IsNullOrWhiteSpace(req.Status) ? "Pending" : req.Status.Trim();
         appointment.Reason = req.Reason?.Trim();
-        appointment.QueueNumber = req.QueueNumber;
 
         await _repo.UpdateAsync(appointment);
     }
@@ -93,16 +93,12 @@ public class AppointmentService
         var appointment = await _repo.GetByIdAsync(id)
             ?? throw new KeyNotFoundException($"Appointment with ID {id} not found");
 
-        if (appointment.Status != "Scheduled")
+        if (appointment.Status != "Pending")
         {
-            throw new InvalidOperationException($"Cannot check-in. Current appointment status is '{appointment.Status}' but must be 'Scheduled'.");
+            throw new InvalidOperationException($"Cannot check-in. Current appointment status is '{appointment.Status}' but must be 'Pending'.");
         }
 
-        // Generate queue number for that doctor on the appointment's date
-        var maxQueue = await _repo.GetMaxQueueNumberAsync(appointment.DoctorId, appointment.AppointmentDate);
-        appointment.QueueNumber = maxQueue + 1;
-        appointment.Status = "Waiting";
-
+        appointment.Status = "Confirmed";
         await _repo.UpdateAsync(appointment);
     }
 
@@ -111,14 +107,14 @@ public class AppointmentService
         return new AppointmentDto(
             a.AppointmentId,
             a.PatientId,
-            a.Patient != null ? $"{a.Patient.FirstName} {a.Patient.LastName}" : "Unknown Patient",
+            a.Patient != null && a.Patient.User != null ? a.Patient.User.FullName : "Unknown Patient",
             a.DoctorId,
-            a.Doctor != null ? $"{a.Doctor.FirstName} {a.Doctor.LastName}" : "Unknown Doctor",
+            a.Doctor != null && a.Doctor.User != null ? a.Doctor.User.FullName : "Unknown Doctor",
             a.AppointmentDate,
-            a.QueueNumber,
-            a.Type,
+            a.AppointmentTime,
             a.Status,
-            a.Reason
+            a.Reason,
+            a.CreatedAt
         );
     }
 }

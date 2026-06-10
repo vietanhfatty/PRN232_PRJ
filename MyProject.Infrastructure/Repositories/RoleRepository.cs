@@ -49,6 +49,6 @@ public class RoleRepository : IRoleRepository
 
     public async Task<bool> IsInUseAsync(int roleId)
     {
-        return await _context.Accounts.AnyAsync(a => a.RoleId == roleId);
+        return await _context.Users.AnyAsync(u => u.RoleId == roleId);
     }
 }

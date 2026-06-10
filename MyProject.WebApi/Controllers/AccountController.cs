@@ -32,7 +32,7 @@ public class AccountController : ControllerBase
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, result.Username!),
-            new Claim(ClaimTypes.NameIdentifier, result.StaffId.ToString()!),
+            new Claim(ClaimTypes.NameIdentifier, result.UserId.ToString()!),
             new Claim(ClaimTypes.Role, result.RoleName!),
             new Claim("FullName", result.FullName!)
         };

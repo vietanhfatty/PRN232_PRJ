@@ -21,32 +21,22 @@ builder.Services.AddTransient<CookieForwardingHandler>();
 
 // Register Repositories
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-builder.Services.AddScoped<IStaffRepository, StaffRepository>();
-builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
-builder.Services.AddScoped<IMedicineRepository, MedicineRepository>();
-builder.Services.AddScoped<ILabTestRepository, LabTestRepository>();
-builder.Services.AddScoped<IDoctorScheduleRepository, DoctorScheduleRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 
 // Register Services
 builder.Services.AddScoped<RoleService>();
-builder.Services.AddScoped<StaffService>();
 builder.Services.AddScoped<PatientService>();
-builder.Services.AddScoped<MedicineService>();
-builder.Services.AddScoped<LabTestService>();
-builder.Services.AddScoped<DoctorScheduleService>();
+builder.Services.AddScoped<DoctorService>();
 builder.Services.AddScoped<AppointmentService>();
 builder.Services.AddScoped<AuthService>();
 
 // Register API Services (for calling WebApi via HttpClient)
-builder.Services.AddScoped<AuthApiService>();
 builder.Services.AddScoped<RoleApiService>();
-builder.Services.AddScoped<StaffApiService>();
 builder.Services.AddScoped<PatientApiService>();
-builder.Services.AddScoped<MedicineApiService>();
-builder.Services.AddScoped<LabTestApiService>();
-builder.Services.AddScoped<DoctorScheduleApiService>();
+builder.Services.AddScoped<DoctorApiService>();
 builder.Services.AddScoped<AppointmentApiService>();
 
 // Register Cookie Authentication

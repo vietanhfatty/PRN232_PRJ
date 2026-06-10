@@ -9,11 +9,11 @@ public record AppointmentDto(
     string PatientName,
     int DoctorId,
     string DoctorName,
-    DateTime AppointmentDate,
-    int? QueueNumber,
-    string? Type,
-    string? Status,
-    string? Reason
+    DateOnly AppointmentDate,
+    TimeSpan AppointmentTime,
+    string Status,
+    string? Reason,
+    DateTime CreatedAt
 );
 
 public record CreateAppointmentRequest(
@@ -26,9 +26,11 @@ public record CreateAppointmentRequest(
     int DoctorId,
 
     [Required(ErrorMessage = "Appointment date is required.")]
-    DateTime AppointmentDate,
+    DateOnly AppointmentDate,
 
-    string? Type,
+    [Required(ErrorMessage = "Appointment time is required.")]
+    TimeSpan AppointmentTime,
+
     string? Status,
 
     [StringLength(500, ErrorMessage = "Reason must not exceed 500 characters.")]
@@ -45,14 +47,13 @@ public record UpdateAppointmentRequest(
     int DoctorId,
 
     [Required(ErrorMessage = "Appointment date is required.")]
-    DateTime AppointmentDate,
+    DateOnly AppointmentDate,
 
-    string? Type,
+    [Required(ErrorMessage = "Appointment time is required.")]
+    TimeSpan AppointmentTime,
+
     string? Status,
 
     [StringLength(500, ErrorMessage = "Reason must not exceed 500 characters.")]
-    string? Reason,
-
-    [Range(1, 9999, ErrorMessage = "Queue number must be between 1 and 9999.")]
-    int? QueueNumber
+    string? Reason
 );

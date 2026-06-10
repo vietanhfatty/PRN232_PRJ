@@ -12,9 +12,9 @@ namespace MyProject.WebMvc.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly AuthApiService _authService;
+    private readonly AuthService _authService;
 
-    public AccountController(AuthApiService authService)
+    public AccountController(AuthService authService)
     {
         _authService = authService;
     }
@@ -37,7 +37,7 @@ public class AccountController : Controller
     {
         ViewBag.ReturnUrl = returnUrl;
         
-        var result = await _authService.LoginAsync(request);
+        var result = await _authService.LoginAsync(request.Username, request.Password);
         if (!result.Success)
         {
             ModelState.AddModelError("", result.Message);
@@ -47,7 +47,7 @@ public class AccountController : Controller
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, result.Username!),
-            new Claim(ClaimTypes.NameIdentifier, result.StaffId.ToString()!),
+            new Claim(ClaimTypes.NameIdentifier, result.UserId.ToString()!),
             new Claim(ClaimTypes.Role, result.RoleName!),
             new Claim("FullName", result.FullName!)
         };
@@ -68,7 +68,6 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> Logout()
     {
-        await _authService.LogoutAsync();
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return RedirectToAction(nameof(Login));
     }

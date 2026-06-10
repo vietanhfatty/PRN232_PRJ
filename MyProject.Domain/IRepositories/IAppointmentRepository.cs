@@ -12,5 +12,4 @@ public interface IAppointmentRepository
     Task AddAsync(Appointment appointment);
     Task UpdateAsync(Appointment appointment);
     Task DeleteAsync(int id);
-    Task<int> GetMaxQueueNumberAsync(int doctorId, DateTime date);
 }

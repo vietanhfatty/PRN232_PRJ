@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace MyProject.Domain.Entities;
@@ -11,17 +11,19 @@ public partial class Appointment
 
     public int DoctorId { get; set; }
 
-    public DateTime AppointmentDate { get; set; }
+    public DateOnly AppointmentDate { get; set; }
 
-    public int? QueueNumber { get; set; }
-
-    public string? Type { get; set; }
-
-    public string? Status { get; set; }
+    public TimeSpan AppointmentTime { get; set; }
 
     public string? Reason { get; set; }
 
-    public virtual Staff Doctor { get; set; } = null!;
+    public string Status { get; set; } = null!;
+
+    public DateTime CreatedAt { get; set; }
+
+    public virtual Doctor Doctor { get; set; } = null!;
 
     public virtual Patient Patient { get; set; } = null!;
+
+    public virtual MedicalRecord? MedicalRecord { get; set; }
 }

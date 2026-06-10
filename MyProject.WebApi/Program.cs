@@ -14,21 +14,15 @@ builder.Services.AddDbContext<HospitalManagementDbContext>(options =>
 
 // Register Repositories
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-builder.Services.AddScoped<IStaffRepository, StaffRepository>();
-builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
-builder.Services.AddScoped<IMedicineRepository, MedicineRepository>();
-builder.Services.AddScoped<ILabTestRepository, LabTestRepository>();
-builder.Services.AddScoped<IDoctorScheduleRepository, DoctorScheduleRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 
 // Register Services
 builder.Services.AddScoped<RoleService>();
-builder.Services.AddScoped<StaffService>();
 builder.Services.AddScoped<PatientService>();
-builder.Services.AddScoped<MedicineService>();
-builder.Services.AddScoped<LabTestService>();
-builder.Services.AddScoped<DoctorScheduleService>();
+builder.Services.AddScoped<DoctorService>();
 builder.Services.AddScoped<AppointmentService>();
 builder.Services.AddScoped<AuthService>();
 

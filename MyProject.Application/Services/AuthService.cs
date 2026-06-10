@@ -3,19 +3,18 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using MyProject.Application.DTOs;
+using MyProject.Domain.Entities;
 using MyProject.Domain.IRepositories;
 
 namespace MyProject.Application.Services;
 
 public class AuthService
 {
-    private readonly IAccountRepository _accountRepo;
-    private readonly IStaffRepository _staffRepo;
+    private readonly IUserRepository _userRepo;
 
-    public AuthService(IAccountRepository accountRepo, IStaffRepository staffRepo)
+    public AuthService(IUserRepository userRepo)
     {
-        _accountRepo = accountRepo;
-        _staffRepo = staffRepo;
+        _userRepo = userRepo;
     }
 
     public async Task<LoginResponse> LoginAsync(string username, string password)
@@ -25,37 +24,31 @@ public class AuthService
             return new LoginResponse(false, "Username and password are required.", null, null, null, null);
         }
 
-        var account = await _accountRepo.GetByUsernameAsync(username.Trim());
-        if (account == null)
+        var user = await _userRepo.GetByUsernameAsync(username.Trim());
+        if (user == null)
         {
             return new LoginResponse(false, "Invalid username or password.", null, null, null, null);
         }
 
-        if (!account.IsActive)
+        if (!user.IsActive)
         {
             return new LoginResponse(false, "This account is inactive.", null, null, null, null);
         }
 
         var inputHash = HashPassword(password);
-        if (account.PasswordHash != inputHash)
+        if (user.PasswordHash != inputHash)
         {
             return new LoginResponse(false, "Invalid username or password.", null, null, null, null);
         }
 
-        var staff = await _staffRepo.GetByIdAsync(account.StaffId);
-        if (staff == null)
-        {
-            return new LoginResponse(false, "Staff details not found for this account.", null, null, null, null);
-        }
-
-        var fullName = $"{staff.FirstName} {staff.LastName}";
-        var roleName = staff.Account?.Role?.RoleName ?? "Staff";
+        var fullName = user.FullName;
+        var roleName = user.Role?.RoleName ?? "User";
 
         return new LoginResponse(
             true,
             "Login successful.",
-            staff.StaffId,
-            account.Username,
+            user.UserId,
+            user.Username,
             roleName,
             fullName
         );
